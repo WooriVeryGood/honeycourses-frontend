@@ -1,11 +1,10 @@
-import './PageView.css'
+import "./PageView.css";
+import React from "react";
 
-export default function PageView() {
-  return (
-    <div className="body">
-      <div className="alert alert-info d-flex align-items-center" role="alert">
-        안뇽! 이제 시작이야!
-      </div>
-    </div>
-  );
+type PageViewProps = {
+  children: React.ReactNode;
+}
+
+export default function PageView({ children }: PageViewProps) {
+  return <div className="body">{children}</div>;
 }
