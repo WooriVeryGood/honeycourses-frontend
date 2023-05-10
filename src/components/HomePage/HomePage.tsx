@@ -2,6 +2,7 @@ import PageView from "../PageView/PageView";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 
+// @todo 애니메이션 효과
 export default function HomePage() {
   return (
     <PageView>
