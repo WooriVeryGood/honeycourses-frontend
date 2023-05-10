@@ -1,6 +1,6 @@
 # Project Railgun (FrontEnd)- 답변, 받았습니다!
 
-Vercel 빌드 링크: [project-railgun-frontend.vercel.app](project-railgun-frontend.vercel.app)
+Vercel 빌드 링크: project-railgun-frontend.vercel.app
 
 
 ![alt text](https://github.com/timingsniper/project-railgun-frontend/blob/master/draft_230510.png)
