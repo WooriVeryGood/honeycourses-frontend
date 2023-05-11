@@ -12,13 +12,15 @@ interface Review {
   review_content: string;
 }
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 export default function CourseReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const courseId = window.location.pathname.split("/").pop();
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/courses/${courseId}/reviews`)
+      .get(`${apiUrl}/courses/${courseId}/reviews`)
       .then((response) => {
         setReviews(response.data)
         console.log(response.data)
