@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 export default function AboutPage() {
   return (
     <PageView>
-      <Container>      
+      <Container>
         <p className="lead">
           <strong>
             🌟"답변 받았습니다!" 는 재학생인{" "}
@@ -14,6 +14,15 @@ export default function AboutPage() {
           </strong>
         </p>
         <hr className="divider"></hr>
+        <br></br>
+        <p>
+          😣 학기 초마다 한국 학우들의 수강 경험과 평가를 듣기 위해 수없이 많은
+          질문들이 북전교에 올라오지만, 90% 이상의 질문은 제 경험상{" "}
+          <strong>"답변 받았습니다"</strong>로 끝났습니다. 모두가 나누면 좋을
+          정보인데, 이럴 필요 없이 모두 공유할수 있는 플랫폼이 생기면 좋겠다
+          생각하여 웹사이트 개발에 착수했습니다. (현재 제 위챗에 "답변
+          받았습니다"로 검색할 시, 200건이 넘는 기록이 나오고 있습니다.)
+        </p>
         <br></br>
         <p>
           &#127793; 현재 웹사이트는 개발 진행중이며, 기초 기능 구현은 2달 내로
@@ -39,7 +48,16 @@ export default function AboutPage() {
         </p>
         <br></br>
         <p>
-        💻 <a href="https://github.com/timingsniper/project-railgun-frontend">project-railgun-frontend</a>와 <a href="https://github.com/timingsniper/project-railgun-backend">project-railgun-backend</a>{' '}Github Repo 에서 본 웹사이트의 프론트엔드와 백엔드 코드를 확인할 수 있습니다.
+          💻{" "}
+          <a href="https://github.com/timingsniper/project-railgun-frontend">
+            project-railgun-frontend
+          </a>
+          와{" "}
+          <a href="https://github.com/timingsniper/project-railgun-backend">
+            project-railgun-backend
+          </a>{" "}
+          Github Repo 에서 본 웹사이트의 프론트엔드와 백엔드 코드를 확인할 수
+          있습니다.
         </p>
       </Container>
     </PageView>

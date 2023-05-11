@@ -7,7 +7,7 @@ import Alert from 'react-bootstrap/Alert';
 export default function HomePage() {
   return (
     <PageView>
-      <Container fluid className="d-flex justify-content-center align-items-center text-center">
+      <Container fluid className="justify-content-center align-items-center text-center" style={{paddingTop:"90px"}}>
         <div>
           <Image
             src="/images/wtf.png"
