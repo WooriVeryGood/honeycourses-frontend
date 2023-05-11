@@ -97,7 +97,7 @@ function CourseList() {
                 >
                   <div className="d-flex justify-content-between align-items-center">
                     <h5>{course.course_name}</h5>
-                    <span>{course.course_credit}학점</span>
+                    <span className="text-body-secondary">{course.course_credit}학점</span>
                   </div>
                 </Link>
               ))}

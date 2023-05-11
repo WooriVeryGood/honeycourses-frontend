@@ -22,8 +22,8 @@ export default function CourseReviews() {
     axios
       .get(`${apiUrl}/courses/${courseId}/reviews`)
       .then((response) => {
-        setReviews(response.data)
-        console.log(response.data)
+        setReviews(response.data);
+        console.log(response.data);
       })
       .catch((error) => console.error(error));
   }, [courseId]);
@@ -34,9 +34,12 @@ export default function CourseReviews() {
         fluid
         className="d-flex flex-column justify-content-center align-items-center"
       >
-        <h2 style={{ textAlign: "center" }}>Reviews</h2>
+        <h2>Reviews</h2>
         {reviews.map((review) => (
-          <Card style={{ width: "90%", marginBottom: "30px" }} key={review.review_id}>
+          <Card
+            style={{ width: "90%", marginBottom: "30px" }}
+            key={review.review_id}
+          >
             <Card.Body className="text-start">
               <Card.Title>{review.review_title}</Card.Title>
               <hr className="divider"></hr>
