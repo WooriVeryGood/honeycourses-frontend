@@ -1,50 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import PageView from "../PageView/PageView";
 import ListGroup from "react-bootstrap/ListGroup";
+import axios from "axios";
 
-const dummyCourses = [
-  {
-    id: 1,
-    name: "计算机系统导论",
-    category: "专业课",
-    credit: 5,
-  },
-  {
-    id: 2,
-    name: "中国古代文学（下）",
-    category: "通选课",
-    credit: 3,
-  },
-  {
-    id: 3,
-    name: "English 101",
-    category: "通选课",
-    credit: 3,
-  },
-  {
-    id: 4,
-    name: "Basketball",
-    category: "体育课",
-    credit: 1,
-  },
-  {
-    id: 5,
-    name: "Chemistry 201",
-    category: "专业课",
-    credit: 4,
-  },
-];
+interface Course {
+  course_id: string;
+  course_name: string;
+  course_category: string;
+  course_credit: number;
+  // other properties
+}
 
 function CourseList() {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [courses, setCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/courses")
+      .then(response => {
+        console.log(response.data);
+        setCourses(response.data);
+      })
+      .catch(error => console.error(error));
+  }, []);
 
   // Filter courses based on selected category
   const filteredCourses =
     selectedCategory === "All"
-      ? dummyCourses
-      : dummyCourses.filter((course) => course.category === selectedCategory);
+      ? courses
+      : courses.filter((course) => course.course_category === selectedCategory);
 
   return (
     <div>
@@ -103,13 +89,13 @@ function CourseList() {
             <ListGroup>
               {filteredCourses.map((course) => (
                 <Link
-                  to={`/courses/view/${course.id}`}
-                  key={course.id}
+                  to={`/courses/view/${course.course_id}`}
+                  key={course.course_id}
                   className="list-group-item list-group-item-action"
                 >
                   <div className="d-flex justify-content-between align-items-center">
-                    <h5>{course.name}</h5>
-                    <span>Credit: {course.credit}</span>
+                    <h5>{course.course_name}</h5>
+                    <span>{course.course_credit}학점</span>
                   </div>
                 </Link>
               ))}
