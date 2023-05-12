@@ -8,6 +8,8 @@ import HomePage from "./components/HomePage/HomePage";
 import AboutPage from "./components/AboutPage/AboutPage";
 import CourseList from "./components/CourseList/CourseList";
 import CourseReviews from "./components/CourseReviews/CourseReviews";
+import AddReview from "./components/AddReview/AddReview";
+import AddCourse from "./components/AddCourse/AddCourse";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/courses" element={<CourseList />} />
         <Route path="/courses/view/:classID" element={<CourseReviews />} />
+        <Route path="/courses/addReview/:classID" element={<AddReview />} />
+        <Route path="/courses/addCourse" element={<AddCourse />} />
       </Routes>
       <Footer />
     </BrowserRouter>

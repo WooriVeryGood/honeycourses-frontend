@@ -8,9 +8,9 @@ export default function Footer() {
           <span className="text-muted">
             &copy; 2023 답변 받았습니다! by @railgunOfPku. <strong>현재 개발이 진행중인 웹사이트입니다.</strong>
             <br></br>
-            project-railgun-frontend <strong>v.1.0.0dev_20230512</strong>
+            project-railgun-frontend <strong>v.1.0.0-dev</strong>
             <br></br>
-            project-railgun-backend <strong>v.1.0.0dev_20230512</strong>
+            project-railgun-backend <strong>v.1.0.0-dev</strong>
           </span>
         </div>
         <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">

@@ -1,8 +1,11 @@
 {
   "name": "project-railgun-frontend",
-  "version": "0.1.0",
+  "version": "1.0.0-dev",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@jeffersonl-surge/react-chat-ui": "^0.0.9",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",

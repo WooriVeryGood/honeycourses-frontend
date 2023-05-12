@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import PageView from "../PageView/PageView";
 import ListGroup from "react-bootstrap/ListGroup";
+import { Row, Col } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Badge from 'react-bootstrap/Badge';
 import axios from "axios";
 
 interface Course {
@@ -20,12 +23,13 @@ function CourseList() {
   const [courses, setCourses] = useState<Course[]>([]);
 
   useEffect(() => {
-    axios.get(`${apiUrl}/courses`)
-      .then(response => {
+    axios
+      .get(`${apiUrl}/courses`)
+      .then((response) => {
         console.log(response.data);
         setCourses(response.data);
       })
-      .catch(error => console.error(error));
+      .catch((error) => console.error(error));
   }, []);
 
   // Filter courses based on selected category
@@ -42,7 +46,26 @@ function CourseList() {
           className="d-flex justify-content-center align-items-start"
         >
           <div style={{ width: "80%" }}>
-            <h2>All Courses</h2>
+            <Row>
+              <Col xs lg="2"><h2>Reviews</h2></Col>
+              <Col xs>
+              <Button
+                href="/courses/addCourse"
+                variant="success"
+                size="sm"
+                
+              >
+                <img
+                  src="/images/plus.svg"
+                  className="bi"
+                  width="23"
+                  height="23"
+                  alt="github-icon"
+                />
+                수업 추가
+              </Button>
+              </Col>
+            </Row>
             {/* Nav selector */}
             <nav>
               <ul className="nav">
@@ -86,6 +109,16 @@ function CourseList() {
                     专业课
                   </button>
                 </li>
+                <li className="nav-item">
+                  <button
+                    className={`nav-link btn ${
+                      selectedCategory === "公选课" ? "btn-dark" : ""
+                    }`}
+                    onClick={() => setSelectedCategory("公选课")}
+                  >
+                    公选课
+                  </button>
+                </li>
               </ul>
             </nav>
             <ListGroup>
@@ -96,8 +129,10 @@ function CourseList() {
                   className="list-group-item list-group-item-action"
                 >
                   <div className="d-flex justify-content-between align-items-center">
-                    <h5>{course.course_name}</h5>
-                    <span className="text-body-secondary">{course.course_credit}학점</span>
+                    <h5>{course.course_name}{' '}<Badge bg="primary">{course.course_category}</Badge></h5>
+                    <span className="text-body-secondary">
+                      {course.course_credit}학점
+                    </span>
                   </div>
                 </Link>
               ))}
