@@ -44,7 +44,7 @@ export default function HomePage() {
            
       
         <Alert key='info' variant='info'>
-          현재 개발 진행중인 웹사이트이며, 페이지 내 모든 데이터는 개발자가 만든 모의 데이터입니다.<br></br>
+        현재 개발 진행중인 웹사이트이며, 테스트 단계에 있습니다. 정식 배포 후엔 현재 게시된 평가들이 모두 삭제될 예정입니다.<br></br>
           <Alert.Link href="/about">About</Alert.Link>{' '}페이지를 참고해주세요.
         </Alert>
   
