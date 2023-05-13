@@ -3,9 +3,6 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import ReactGA from 'react-ga';
-
-ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID as string);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
