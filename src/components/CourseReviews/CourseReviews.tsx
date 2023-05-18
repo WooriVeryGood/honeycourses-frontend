@@ -13,12 +13,14 @@ interface Review {
   review_id: number;
   review_content: string;
   review_point: number;
+  course_name: string;
 }
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export default function CourseReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const courseId = window.location.pathname.split("/").pop();
 
   const handleUpvote = (reviewId: number) => {
@@ -54,43 +56,53 @@ export default function CourseReviews() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`${apiUrl}/courses/${courseId}/reviews`)
       .then((response) => {
         setReviews(response.data);
         console.log(response.data);
+        setIsLoading(false);
+        window.scrollTo(0, 0);
       })
       .catch((error) => {
         console.error(error);
+        setIsLoading(false);
+        window.scrollTo(0, 0);
         return <h1>데이터베이스 오류가 발생했습니다.</h1>;
       });
   }, [courseId]);
 
   return (
-    <PageView>
-      <Container fluid className="justify-content-center align-items-center">
+    <PageView isLoading={isLoading}>
+      <Container fluid className="justify-content-center align-items-start">
         <Row>
-          <Col xs={8}>
-            <h2 style={{ marginLeft: "14%" }}>Reviews</h2>
+          <Col xs={5}>
+            <h2 style={{ marginLeft: "15%" }}>
+              {reviews[0]?.course_name}
+            </h2>
           </Col>
-          <Col>
-            <Button
-              href={`/courses/addReview/${courseId}`}
-              variant="success"
-              size="sm"
-              style={{ marginLeft: "40%" }}
-            >
-              <img
-                src="/images/plus.svg"
-                className="bi"
-                width="25"
-                height="25"
-                alt="github-icon"
-              />
-              평가 작성
-            </Button>
+          <Col xs={7}>
+          {reviews.length > 0 && (
+              <Button
+                href={`/courses/addReview/${courseId}`}
+                variant="success"
+                size="sm"
+                style={{ marginTop: "1%", marginLeft: "2%" }}
+              >
+                <img
+                  src="/images/plus.svg"
+                  className="bi"
+                  width="23"
+                  height="23"
+                  alt="github-icon"
+                />
+                평가 작성
+              </Button>
+            )}
           </Col>
         </Row>
+
         {reviews.length === 0 ? (
           <div style={{ textAlign: "center", marginTop: "50px" }}>
             <h3>아직 작성된 리뷰가 없습니다.</h3>
@@ -106,9 +118,11 @@ export default function CourseReviews() {
         ) : (
           reviews.map((review) => (
             <Card
-              style={{ width: "80%", marginBottom: "30px" }}
+              style={{ width: "90%", marginBottom: "30px" }}
               key={review.review_id}
-              className={`mx-auto ${review.review_point < 0 ? "text-muted" : ""}`}
+              className={`mx-auto ${
+                review.review_point < 0 ? "text-muted" : ""
+              }`}
             >
               <Card.Body className="text-start">
                 <Card.Title>{review.review_title}</Card.Title>
@@ -127,7 +141,9 @@ export default function CourseReviews() {
                   >
                     추천
                   </Button>
-                  <span style={{ margin: '0 10px' }}>{review.review_point}</span>
+                  <span style={{ margin: "0 10px" }}>
+                    {review.review_point}
+                  </span>
                   <Button
                     variant="danger"
                     onClick={() => handleDownvote(review.review_id)}

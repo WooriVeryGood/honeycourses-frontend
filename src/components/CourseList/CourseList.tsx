@@ -13,7 +13,6 @@ interface Course {
   course_name: string;
   course_category: string;
   course_credit: number;
-  // other properties
 }
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -21,15 +20,23 @@ const apiUrl = process.env.REACT_APP_API_URL;
 function CourseList() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [courses, setCourses] = useState<Course[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true)
     axios
       .get(`${apiUrl}/courses`)
       .then((response) => {
         console.log(response.data);
         setCourses(response.data);
+        setIsLoading(false);
+        window.scrollTo(0, 0);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error)
+        setIsLoading(false);
+        window.scrollTo(0, 0);
+      });
   }, []);
 
   // Filter courses based on selected category
@@ -40,14 +47,14 @@ function CourseList() {
 
   return (
     <div>
-      <PageView>
+      <PageView isLoading={isLoading}> 
         <Container
           fluid
           className="d-flex justify-content-center align-items-start"
         >
-          <div style={{ width: "80%" }}>
+          <div style={{ width: "90%" }}>
             <Row>
-              <Col xs lg="2"><h2>Reviews</h2></Col>
+              <Col xs lg="2"><h2>강의 목록</h2></Col>
               <Col xs>
               <Button
                 href="/courses/addCourse"
