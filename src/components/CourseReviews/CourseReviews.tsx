@@ -14,6 +14,7 @@ interface Review {
   review_content: string;
   review_point: number;
   course_name: string;
+  voted: boolean; // New property indicating whether the review has been voted on
 }
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -26,7 +27,11 @@ export default function CourseReviews() {
   const handleUpvote = (reviewId: number) => {
     const updatedReviews = reviews.map((review) => {
       if (review.review_id === reviewId) {
-        return { ...review, review_point: review.review_point + 1 };
+        return {
+          ...review,
+          review_point: review.review_point + 1,
+          voted: true, // Mark the review as voted
+        };
       } else {
         return review;
       }
@@ -42,7 +47,11 @@ export default function CourseReviews() {
   const handleDownvote = (reviewId: number) => {
     const updatedReviews = reviews.map((review) => {
       if (review.review_id === reviewId) {
-        return { ...review, review_point: review.review_point - 1 };
+        return {
+          ...review,
+          review_point: review.review_point - 1,
+          voted: true, // Mark the review as voted
+        };
       } else {
         return review;
       }
@@ -60,8 +69,13 @@ export default function CourseReviews() {
     axios
       .get(`${apiUrl}/courses/${courseId}/reviews`)
       .then((response) => {
-        setReviews(response.data);
-        console.log(response.data);
+        // Initialize the 'voted' property for each review
+        const initializedReviews = response.data.map((review: Review) => ({
+          ...review,
+          voted: false,
+        }));
+        setReviews(initializedReviews);
+        console.log(initializedReviews);
         setIsLoading(false);
         window.scrollTo(0, 0);
       })
@@ -78,12 +92,10 @@ export default function CourseReviews() {
       <Container fluid className="justify-content-center align-items-start">
         <Row>
           <Col xs={5}>
-            <h2 style={{ marginLeft: "15%" }}>
-              {reviews[0]?.course_name}
-            </h2>
+            <h2 style={{ marginLeft: "15%" }}>{reviews[0]?.course_name}</h2>
           </Col>
           <Col xs={7}>
-          {reviews.length > 0 && (
+            {reviews.length > 0 && (
               <Button
                 href={`/courses/addReview/${courseId}`}
                 variant="success"
@@ -138,6 +150,7 @@ export default function CourseReviews() {
                   <Button
                     variant="success"
                     onClick={() => handleUpvote(review.review_id)}
+                    disabled={review.voted} // Disable the button if the review has been voted on
                   >
                     추천
                   </Button>
@@ -147,6 +160,7 @@ export default function CourseReviews() {
                   <Button
                     variant="danger"
                     onClick={() => handleDownvote(review.review_id)}
+                    disabled={review.voted} // Disable the button if the review has been voted on
                   >
                     비추
                   </Button>

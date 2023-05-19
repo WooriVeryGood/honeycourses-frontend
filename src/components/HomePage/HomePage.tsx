@@ -1,10 +1,14 @@
 import PageView from "../PageView/PageView";
+import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import Alert from "react-bootstrap/Alert";
+import { Collapse } from "react-bootstrap";
 
 // @todo 애니메이션 효과
 export default function HomePage() {
+  const [open, setOpen] = useState(false);
+
   return (
     <PageView>
       <Container
@@ -59,11 +63,27 @@ export default function HomePage() {
               참고해주세요.
             </Alert>
             <Alert key="update" variant="success">
-              Hotfix@2023.05.18: <br></br>
-              1. 데이터 로딩 시 로딩 효과, 화면 스크롤 자동 올리기 기능 추가{" "}
-              <br></br>
-              2. 모바일 화면 버그 수정<br></br>
-              3. 강의평가 페이지에 해당 수업 이름 보이게 추가
+              <Alert.Link href="#" onClick={() => setOpen(!open)}>
+                &gt; 업데이트 내역 확인 (최신 업데이트: 2023.5.19)
+              </Alert.Link>
+              <Collapse in={open}>
+                <div id="update-log">
+                  <div>
+                    Hotfix@2023.05.18: <br></br>
+                    1. 데이터 로딩 시 로딩 효과, 화면 스크롤 자동 올리기 기능
+                    추가
+                    <br></br>
+                    2. 모바일 화면 버그 수정<br></br>
+                    3. 강의평가 페이지에 해당 수업 이름 보이게 추가
+                  </div>
+                  <br></br>
+                  <div>
+                    Hotfix@2023.05.19: <br></br>
+                    1. 추천/비추 버튼 1회 클릭 시 비활성화 기능 추가
+                    <br></br>
+                  </div>
+                </div>
+              </Collapse>
             </Alert>
           </figure>
         </div>
