@@ -30,7 +30,6 @@ export default function CourseReviews() {
         return {
           ...review,
           review_point: review.review_point + 1,
-          voted: true, // Mark the review as voted
         };
       } else {
         return review;
@@ -42,6 +41,7 @@ export default function CourseReviews() {
         (review) => review.review_id === reviewId
       )?.review_point,
     });
+    localStorage.setItem(`${reviewId}`, "vote");
   };
 
   const handleDownvote = (reviewId: number) => {
@@ -50,7 +50,6 @@ export default function CourseReviews() {
         return {
           ...review,
           review_point: review.review_point - 1,
-          voted: true, // Mark the review as voted
         };
       } else {
         return review;
@@ -62,6 +61,7 @@ export default function CourseReviews() {
         (review) => review.review_id === reviewId
       )?.review_point,
     });
+    localStorage.setItem(`${reviewId}`, "vote");
   };
 
   useEffect(() => {
@@ -72,7 +72,6 @@ export default function CourseReviews() {
         // Initialize the 'voted' property for each review
         const initializedReviews = response.data.map((review: Review) => ({
           ...review,
-          voted: false,
         }));
         setReviews(initializedReviews);
         console.log(initializedReviews);
@@ -132,9 +131,8 @@ export default function CourseReviews() {
             <Card
               style={{ width: "90%", marginBottom: "30px" }}
               key={review.review_id}
-              className={`mx-auto ${
-                review.review_point < 0 ? "text-muted" : ""
-              }`}
+              className={`mx-auto ${review.review_point < 0 ? "text-muted" : ""
+                }`}
             >
               <Card.Body className="text-start">
                 <Card.Title>{review.review_title}</Card.Title>
@@ -150,7 +148,7 @@ export default function CourseReviews() {
                   <Button
                     variant="success"
                     onClick={() => handleUpvote(review.review_id)}
-                    disabled={review.voted} // Disable the button if the review has been voted on
+                    disabled={localStorage.getItem(`${review.review_id}`) != null} // Disable the button if the review has been voted on
                   >
                     추천
                   </Button>
@@ -160,7 +158,7 @@ export default function CourseReviews() {
                   <Button
                     variant="danger"
                     onClick={() => handleDownvote(review.review_id)}
-                    disabled={review.voted} // Disable the button if the review has been voted on
+                    disabled={localStorage.getItem(`${review.review_id}`) != null} // Disable the button if the review has been voted on
                   >
                     비추
                   </Button>
