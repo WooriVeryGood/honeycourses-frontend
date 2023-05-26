@@ -37,7 +37,6 @@ export default function CourseReviews() {
         return {
           ...review,
           review_point: review.review_point + 1,
-          voted: true, 
         };
       } else {
         return review;
@@ -58,7 +57,6 @@ export default function CourseReviews() {
         return {
           ...review,
           review_point: review.review_point - 1,
-          voted: true, 
         };
       } else {
         return review;
