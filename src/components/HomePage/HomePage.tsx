@@ -64,7 +64,7 @@ export default function HomePage() {
             </Alert>
             <Alert key="update" variant="success">
               <Alert.Link href="#" onClick={() => setOpen(!open)}>
-                &gt; 업데이트 내역 확인 (최신 업데이트: 2023.5.26)
+                &gt; 업데이트 내역 확인 (최신 업데이트: 2023.5.27)
               </Alert.Link>
               <Collapse in={open}>
                 <div id="update-log">
@@ -78,17 +78,26 @@ export default function HomePage() {
                   </div>
                   <br></br>
                   <div>
-                  <strong>Hotfix@2023.05.19:</strong> <br></br>
+                    <strong>Hotfix@2023.05.19:</strong> <br></br>
                     1. 추천/비추 버튼 1회 클릭 시 비활성화 기능 추가
                     <br></br>
                   </div>
                   <br></br>
                   <div>
-                  <strong>Hotfix@2023.05.26: </strong><br></br>
-                    1. 추천/비추 버튼 1회 클릭 시 비활성화 기능 localstorage 활용<br></br>
+                    <strong>Hotfix@2023.05.26: </strong>
+                    <br></br>
+                    1. 추천/비추 버튼 1회 클릭 시 비활성화 기능 localstorage
+                    활용<br></br>
                     2. 리뷰가 없는 수업에도 수업명 보이게 변경<br></br>
                     3. 페이지 내 정보 변경
                     <br></br>
+                  </div>
+                  <br></br>
+                  <div>
+                    <strong>Hotfix@2023.05.27: </strong>
+                    <br></br>
+                    1. 일본 도쿄 =&gt; 대한민국 서울 리젼으로 서버와
+                    데이터베이스 이전이 완료되었습니다.<br></br>
                   </div>
                 </div>
               </Collapse>
