@@ -18,6 +18,7 @@ interface Course {
 const apiUrl = process.env.REACT_APP_API_URL;
 
 function CourseList() {
+  
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,6 +39,7 @@ function CourseList() {
         window.scrollTo(0, 0);
       });
   }, []);
+  
 
   // Filter courses based on selected category
   const filteredCourses =
@@ -132,6 +134,7 @@ function CourseList() {
               {filteredCourses.map((course) => (
                 <Link
                   to={`/courses/view/${course.course_id}`}
+                  state={{courseName: course.course_name}}
                   key={course.course_id}
                   className="list-group-item list-group-item-action"
                 >

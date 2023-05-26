@@ -7,14 +7,18 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import { Row, Col } from "react-bootstrap";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import { useLocation } from "react-router-dom";
+
+
+// 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)
 
 interface Review {
   review_title: string;
   review_id: number;
   review_content: string;
   review_point: number;
-  course_name: string;
-  voted: boolean; // New property indicating whether the review has been voted on
+  // course_name: string;
+  voted: boolean; 
 }
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -23,6 +27,9 @@ export default function CourseReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const courseId = window.location.pathname.split("/").pop();
+  const location = useLocation();
+  const { courseName } = location.state;
+
 
   const handleUpvote = (reviewId: number) => {
     const updatedReviews = reviews.map((review) => {
@@ -30,7 +37,7 @@ export default function CourseReviews() {
         return {
           ...review,
           review_point: review.review_point + 1,
-          voted: true, // Mark the review as voted
+          voted: true, 
         };
       } else {
         return review;
@@ -50,7 +57,7 @@ export default function CourseReviews() {
         return {
           ...review,
           review_point: review.review_point - 1,
-          voted: true, // Mark the review as voted
+          voted: true, 
         };
       } else {
         return review;
@@ -92,7 +99,7 @@ export default function CourseReviews() {
       <Container fluid className="justify-content-center align-items-start">
         <Row>
           <Col xs={5}>
-            <h2 style={{ marginLeft: "15%" }}>{reviews[0]?.course_name}</h2>
+            <h2 style={{ marginLeft: "15%" }}>{courseName}</h2>
           </Col>
           <Col xs={7}>
             {reviews.length > 0 && (
