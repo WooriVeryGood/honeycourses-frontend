@@ -15,6 +15,9 @@ jobs:
       - run: yarn build
         env:
           CI: ""
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+      - run: touch CNAME
+      - run: echo 'dev.honeycourses.com' > CNAME
       - name: Deploy
         uses: crazy-max/ghaction-github-pages@v1
         with:
