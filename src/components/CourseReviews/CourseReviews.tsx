@@ -7,8 +7,7 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import { Row, Col } from "react-bootstrap";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import { useLocation } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 // 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)
 
@@ -17,8 +16,8 @@ interface Review {
   review_id: number;
   review_content: string;
   review_point: number;
-  // course_name: string;
-  voted: boolean; 
+  course_name: string;
+  voted: boolean;
 }
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -26,10 +25,9 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export default function CourseReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [course_name, setCourseName] = useState("");
   const courseId = window.location.pathname.split("/").pop();
-  const location = useLocation();
-  const { courseName } = location.state;
-
+  const navigate = useNavigate();
 
   const handleUpvote = (reviewId: number) => {
     const updatedReviews = reviews.map((review) => {
@@ -73,32 +71,39 @@ export default function CourseReviews() {
 
   useEffect(() => {
     setIsLoading(true);
-    axios
-      .get(`${apiUrl}/courses/${courseId}/reviews`)
-      .then((response) => {
-        // Initialize the 'voted' property for each review
-        const initializedReviews = response.data.map((review: Review) => ({
+
+    Promise.all([
+      axios.get(`${apiUrl}/courses/${courseId}/reviews`),
+      axios.get(`${apiUrl}/courses/${courseId}/name`),
+    ])
+      .then(([reviewsResponse, nameResponse]) => {
+        const initializedReviews = reviewsResponse.data.map((review: Review) => ({
           ...review,
         }));
         setReviews(initializedReviews);
-        console.log(initializedReviews);
+        setCourseName(nameResponse.data[0].course_name);
         setIsLoading(false);
         window.scrollTo(0, 0);
       })
       .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          navigate('/courses');
+          alert('존재하지 않는 수업입니다.');
+        }
         console.error(error);
         setIsLoading(false);
         window.scrollTo(0, 0);
         return <h1>데이터베이스 오류가 발생했습니다.</h1>;
       });
-  }, [courseId]);
+  }, [courseId, navigate]);
+  
 
   return (
     <PageView isLoading={isLoading}>
       <Container fluid className="justify-content-center align-items-start">
         <Row>
           <Col xs={5}>
-            <h2 style={{ marginLeft: "15%" }}>{courseName}</h2>
+            <h2 style={{ marginLeft: "15%" }}>{course_name}</h2>
           </Col>
           <Col xs={7}>
             {reviews.length > 0 && (
@@ -138,8 +143,9 @@ export default function CourseReviews() {
             <Card
               style={{ width: "90%", marginBottom: "30px" }}
               key={review.review_id}
-              className={`mx-auto ${review.review_point < 0 ? "text-muted" : ""
-                }`}
+              className={`mx-auto ${
+                review.review_point < 0 ? "text-muted" : ""
+              }`}
             >
               <Card.Body className="text-start">
                 <Card.Title>{review.review_title}</Card.Title>
@@ -155,7 +161,9 @@ export default function CourseReviews() {
                   <Button
                     variant="success"
                     onClick={() => handleUpvote(review.review_id)}
-                    disabled={localStorage.getItem(`${review.review_id}`) != null} // Disable the button if the review has been voted on
+                    disabled={
+                      localStorage.getItem(`${review.review_id}`) != null
+                    } // Disable the button if the review has been voted on
                   >
                     추천
                   </Button>
@@ -165,7 +173,9 @@ export default function CourseReviews() {
                   <Button
                     variant="danger"
                     onClick={() => handleDownvote(review.review_id)}
-                    disabled={localStorage.getItem(`${review.review_id}`) != null} // Disable the button if the review has been voted on
+                    disabled={
+                      localStorage.getItem(`${review.review_id}`) != null
+                    } // Disable the button if the review has been voted on
                   >
                     비추
                   </Button>
