@@ -6,16 +6,20 @@ export default function Footer() {
       <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-1 border-top">
         <div className="col-md-6 d-flex align-items-center">
           <span className="text-muted">
-            &copy; 2023 답변 받았습니다! by @railgunOfPku. <strong>현재 개발이 진행중인 웹사이트입니다.</strong>
+            &copy; 2023 답변 받았습니다! by 팀 꿀수업.{" "}
+            <strong>현재 개발이 진행중인 웹사이트입니다.</strong>
             <br></br>
-            project-railgun-frontend <strong>v.1.0.0-dev</strong>
+            honeycourses-frontend <strong>v.1.0.0-dev</strong>
             <br></br>
-            project-railgun-backend <strong>v.1.0.0-dev</strong>
+            honeycourses-backend-express <strong>v.1.0.0-dev</strong>
           </span>
         </div>
         <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
           <li className="ms-3">
-            <a className="text-muted" href="https://github.com/timingsniper">
+            <a
+              className="text-muted"
+              href="https://github.com/orgs/Honeycourse/repositories"
+            >
               <img
                 src="/images/github.svg"
                 className="bi"

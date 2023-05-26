@@ -50,7 +50,7 @@ export default function HomePage() {
             <br></br>
             <p>
               <em>
-                답변, 받으셨나요? 는 북경대학교 한국인 유학생들을 위한 강의
+                답변 받았습니다! 는 북경대학교 한국인 유학생들을 위한 강의
                 정보공유 웹사이트입니다.
               </em>
             </p>
@@ -64,12 +64,12 @@ export default function HomePage() {
             </Alert>
             <Alert key="update" variant="success">
               <Alert.Link href="#" onClick={() => setOpen(!open)}>
-                &gt; 업데이트 내역 확인 (최신 업데이트: 2023.5.19)
+                &gt; 업데이트 내역 확인 (최신 업데이트: 2023.5.26)
               </Alert.Link>
               <Collapse in={open}>
                 <div id="update-log">
                   <div>
-                    Hotfix@2023.05.18: <br></br>
+                    <strong>Hotfix@2023.05.18:</strong> <br></br>
                     1. 데이터 로딩 시 로딩 효과, 화면 스크롤 자동 올리기 기능
                     추가
                     <br></br>
@@ -78,8 +78,16 @@ export default function HomePage() {
                   </div>
                   <br></br>
                   <div>
-                    Hotfix@2023.05.19: <br></br>
+                  <strong>Hotfix@2023.05.19:</strong> <br></br>
                     1. 추천/비추 버튼 1회 클릭 시 비활성화 기능 추가
+                    <br></br>
+                  </div>
+                  <br></br>
+                  <div>
+                  <strong>Hotfix@2023.05.26: </strong><br></br>
+                    1. 추천/비추 버튼 1회 클릭 시 비활성화 기능 localstorage 활용<br></br>
+                    2. 리뷰가 없는 수업에도 수업명 보이게 변경<br></br>
+                    3. 페이지 내 정보 변경
                     <br></br>
                   </div>
                 </div>

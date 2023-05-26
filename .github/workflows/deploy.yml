@@ -15,10 +15,12 @@ jobs:
       - run: yarn build
         env:
           CI: ""
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
       - name: Deploy
         uses: crazy-max/ghaction-github-pages@v1
         with:
           target_branch: gh-pages
           build_dir: build
+          fqdn: dev.honeycourses.com
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
