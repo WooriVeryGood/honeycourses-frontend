@@ -134,7 +134,6 @@ function CourseList() {
               {filteredCourses.map((course) => (
                 <Link
                   to={`/courses/view/${course.course_id}`}
-                  state={{courseName: course.course_name}}
                   key={course.course_id}
                   className="list-group-item list-group-item-action"
                 >
