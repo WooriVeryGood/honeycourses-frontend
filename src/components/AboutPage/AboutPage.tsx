@@ -39,8 +39,8 @@ export default function AboutPage() {
         <br></br>
         <p>
           &#127759; 본 웹 앱은 React, Bootstrap을 사용한 프론트엔드와 MySQL
-          데이터베이스, Express를 사용한 api 백엔드로 개발되어, 현재 AWS 일본
-          도쿄 리젼의 EC2 인스턴스에 배포되어 있습니다.
+          데이터베이스, Express를 사용한 api 백엔드로 개발되어, 현재 AWS
+          대한민국 서울 리젼의 EC2 인스턴스에 배포되어 있습니다.
         </p>
         <br></br>
         <p>
