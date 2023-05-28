@@ -22,14 +22,26 @@ jobs:
 
           # Commands to execute on the EC2 instance
           script: |
+            echo "Running- cd /media/honeycourses-frontend"
             cd /media/honeycourses-frontend
+            echo "Running- sudo git pull"
             sudo git pull
+            echo "Running- sudo yarn install"
             sudo yarn install
+            echo "Running- sudo yarn build"
             sudo yarn build
+            echo "Running- sudo chmod -R +x /var/www/html"
             sudo chmod -R +x /var/www/html
+            echo "Running- sudo rm -r /var/www/html/*"
             sudo rm -r /var/www/html/*
+            echo "Running- sudo cp -r build/* /var/www/html"
             sudo cp -r build/* /var/www/html
+            echo "Running- cd /var/www/html"
             cd /var/www/html
+            echo "Running- sudo chmod -R +x /var/www/html"
             sudo chmod -R +x /var/www/html
+            echo "Running- sudo mv build/* ."
             sudo mv build/* .
+            echo "Running- sudo systemctl restart nginx"
             sudo systemctl restart nginx
+            sudo systemctl status nginx
