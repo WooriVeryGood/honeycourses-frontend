@@ -1,0 +1,32 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to EC2 Instance
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          password: ${{ secrets.AWS_EC2_PASSWORD }}
+
+          # Commands to execute on the EC2 instance
+          script: |
+            cd media/honeycourses-frontend
+            sudo git pull
+            sudo yarn install
+            sudo yarn build
+            sudo rm -r /var/www/html/*
+            sudo cp -r build/* /var/www/html
+            cd /var/www/html
+            sudo mv /var/www/html/build/* /var/www/html/
