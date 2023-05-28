@@ -22,7 +22,7 @@ jobs:
 
           # Commands to execute on the EC2 instance
           script: |
-            cd media/honeycourses-frontend
+            cd /media/honeycourses-frontend
             sudo git pull
             sudo yarn install
             sudo yarn build
