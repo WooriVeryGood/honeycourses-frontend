@@ -30,5 +30,6 @@ jobs:
             sudo rm -r /var/www/html/*
             sudo cp -r build/* /var/www/html
             cd /var/www/html
+            sudo chmod -R +x /var/www/html
             sudo mv build/* .
             sudo systemctl restart nginx
