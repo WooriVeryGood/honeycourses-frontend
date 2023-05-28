@@ -1,7 +1,9 @@
 name: Github Page React Deploy Workflow
 
 on:
-  push
+  push:
+    branches-ignore:
+      - main
 
 jobs:
   deploy:
