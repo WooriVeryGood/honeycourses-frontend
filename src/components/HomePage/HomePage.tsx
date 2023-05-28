@@ -99,6 +99,12 @@ export default function HomePage() {
                     1. 일본 도쿄 =&gt; 대한민국 서울 리젼으로 서버와
                     데이터베이스 이전이 완료되었습니다.<br></br>
                   </div>
+                  <br></br>
+                  <div>
+                    <strong>Hotfix@2023.05.29: </strong>
+                    <br></br>
+                    1. EC2 자동 배포가 활성화되었습니다 (테스트).<br></br>
+                  </div>
                 </div>
               </Collapse>
             </Alert>
