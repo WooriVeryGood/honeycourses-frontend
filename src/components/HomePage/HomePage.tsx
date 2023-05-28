@@ -64,7 +64,7 @@ export default function HomePage() {
             </Alert>
             <Alert key="update" variant="success">
               <Alert.Link href="#" onClick={() => setOpen(!open)}>
-                &gt; 업데이트 내역 확인 (최신 업데이트: 2023.5.27)
+                &gt; 업데이트 내역 확인 (최신 업데이트: 2023.5.29)
               </Alert.Link>
               <Collapse in={open}>
                 <div id="update-log">
@@ -103,7 +103,7 @@ export default function HomePage() {
                   <div>
                     <strong>Hotfix@2023.05.29: </strong>
                     <br></br>
-                    1. EC2 자동 배포가 활성화되었습니다 (테스트).<br></br>
+                    1. EC2 자동 배포 (Github Workflow) 가 활성화되었습니다.<br></br>
                   </div>
                 </div>
               </Collapse>
