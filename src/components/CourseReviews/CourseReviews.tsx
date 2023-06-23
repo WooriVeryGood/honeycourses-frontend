@@ -77,9 +77,11 @@ export default function CourseReviews() {
       axios.get(`${apiUrl}/courses/${courseId}/name`),
     ])
       .then(([reviewsResponse, nameResponse]) => {
-        const initializedReviews = reviewsResponse.data.map((review: Review) => ({
-          ...review,
-        }));
+        const initializedReviews = reviewsResponse.data.map(
+          (review: Review) => ({
+            ...review,
+          })
+        );
         setReviews(initializedReviews);
         setCourseName(nameResponse.data[0].course_name);
         setIsLoading(false);
@@ -87,8 +89,8 @@ export default function CourseReviews() {
       })
       .catch((error) => {
         if (error.response && error.response.status === 404) {
-          navigate('/courses');
-          alert('존재하지 않는 수업입니다.');
+          navigate("/courses");
+          alert("존재하지 않는 수업입니다.");
         }
         console.error(error);
         setIsLoading(false);
@@ -96,35 +98,35 @@ export default function CourseReviews() {
         return <h1>데이터베이스 오류가 발생했습니다.</h1>;
       });
   }, [courseId, navigate]);
-  
 
   return (
     <PageView isLoading={isLoading}>
       <Container fluid className="justify-content-center align-items-start">
-        <Row>
-          <Col xs={5}>
-            <h2 style={{ marginLeft: "15%" }}>{course_name}</h2>
-          </Col>
-          <Col xs={7}>
-            {reviews.length > 0 && (
-              <Button
-                href={`/courses/addReview/${courseId}`}
-                variant="success"
-                size="sm"
-                style={{ marginTop: "1%", marginLeft: "2%" }}
-              >
-                <img
-                  src="/images/plus.svg"
-                  className="bi"
-                  width="23"
-                  height="23"
-                  alt="github-icon"
-                />
-                평가 작성
-              </Button>
-            )}
-          </Col>
-        </Row>
+        <div
+          className="d-flex flex-wrap align-items-left"
+          style={{ marginBottom: "15px" }}
+        >
+          <h2 style={{ margin: "0 5%" }}>{course_name}</h2>
+
+          {reviews.length > 0 && (
+            <Button
+              className="my-auto"
+              href={`/courses/addReview/${courseId}`}
+              variant="success"
+              size="sm"
+              style={{ marginTop: "1%", marginLeft: "1rem", backgroundColor:"#43A680",  borderColor:"#43A680" }}
+            >
+              <img
+                src="/images/plus.svg"
+                className="bi"
+                width="23"
+                height="23"
+                alt="github-icon"
+              />
+              평가 작성
+            </Button>
+          )}
+        </div>
 
         {reviews.length === 0 ? (
           <div style={{ textAlign: "center", marginTop: "50px" }}>
@@ -148,7 +150,9 @@ export default function CourseReviews() {
               }`}
             >
               <Card.Body className="text-start">
-                <Card.Title>{review.review_title}</Card.Title>
+                <Card.Title style={{ color: "#43A680" }}>
+                  {review.review_title}
+                </Card.Title>
                 <hr className="divider"></hr>
                 <Card.Text style={{ whiteSpace: "pre-wrap" }}>
                   {review.review_content.replace(/<br\s*[/]?>/gi, "\n")}

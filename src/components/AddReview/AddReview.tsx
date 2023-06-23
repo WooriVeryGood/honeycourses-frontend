@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import PageView from "../PageView/PageView";
@@ -15,6 +15,8 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export default function AddReview() {
   const courseId = window.location.pathname.split("/").pop();
   const [reviewTitle, setReviewTitle] = useState("");
+  const [course_name, setCourseName] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [reviewContent, setReviewContent] = useState(
     "수강 학기: 2x-2x학년도 ?학기\n\n교수: XXX\n\n평가: \n\n별점 평가: ?★★★★★점"
   );
@@ -37,12 +39,34 @@ export default function AddReview() {
       });
   };
 
+  useEffect(() => {
+    setIsLoading(true);
+    axios.get(`${apiUrl}/courses/${courseId}/name`)
+    .then((nameResponse) => {
+      setCourseName(nameResponse.data[0].course_name);
+        setIsLoading(false);
+        window.scrollTo(0, 0);
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 404) {
+        navigate("/courses");
+        alert("존재하지 않는 수업입니다.");
+      }
+      console.error(error);
+      setIsLoading(false);
+      window.scrollTo(0, 0);
+      return <h1>데이터베이스 오류가 발생했습니다.</h1>;
+    });
+
+  }, [courseId, navigate])
+
+
   return (
-    <PageView>
+    <PageView isLoading={isLoading}>
       <Container fluid className="justify-content-center align-items-center">
         <Row>
           <Col xs={8}>
-            <h2 style={{ marginLeft: "14%" }}>수강평가 작성</h2>
+            <h2 style={{ marginLeft: "14%" }}>수강평가 작성: {course_name}</h2>
           </Col>
         </Row>
         <Row>
