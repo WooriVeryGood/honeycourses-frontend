@@ -15,7 +15,7 @@ export default function Header() {
         backgroundSize: "0",
         height: "70px",
         backgroundColor,
-        paddingLeft: "3rem",
+        paddingLeft: "5%",
         paddingRight: "0",
       }}
     >
@@ -31,7 +31,7 @@ export default function Header() {
           />
           <span>답변 받았습니다!</span>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ marginRight: "2rem" }}/>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ marginRight: "10%" }}/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto" style={{ backgroundColor }}>
             <Nav.Link className="text text-center" href="/">
