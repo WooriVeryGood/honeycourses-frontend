@@ -26,14 +26,14 @@ export default function Header() {
             src="/images/logo.png"
             width="30"
             height="28"
-            style={{ marginRight: "1%" }}
+            style={{ marginRight: "5%" }}
             className="d-inline-block align-top"
           />
           <span>답변 받았습니다!</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ marginRight: "10%" }}/>
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto" style={{ backgroundColor }}>
+          <Nav style={{ backgroundColor, marginRight: "10%" }}>
             <Nav.Link className="text text-center" href="/">
               Home
             </Nav.Link>

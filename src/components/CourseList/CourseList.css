@@ -1,3 +1,13 @@
 .nav-link {
-    color: Black;
+    color: black;
+}
+
+.nav-link:enabled {
+    color: black;
+}
+
+.btn-primary:enabled {
+    background-color: #43A680;
+    border-color: #43A680;
+    color:white
 }

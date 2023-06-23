@@ -7,6 +7,7 @@ import { Collapse } from "react-bootstrap";
 import Typewriter from "typewriter-effect";
 import { CSSTransition } from "react-transition-group";
 import "./HomePage.css";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
   const [open, setOpen] = useState(false);
@@ -25,7 +26,7 @@ export default function HomePage() {
       <Container
         fluid
         className="justify-content-center align-items-center text-center"
-        style={{ paddingTop: "10px" }}
+        style={{ paddingTop: "40px" }}
       >
         <div>
           <Row>
@@ -47,11 +48,11 @@ export default function HomePage() {
                   top: "55%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
-                  paddingLeft: window.innerWidth < 576 ? "15px" : 0, // Add padding for mobile size
+                  paddingLeft: window.innerWidth < 550 ? "5%" : 0, // Add padding for mobile size
                 }}
               >
                 <h1 className="display-6" style={{ whiteSpace: "nowrap" }}>
-                  <Typewriter
+                  {' '}<Typewriter
                     onInit={(typewriter) => {
                       typewriter.typeString("답변 받았습니다!").start(); // Trigger animation completion
                     }}
@@ -100,60 +101,21 @@ export default function HomePage() {
                 <p>
                   <em>
                     답변 받았습니다! 는 북경대학교 한국인 유학생들을 위한 강의
-                    정보공유 웹사이트입니다.
-                  </em>
+                    정보공유 웹사이트입니다.</em>
+                    <br></br>
+                    Made with 💙 by <a href="https://github.com/Honeycourse" target="_blank" rel="noreferrer">@팀 꿀수업</a>
+                  
                 </p>
 
-                <Alert key="info" variant="info">
-                  현재 개발 진행중인 웹사이트이며, 수시로 업데이트되며 테스트
-                  단계에 있습니다. 정식 배포 후엔 현재 게시된 평가들이 모두
-                  삭제될 예정입니다.<br></br>
-                  <Alert.Link href="/about">About</Alert.Link> 페이지를
-                  참고해주세요.
-                </Alert>
-                <Alert key="update" variant="success">
+                <Alert key="update" variant="info">
                   <Alert.Link href="#" onClick={() => setOpen(!open)}>
-                    &gt; 업데이트 내역 확인 (최신 업데이트: 2023.5.29)
+                    &gt; 업데이트 내역 확인 (최신 업데이트: 2023.6.xx)
                   </Alert.Link>
                   <Collapse in={open}>
                     <div id="update-log">
                       <div>
-                        <strong>Hotfix@2023.05.18:</strong> <br></br>
-                        1. 데이터 로딩 시 로딩 효과, 화면 스크롤 자동 올리기
-                        기능 추가
-                        <br></br>
-                        2. 모바일 화면 버그 수정<br></br>
-                        3. 강의평가 페이지에 해당 수업 이름 보이게 추가
-                      </div>
-                      <br></br>
-                      <div>
-                        <strong>Hotfix@2023.05.19:</strong> <br></br>
-                        1. 추천/비추 버튼 1회 클릭 시 비활성화 기능 추가
-                        <br></br>
-                      </div>
-                      <br></br>
-                      <div>
-                        <strong>Hotfix@2023.05.26: </strong>
-                        <br></br>
-                        1. 추천/비추 버튼 1회 클릭 시 비활성화 기능 localstorage
-                        활용<br></br>
-                        2. 리뷰가 없는 수업에도 수업명 보이게 변경<br></br>
-                        3. 페이지 내 정보 변경
-                        <br></br>
-                      </div>
-                      <br></br>
-                      <div>
-                        <strong>Hotfix@2023.05.27: </strong>
-                        <br></br>
-                        1. 일본 도쿄 =&gt; 대한민국 서울 리젼으로 서버와
-                        데이터베이스 이전이 완료되었습니다.<br></br>
-                      </div>
-                      <br></br>
-                      <div>
-                        <strong>Hotfix@2023.05.29: </strong>
-                        <br></br>
-                        1. EC2 자동 배포 (Github Workflow) 가 활성화되었습니다.
-                        <br></br>
+                        <strong>Release@2023.06.xx:</strong> <br></br>
+                        1. 웹사이트 1.0.0 버전 정식 릴리즈.
                       </div>
                     </div>
                   </Collapse>

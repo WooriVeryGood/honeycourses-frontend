@@ -73,36 +73,36 @@ function CourseList() {
           className="d-flex justify-content-center align-items-start"
         >
           <div style={{ width: "90%" }}>
-            <Row>
-              <Col xs={3}>
-                <h2>강의 목록</h2>
-              </Col>
-              <Col>
-                <Button
-                  href="/courses/addCourse"
-                  className="my-auto"
-                  variant="success"
-                  size="sm"
-                  style={{ marginRight: "10%" }}
-                >
-                  <img
-                    src="/images/plus.svg"
-                    className="bi"
-                    width="23"
-                    height="23"
-                    alt="github-icon"
-                  />
-                  수업 추가
-                </Button>
-              </Col>
-            </Row>
-            {/* Nav selector */}
+            <div
+              className="d-flex align-items-left"
+              style={{ marginBottom: "10px" }}
+            >
+              <h2>강의 목록</h2>
+              <Button
+                href="/courses/addCourse"
+                className="my-auto align-self-center"
+                variant="success"
+                size="sm"
+                style={{ marginLeft: "20px", backgroundColor:"#43A680",  borderColor:"#43A680" }}
+              >
+                <img
+                  src="/images/plus.svg"
+                  className="bi"
+                  width="23"
+                  height="23"
+                  alt="github-icon"
+                />
+                수업 추가
+              </Button>
+            </div>
             <nav>
               <ul className="nav">
                 <li className="nav-item">
                   <button
                     className={`nav-link btn ${
-                      selectedCategory === "All" ? "btn-outline-primary" : ""
+                      selectedCategory === "All" && !showYouguan
+                        ? "btn-primary"
+                        : ""
                     }`}
                     onClick={() => handleSelectCategory("All")}
                   >
@@ -112,7 +112,7 @@ function CourseList() {
                 <li className="nav-item">
                   <button
                     className={`nav-link btn ${
-                      selectedCategory === "通选课" ? "btn-outline-primary" : ""
+                      selectedCategory === "通选课" ? "btn-primary" : ""
                     }`}
                     onClick={() => handleSelectCategory("通选课")}
                   >
@@ -122,7 +122,7 @@ function CourseList() {
                 <li className="nav-item">
                   <button
                     className={`nav-link btn ${
-                      selectedCategory === "体育课" ? "btn-outline-primary" : ""
+                      selectedCategory === "体育课" ? "btn-primary" : ""
                     }`}
                     onClick={() => handleSelectCategory("体育课")}
                   >
@@ -132,7 +132,7 @@ function CourseList() {
                 <li className="nav-item">
                   <button
                     className={`nav-link btn ${
-                      selectedCategory === "专业课" ? "btn-outline-primary" : ""
+                      selectedCategory === "专业课" ? "btn-primary" : ""
                     }`}
                     onClick={() => handleSelectCategory("专业课")}
                   >
@@ -142,7 +142,7 @@ function CourseList() {
                 <li className="nav-item">
                   <button
                     className={`nav-link btn ${
-                      selectedCategory === "公选课" ? "btn-outline-primary" : ""
+                      selectedCategory === "公选课" ? "btn-primary" : ""
                     }`}
                     onClick={() => handleSelectCategory("公选课")}
                   >
@@ -152,7 +152,7 @@ function CourseList() {
                 <li className="nav-item">
                   <button
                     className={`nav-link btn ${
-                      selectedCategory === "英语课" ? "btn-outline-primary" : ""
+                      selectedCategory === "英语课" ? "btn-primary" : ""
                     }`}
                     onClick={() => handleSelectCategory("英语课")}
                   >
@@ -162,7 +162,7 @@ function CourseList() {
                 <li className="nav-item">
                   <button
                     className={`nav-link btn ${
-                      showYouguan ? "btn-outline-primary" : ""
+                      showYouguan ? "btn-primary" : ""
                     }`}
                     onClick={handleShowYouguan}
                   >
@@ -182,9 +182,18 @@ function CourseList() {
                   <div className="d-flex justify-content-between align-items-center">
                     <h5>
                       {course.course_name}{" "}
-                      <Badge bg="#489CC1" style={{backgroundColor:"#489CC1"}}>{course.course_category}</Badge>{" "}
+                      <Badge
+                        bg="#489CC1"
+                        style={{ backgroundColor: "#489CC1" }}
+                      >
+                        {course.course_category}
+                      </Badge>{" "}
                       {course.isYouguan ? (
-                        <Badge className="rounded-pill" bg="#43A680" style={{backgroundColor:"#43A680"}}>
+                        <Badge
+                          className="rounded-pill"
+                          bg="#43A680"
+                          style={{ backgroundColor: "#43A680" }}
+                        >
                           중국유관
                         </Badge>
                       ) : null}
