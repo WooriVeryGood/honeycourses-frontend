@@ -27,7 +27,7 @@ jobs:
             echo "Running- sudo git pull"
             sudo git pull
             echo "Running- sudo yarn install"
-            sudo yarn install
+            sudo yarn install --ignore-engines
             echo "Running- sudo yarn build"
             sudo yarn build
             echo "Running- sudo chmod -R +x /var/www/html"
