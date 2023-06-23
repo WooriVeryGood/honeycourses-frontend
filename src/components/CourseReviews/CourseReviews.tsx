@@ -102,16 +102,17 @@ export default function CourseReviews() {
     <PageView isLoading={isLoading}>
       <Container fluid className="justify-content-center align-items-start">
         <Row>
-          <Col xs={5}>
-            <h2 style={{ marginLeft: "15%" }}>{course_name}</h2>
+          <Col xs={3}>
+            <h2 style={{ marginLeft: "25%" }}>{course_name}</h2>
           </Col>
-          <Col xs={7}>
+          <Col>
             {reviews.length > 0 && (
               <Button
+                className="my-auto"
                 href={`/courses/addReview/${courseId}`}
                 variant="success"
                 size="sm"
-                style={{ marginTop: "1%", marginLeft: "2%" }}
+                style={{ marginTop: "1%" , marginRight: "10%"}}
               >
                 <img
                   src="/images/plus.svg"
@@ -141,14 +142,14 @@ export default function CourseReviews() {
         ) : (
           reviews.map((review) => (
             <Card
-              style={{ width: "90%", marginBottom: "30px" }}
+              style={{ width: "90%", marginBottom: "30px"}}
               key={review.review_id}
               className={`mx-auto ${
                 review.review_point < 0 ? "text-muted" : ""
               }`}
             >
               <Card.Body className="text-start">
-                <Card.Title>{review.review_title}</Card.Title>
+                <Card.Title style={{color:"#43A680"}}>{review.review_title}</Card.Title>
                 <hr className="divider"></hr>
                 <Card.Text style={{ whiteSpace: "pre-wrap" }}>
                   {review.review_content.replace(/<br\s*[/]?>/gi, "\n")}
