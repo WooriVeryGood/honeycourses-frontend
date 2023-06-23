@@ -3,7 +3,6 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useLocation } from "react-router-dom";
 
-// backgroundColor: "#1E90FF",
 export default function Header() {
   let location = useLocation();
   const backgroundColor = location.pathname === "/" ? "white" : "#50CB93";
@@ -12,10 +11,16 @@ export default function Header() {
     <Navbar
       expand="lg"
       fixed="top"
-      style={{ backgroundSize: "0", height: "70px", backgroundColor }}
+      style={{
+        backgroundSize: "0",
+        height: "70px",
+        backgroundColor,
+        paddingLeft: "3rem",
+        paddingRight: "0",
+      }}
     >
-      <Container>
-        <Navbar.Brand href="/" style={{ color: "black" }}>
+      <Container fluid className="p-0">
+        <Navbar.Brand href="/" style={{ color: "black", display: "flex", alignItems: "center" }}>
           <img
             alt=""
             src="/images/logo.png"
@@ -24,9 +29,9 @@ export default function Header() {
             style={{ marginRight: "1%" }}
             className="d-inline-block align-top"
           />
-          {"  "}답변 받았습니다!
+          <span>답변 받았습니다!</span>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ marginRight: "2rem" }}/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto" style={{ backgroundColor }}>
             <Nav.Link className="text text-center" href="/">
