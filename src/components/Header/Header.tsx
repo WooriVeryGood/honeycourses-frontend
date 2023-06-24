@@ -43,6 +43,9 @@ export default function Header() {
             <Nav.Link className="text text-center" href="/courses">
               Courses
             </Nav.Link>
+            <Nav.Link className="text text-center" href="/support">
+              Support Us!
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

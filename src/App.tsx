@@ -10,6 +10,8 @@ import CourseReviews from "./components/CourseReviews/CourseReviews";
 import AddReview from "./components/AddReview/AddReview";
 import AddCourse from "./components/AddCourse/AddCourse";
 import ReactGA from 'react-ga';
+import TermsConditions from "./components/TermsConditions/TermsConditions";
+import Support from "./components/Support/Support";
 
 function App() {
   function GoogleAnalytics() {
@@ -35,6 +37,8 @@ function App() {
         <Route path="/courses/view/:classID" element={<CourseReviews />} />
         <Route path="/courses/addReview/:classID" element={<AddReview />} />
         <Route path="/courses/addCourse" element={<AddCourse />} />
+        <Route path="/termsConditions" element={<TermsConditions />} />
+        <Route path="/support" element={<Support />} />
       </Routes>
       <Footer />
     </BrowserRouter>
