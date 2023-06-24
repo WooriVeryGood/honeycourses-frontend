@@ -3,8 +3,8 @@
 https://honeycourses.com
 
 
-![alt text](https://github.com/timingsniper/project-railgun-frontend/blob/master/draft_230510.png)
+![alt text]([https://github.com/timingsniper/project-railgun-frontend/blob/master/draft_230510.png](https://github.com/Honeycourse/honeycourses-frontend/blob/main/2a08b3abb803c6f2c999fcc7e7d0cfb.png))
 
-답변, 받으셨나요? 는 북경대학교 한국인 유학생들을 위한 강의 정보공유 웹사이트입니다.
+답변, 받았습니다! 는 북경대학교 한국인 유학생들을 위한 강의 정보공유 웹사이트입니다.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
