@@ -98,12 +98,14 @@ export default function HomePage() {
               </div>
               <figure className="text-center">
                 <br></br>
+                
                 <p>
                   <em>
                     답변 받았습니다! 는 북경대학교 한국인 유학생들을 위한 강의
                     정보공유 웹사이트입니다.</em>
                     <br></br>
-                    Made with 💙 by <a href="https://github.com/Honeycourse" target="_blank" rel="noreferrer">@팀 꿀수업</a>
+                    웹사이트 사용 전, 꼭 <a href="/about">About 페이지</a>의 안내를 읽어주세요.<br></br>
+                    
                   
                 </p>
 
@@ -120,6 +122,7 @@ export default function HomePage() {
                     </div>
                   </Collapse>
                 </Alert>
+                <p>Made with 💙 by <a href="https://github.com/Honeycourse" target="_blank" rel="noreferrer">@팀 꿀수업</a>.</p>
               </figure>
             </div>
           </CSSTransition>

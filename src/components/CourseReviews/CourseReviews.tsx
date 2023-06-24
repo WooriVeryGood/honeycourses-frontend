@@ -5,7 +5,6 @@ import PageView from "../PageView/PageView";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-import { Row, Col } from "react-bootstrap";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { useNavigate } from "react-router-dom";
 
@@ -18,6 +17,9 @@ interface Review {
   review_point: number;
   course_name: string;
   voted: boolean;
+  instructor_name: string;
+  taken_semyr: string;
+  grade: string;
 }
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -155,10 +157,13 @@ export default function CourseReviews() {
                 </Card.Title>
                 <hr className="divider"></hr>
                 <Card.Text style={{ whiteSpace: "pre-wrap" }}>
+                <p className="fw-semibold" style={{color:"grey"}}>수강학기: {review.taken_semyr}, 교수: {review.instructor_name}</p>
+                
                   {review.review_content.replace(/<br\s*[/]?>/gi, "\n")}
 
-                  <br />
-                  <br />
+                  <br></br><br></br>
+                  <span style={{ whiteSpace: "nowrap" }}><p className="fw-bold" style={{ display: "inline" }}>성적: </p>{review.grade}</span>
+                 
                 </Card.Text>
                 <hr className="divider"></hr>
                 <ButtonGroup aria-label="Basic example" className="float-end">
@@ -167,7 +172,7 @@ export default function CourseReviews() {
                     onClick={() => handleUpvote(review.review_id)}
                     disabled={
                       localStorage.getItem(`${review.review_id}`) != null
-                    } // Disable the button if the review has been voted on
+                    } 
                   >
                     추천
                   </Button>
@@ -179,7 +184,7 @@ export default function CourseReviews() {
                     onClick={() => handleDownvote(review.review_id)}
                     disabled={
                       localStorage.getItem(`${review.review_id}`) != null
-                    } // Disable the button if the review has been voted on
+                    } 
                   >
                     비추
                   </Button>

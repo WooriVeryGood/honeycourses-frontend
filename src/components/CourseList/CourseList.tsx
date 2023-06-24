@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import PageView from "../PageView/PageView";
 import ListGroup from "react-bootstrap/ListGroup";
-import { Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 import axios from "axios";
@@ -15,6 +14,7 @@ interface Course {
   course_category: string;
   course_credit: number;
   isYouguan: boolean;
+  kaikeYuanxi: string;
 }
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -183,16 +183,22 @@ function CourseList() {
                     <h5>
                       {course.course_name}{" "}
                       <Badge
-                        bg="#489CC1"
-                        style={{ backgroundColor: "#489CC1" }}
+                        bg="#236969"
+                        style={{ backgroundColor: "#236969" }}
                       >
                         {course.course_category}
+                      </Badge>{" "}
+                      <Badge
+                        bg="#65C18C"
+                        style={{ backgroundColor: "#65C18C" }}
+                      >
+                        {course.kaikeYuanxi}
                       </Badge>{" "}
                       {course.isYouguan ? (
                         <Badge
                           className="rounded-pill"
-                          bg="#43A680"
-                          style={{ backgroundColor: "#43A680" }}
+                          bg="#FF7BA9"
+                          style={{ backgroundColor: "#489CC1" }}
                         >
                           중국유관
                         </Badge>
