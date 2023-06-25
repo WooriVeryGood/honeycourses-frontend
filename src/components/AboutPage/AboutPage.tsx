@@ -43,11 +43,11 @@ export default function AboutPage() {
         <br></br>
         <p>
           💻{" "}
-          <a href="https://github.com/Honeycourse/honeycourses-frontend">
+          <a href="https://github.com/WooriVeryGood/honeycourses-frontend">
             honeycourses-frontend
           </a>
           와{" "}
-          <a href="https://github.com/Honeycourse/honeycourses-backend-express">
+          <a href="https://github.com/WooriVeryGood/honeycourses-backend-express">
             honeycourses-backend-express
           </a>{" "}
           Github Repo 에서 본 웹사이트의 프론트엔드와 백엔드 소스코드를 확인할

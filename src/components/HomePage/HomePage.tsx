@@ -1,6 +1,7 @@
 import PageView from "../PageView/PageView";
-import { useState, useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import axios from "axios";
+import { useState, useEffect, ChangeEvent } from "react";
+import { Container, Row, Col, ListGroup, Badge } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import Alert from "react-bootstrap/Alert";
 import { Collapse } from "react-bootstrap";
@@ -9,17 +10,53 @@ import { CSSTransition } from "react-transition-group";
 import "./HomePage.css";
 import { Link } from "react-router-dom";
 
+interface Course {
+  course_id: string;
+  course_name: string;
+  course_category: string;
+  course_credit: number;
+  isYouguan: boolean;
+  kaikeYuanxi: string;
+}
+
 export default function HomePage() {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [open, setOpen] = useState(false);
   const [showComponents, setShowComponents] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get<Course[]>(`${apiUrl}/courses`);
+        setCourses(response.data);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowComponents(true);
-    }, 3000); // Adjust the delay time according to your preference
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
+
+  const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    setSearchInput(inputValue);
+
+    const filtered = courses.filter((course) =>
+      course.course_name.toLowerCase().includes(inputValue.toLowerCase())
+    );
+    setFilteredCourses(filtered);
+  };
 
   return (
     <PageView>
@@ -48,14 +85,14 @@ export default function HomePage() {
                   top: "55%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
-                  paddingLeft: window.innerWidth < 550 ? "5%" : 0, // Add padding for mobile size
+                  paddingLeft: window.innerWidth < 550 ? "5%" : 0,
                 }}
               >
                 <h1 className="display-6" style={{ whiteSpace: "nowrap" }}>
                   {" "}
                   <Typewriter
                     onInit={(typewriter) => {
-                      typewriter.typeString("답변 받았습니다!").start(); // Trigger animation completion
+                      typewriter.typeString("답변 받았습니다!").start();
                     }}
                     options={{
                       autoStart: true,
@@ -85,18 +122,58 @@ export default function HomePage() {
                 <input
                   className="form-control mr-sm-2"
                   type="search"
-                  placeholder="수업 검색해보기 (아직 검색기능은 구현 안되어있음)"
+                  placeholder="수업 검색해보기"
                   aria-label="Search"
-                  style={{ width: "70vh" }}
+                  style={{ width: "90%" }}
+                  value={searchInput}
+                  onChange={handleSearchInputChange}
                 />
-                <button
-                  className="btn btn-success my-2 my-sm-0 ml-auto"
-                  style={{ backgroundColor: "#128494" }}
-                  type="submit"
-                >
-                  Search
-                </button>
               </div>
+              {searchInput && (
+                <div className="d-flex justify-content-center">
+                  <div style={{ width: "90%" }}>
+                    <ListGroup>
+                      {filteredCourses.map((course) => (
+                        <Link
+                          to={`/courses/view/${course.course_id}`}
+                          key={course.course_id}
+                          className="list-group-item"
+                        >
+                          <div className="d-flex justify-content-between align-items-center">
+                            <h5>
+                              {course.course_name}{" "}
+                              <Badge
+                                bg="#236969"
+                                style={{ backgroundColor: "#236969" }}
+                              >
+                                {course.course_category}
+                              </Badge>{" "}
+                              <Badge
+                                bg="#65C18C"
+                                style={{ backgroundColor: "#65C18C" }}
+                              >
+                                {course.kaikeYuanxi}
+                              </Badge>{" "}
+                              {course.isYouguan ? (
+                                <Badge
+                                  className="rounded-pill"
+                                  bg="#FF7BA9"
+                                  style={{ backgroundColor: "#489CC1" }}
+                                >
+                                  중국유관
+                                </Badge>
+                              ) : null}
+                            </h5>
+                            <span className="text-body-secondary">
+                              {course.course_credit}학점
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
+                    </ListGroup>
+                  </div>
+                </div>
+              )}
               <figure className="text-center">
                 <br></br>
 
@@ -112,27 +189,19 @@ export default function HomePage() {
 
                 <Alert key="update" variant="info">
                   <Alert.Link href="#" onClick={() => setOpen(!open)}>
-                    &gt; 업데이트 내역 확인 (최신 업데이트: 2023.6.xx)
+                    &gt; 업데이트 내역 확인 (최신 업데이트: 2023.6.25)
                   </Alert.Link>
                   <Collapse in={open}>
                     <div id="update-log">
                       <div>
-                        <strong>Release@2023.06.xx:</strong> <br></br>
+                        <strong>Release@2023.06.25:</strong> <br></br>
                         1. 웹사이트 1.0.0 버전 정식 릴리즈.
                       </div>
                     </div>
                   </Collapse>
                 </Alert>
                 <p>
-                  Made with 💙 by{" "}
-                  <a
-                    href="https://github.com/WooriVeryGood"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    @우리잘했조
-                  </a>
-                  .
+                  Made with 💙 by @우리잘했조.
                 </p>
               </figure>
             </div>
