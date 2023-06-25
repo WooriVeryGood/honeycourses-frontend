@@ -6,6 +6,8 @@ import { useLocation } from "react-router-dom";
 export default function Header() {
   let location = useLocation();
   const backgroundColor = location.pathname === "/" ? "white" : "#50CB93";
+  const logoImage =
+    location.pathname === "/" ? "/images/logo.png" : "/images/logowhite.png";
 
   return (
     <Navbar
@@ -20,18 +22,24 @@ export default function Header() {
       }}
     >
       <Container fluid className="p-0">
-        <Navbar.Brand href="/" style={{ color: "black", display: "flex", alignItems: "center" }}>
+        <Navbar.Brand
+          href="/"
+          style={{ color: "black", display: "flex", alignItems: "center" }}
+        >
           <img
             alt=""
-            src="/images/logo.png"
-            width="30"
-            height="28"
-            style={{ marginRight: "5%" }}
+            src={logoImage}
+            width="50"
+            height="50"
+            style={{ marginRight: "2%" }}
             className="d-inline-block align-top"
           />
           <span>답변 받았습니다!</span>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ marginRight: "10%" }}/>
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          style={{ marginRight: "10%" }}
+        />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav style={{ backgroundColor, marginRight: "10%" }}>
             <Nav.Link className="text text-center" href="/">

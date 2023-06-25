@@ -24,6 +24,7 @@
     "react-ga": "^3.3.1",
     "react-router-dom": "^6.11.1",
     "react-scripts": "5.0.1",
+    "react-search-box": "^3.0.0",
     "react-transition-group": "^4.4.5",
     "react-typewriter-effect": "^1.1.0",
     "typescript": "^4.4.2",
