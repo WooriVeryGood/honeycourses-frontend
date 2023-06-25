@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 export default function Header() {
   let location = useLocation();
   const backgroundColor = location.pathname === "/" ? "white" : "#50CB93";
+  const logoImage = location.pathname === "/" ? "/images/logothree.png" : "/images/logowhite.png"
 
   return (
     <Navbar
@@ -23,9 +24,9 @@ export default function Header() {
         <Navbar.Brand href="/" style={{ color: "black", display: "flex", alignItems: "center" }}>
           <img
             alt=""
-            src="/images/logo.png"
-            width="30"
-            height="28"
+            src={logoImage}
+            width="50"
+            height="50"
             style={{ marginRight: "5%" }}
             className="d-inline-block align-top"
           />
