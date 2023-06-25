@@ -6,4 +6,6 @@
 
 답변, 받았습니다! 는 북경대학교 한국인 유학생들을 위한 강의 정보공유 웹사이트입니다.
 
+Made with 💙 by 우리잘했조.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
