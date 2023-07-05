@@ -176,9 +176,8 @@ export default function AddCourse() {
             onChange={(event) => setYouGuanStat(parseInt(event.target.value))}
             required
           >
-            <option value="0" disabled>중국유관 여부</option>
-            <option value="1">예</option>
-            <option value="0">아니오</option>
+            <option value="0" disabled>중국유관 여부: 아니오</option>
+            <option value="1">중국유관 여부: 예</option>
           </Form.Select>
 
           <div className="d-flex justify-content-end mt-4 mr-3">
