@@ -53,7 +53,7 @@ app.use(morganMiddleware);
 app.use('/', coursesRouter);
 
 app.listen(3000, function() {
-    console.log("App started")
+    console.log("Production- App started")
 });
 
 // Export the app object. When executing the application local this does nothing. However,
