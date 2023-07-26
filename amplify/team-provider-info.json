@@ -1,0 +1,26 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplify121b68b287cf4-staging-172404-authRole",
+      "UnauthRoleArn": "arn:aws:iam::603055451951:role/amplify-amplify121b68b287cf4-staging-172404-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::603055451951:role/amplify-amplify121b68b287cf4-staging-172404-authRole",
+      "Region": "ap-northeast-2",
+      "DeploymentBucketName": "amplify-amplify121b68b287cf4-staging-172404-deployment",
+      "UnauthRoleName": "amplify-amplify121b68b287cf4-staging-172404-unauthRole",
+      "StackName": "amplify-amplify121b68b287cf4-staging-172404",
+      "StackId": "arn:aws:cloudformation:ap-northeast-2:603055451951:stack/amplify-amplify121b68b287cf4-staging-172404/383d67b0-2bd9-11ee-b727-067644c2fe8e",
+      "AmplifyAppId": "d1irrt7m7mu722"
+    },
+    "categories": {
+      "function": {
+        "honeyCoursesApi": {
+          "deploymentBucketName": "amplify-amplify121b68b287cf4-staging-172404-deployment",
+          "s3Key": "amplify-builds/honeyCoursesApi-57587752746653376670-build.zip"
+        }
+      },
+      "api": {
+        "honeyApi": {}
+      }
+    }
+  }
+}
