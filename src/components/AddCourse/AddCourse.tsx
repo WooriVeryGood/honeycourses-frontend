@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import { Auth } from "aws-amplify";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -18,8 +19,15 @@ export default function AddCourse() {
   const [youGuanStat, setYouGuanStat] = useState(0);
 
   const navigate = useNavigate();
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const userSession = await Auth.currentSession();
+    const jwtToken = userSession.getIdToken().getJwtToken();
+
+    const headers = {
+      Authorization: `Bearer ${jwtToken}`,
+    };
     const data = {
       courseName,
       courseCredit,
@@ -28,7 +36,7 @@ export default function AddCourse() {
       youGuanStat,
     };
     axios
-      .post(`${apiUrl}/courses`, data)
+      .post(`${apiUrl}/courses`, data, { headers })
       .then((response) => {
         console.log(response.data);
         alert("수업 등록에 성공했습니다!");
@@ -176,9 +184,10 @@ export default function AddCourse() {
             onChange={(event) => setYouGuanStat(parseInt(event.target.value))}
             required
           >
-            <option value="0" disabled>중국유관 여부</option>
-            <option value="1">예</option>
-            <option value="0">아니오</option>
+            <option value="0" disabled>
+              중국유관 여부: 아니오
+            </option>
+            <option value="1">중국유관 여부: 예</option>
           </Form.Select>
 
           <div className="d-flex justify-content-end mt-4 mr-3">

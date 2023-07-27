@@ -6,6 +6,17 @@ export type AmplifyDependentResourcesAttributes = {
       "RootUrl": "string"
     }
   },
+  "auth": {
+    "honeycoursesfrontend": {
+      "AppClientID": "string",
+      "AppClientIDWeb": "string",
+      "IdentityPoolId": "string",
+      "IdentityPoolName": "string",
+      "UserPoolArn": "string",
+      "UserPoolId": "string",
+      "UserPoolName": "string"
+    }
+  },
   "function": {
     "honeyCoursesApi": {
       "Arn": "string",

@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import { Auth } from "aws-amplify";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -15,15 +16,21 @@ export default function AddReview() {
   const [reviewTitle, setReviewTitle] = useState("");
   const [course_name, setCourseName] = useState("");
   const [instructorName, setInstructorName] = useState("");
-  const [semester, setSemester] = useState(""); 
+  const [semester, setSemester] = useState("");
   const [gradeGot, setGrade] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [reviewContent, setReviewContent] = useState(
     "考核방식: \n\n任务量:\n\n평가: "
   );
   const navigate = useNavigate();
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const userSession = await Auth.currentSession();
+    const jwtToken = userSession.getIdToken().getJwtToken();
+
+    const headers = {
+      Authorization: `Bearer ${jwtToken}`,
+    };
     const data = {
       reviewTitle,
       instructorName,
@@ -32,7 +39,7 @@ export default function AddReview() {
       gradeGot,
     };
     axios
-      .post(`${apiUrl}/courses/${courseId}/reviews`, data)
+      .post(`${apiUrl}/courses/${courseId}/reviews`, data, { headers })
       .then((response) => {
         console.log(response.data);
         alert("리뷰 등록에 성공했습니다!");
@@ -152,7 +159,9 @@ export default function AddReview() {
               </option>
               <option value="22-23년도 1학기">22-23년도 1학기</option>
               <option value="22-23년도 2학기">22-23년도 2학기</option>
-              <option value="22-23년도 3학기/계절학기">22-23년도 3학기/계절학기</option>
+              <option value="22-23년도 3학기/계절학기">
+                22-23년도 3학기/계절학기
+              </option>
             </Form.Select>
           </InputGroup>
           <InputGroup

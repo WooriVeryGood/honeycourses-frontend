@@ -9,6 +9,7 @@ import Typewriter from "typewriter-effect";
 import { CSSTransition } from "react-transition-group";
 import "./HomePage.css";
 import { Link } from "react-router-dom";
+import { Auth } from 'aws-amplify';
 
 interface Course {
   course_id: string;
@@ -30,7 +31,13 @@ export default function HomePage() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get<Course[]>(`${apiUrl}/courses`);
+        const userSession = await Auth.currentSession();
+        const jwtToken = userSession.getIdToken().getJwtToken();
+
+        const headers = {
+          Authorization: `Bearer ${jwtToken}`,
+        };
+        const response = await axios.get<Course[]>(`${apiUrl}/courses`, { headers });
         setCourses(response.data);
       } catch (error) {
         console.error("Error fetching courses:", error);
@@ -189,13 +196,19 @@ export default function HomePage() {
 
                 <Alert key="update" variant="info">
                   <Alert.Link href="#" onClick={() => setOpen(!open)}>
-                    &gt; 업데이트 내역 확인 (최신 업데이트: 2023.6.25)
+                    &gt; 업데이트 내역 확인 (최신 업데이트: 2023.7.28)
                   </Alert.Link>
                   <Collapse in={open}>
                     <div id="update-log">
                       <div>
                         <strong>Release@2023.06.25:</strong> <br></br>
-                        1. 웹사이트 1.0.0 버전 정식 릴리즈.
+                        1. 1.0.0 버전 정식 릴리즈.
+                      </div><br />
+                      <div>
+                        <strong>Release@2023.07.28:</strong> <br></br>
+                        1. 1.1.0b 버전 정식 릴리즈. <br />
+                        2. 로그인 기능 추가. <br />
+                        3. AWS Amplify로 서버 서비스 이전.
                       </div>
                     </div>
                   </Collapse>
