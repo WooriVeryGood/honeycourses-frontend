@@ -4,7 +4,7 @@ const pool = require("./db");
 
 router.get("/", (req, res) => {
   res.status(200).json({
-    message: "Staging- Api Online!",
+    message: "Production- Api Online!",
   });
   console.log("안뇽, 여긴 api 루트양. 여긴 왜왔니?");
 });
