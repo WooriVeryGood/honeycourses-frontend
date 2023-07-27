@@ -8,6 +8,7 @@ import Badge from "react-bootstrap/Badge";
 import axios from "axios";
 import "./CourseList.css";
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
+import { Auth } from 'aws-amplify';
 
 interface Course {
   course_id: string;
@@ -41,20 +42,29 @@ function CourseList() {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    axios
-      .get(`${apiUrl}/courses`)
-      .then((response) => {
+    const fetchDataFromApi = async () => {
+      try {
+        const userSession = await Auth.currentSession();
+        const jwtToken = userSession.getIdToken().getJwtToken();
+
+        const headers = {
+          Authorization: `Bearer ${jwtToken}`,
+        };
+
+        setIsLoading(true);
+        const response = await axios.get(`${apiUrl}/courses`, { headers });
         console.log(response.data);
         setCourses(response.data);
         setIsLoading(false);
         window.scrollTo(0, 0);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(error);
         setIsLoading(false);
         window.scrollTo(0, 0);
-      });
+      }
+    };
+
+    fetchDataFromApi();
   }, []);
 
   // 카테고리별 수업 분류

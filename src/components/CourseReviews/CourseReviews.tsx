@@ -7,6 +7,7 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { useNavigate } from "react-router-dom";
+import { Auth } from 'aws-amplify';
 
 // 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)
 
@@ -71,34 +72,66 @@ export default function CourseReviews() {
     localStorage.setItem(`${reviewId}`, "vote");
   };
 
-  useEffect(() => {
-    setIsLoading(true);
+const getCognitoToken = async () => {
+    try {
+      const userSession = await Auth.currentSession();
+      return userSession.getIdToken().getJwtToken();
+    } catch (error) {
+      console.error("Error getting Cognito token:", error);
+      return null;
+    }
+  };
 
-    Promise.all([
-      axios.get(`${apiUrl}/courses/${courseId}/reviews`),
-      axios.get(`${apiUrl}/courses/${courseId}/name`),
-    ])
-      .then(([reviewsResponse, nameResponse]) => {
-        const initializedReviews = reviewsResponse.data.map(
-          (review: Review) => ({
-            ...review,
-          })
-        );
-        setReviews(initializedReviews);
-        setCourseName(nameResponse.data[0].course_name);
-        setIsLoading(false);
-        window.scrollTo(0, 0);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 404) {
-          navigate("/courses");
-          alert("존재하지 않는 수업입니다.");
+  // Rest of the component...
+
+  useEffect(() => {
+    const fetchDataFromApi = async () => {
+      try {
+        const jwtToken = await getCognitoToken(); // Retrieve Cognito token
+        if (!jwtToken) {
+          // Handle the case where token retrieval failed
+          console.error("Cognito token not available");
+          setIsLoading(false);
+          return;
         }
-        console.error(error);
+
+        const headers = {
+          Authorization: `Bearer ${jwtToken}`,
+        };
+
+        // Make the API requests with headers
+        Promise.all([
+          axios.get(`${apiUrl}/courses/${courseId}/reviews`, { headers }),
+          axios.get(`${apiUrl}/courses/${courseId}/name`, { headers }),
+        ])
+          .then(([reviewsResponse, nameResponse]) => {
+            const initializedReviews = reviewsResponse.data.map(
+              (review: Review) => ({
+                ...review,
+              })
+            );
+            setReviews(initializedReviews);
+            setCourseName(nameResponse.data[0].course_name);
+            setIsLoading(false);
+            window.scrollTo(0, 0);
+          })
+          .catch((error) => {
+            if (error.response && error.response.status === 404) {
+              navigate("/courses");
+              alert("존재하지 않는 수업입니다.");
+            }
+            console.error("API error:", error);
+            setIsLoading(false);
+            window.scrollTo(0, 0);
+            return <h1>데이터베이스 오류가 발생했습니다.</h1>;
+          });
+      } catch (error) {
+        console.error("Error in fetching data:", error);
         setIsLoading(false);
-        window.scrollTo(0, 0);
-        return <h1>데이터베이스 오류가 발생했습니다.</h1>;
-      });
+      }
+    };
+
+    fetchDataFromApi();
   }, [courseId, navigate]);
 
   return (

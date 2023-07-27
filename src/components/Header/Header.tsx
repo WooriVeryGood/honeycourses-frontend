@@ -3,16 +3,16 @@ import Nav from "react-bootstrap/Nav";
 import { Button } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import { useLocation } from "react-router-dom";
-import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
+import {  useAuthenticator } from "@aws-amplify/ui-react";
 
 export default function Header() {
-  const { route, user, signOut } = useAuthenticator((context) => [context.user, context.route]);
+  const { user, signOut } = useAuthenticator((context) => [context.user, context.route]);
   const { authStatus } = useAuthenticator((context) => [context.authStatus]);
   let location = useLocation();
   const backgroundColor = location.pathname === "/" ? "white" : "#50CB93";
   const logoImage =
     location.pathname === "/" ? "/images/logo.png" : "/images/logowhite.png";
-
+    
   return (
     <Navbar
       expand="lg"
@@ -45,7 +45,7 @@ export default function Header() {
           style={{ marginRight: "10%" }}
         />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav style={{ backgroundColor, marginRight: "10%" }}>
+          <Nav className="me-auto" style={{ backgroundColor }}>
             <Nav.Link className="text text-center" href="/">
               Home
             </Nav.Link>
@@ -58,12 +58,20 @@ export default function Header() {
             <Nav.Link className="text text-center" href="/support">
               Support Us!
             </Nav.Link>
-            {authStatus !== "authenticated" ? (
-              <Button variant="success" href="/login">로그인</Button>
-            ) : (
-              <Button variant="danger" onClick={signOut}>로그아웃</Button>
-            )}
           </Nav>
+          <div className='text text-center' style={{ marginRight: "5%", backgroundColor }}>
+            {authStatus !== "authenticated" ? (
+              <>
+                <p className="d-inline me-3 text text-center">로그인해주세요.</p>
+                <Button className= "text text-center" variant="success" href="/login">로그인</Button>
+              </>
+            ) : (
+              <>
+                <p className="d-inline me-3 text text-center">안녕하세요, {user?.attributes?.email}님!</p>
+                <Button className= "text text-center" variant="danger" onClick={signOut}>로그아웃</Button>
+              </>
+            )}
+          </div>
         </Navbar.Collapse>
       </Container>
     </Navbar>

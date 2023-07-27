@@ -18,7 +18,7 @@ export default function Support() {
           <ul>
             <br></br>
             <li>
-              현재 본 웹사이트는 AWS의 EC2 인스턴스와 로드 밸런서를 서버로,
+              현재 본 웹사이트는 AWS의 Amplify 서비스 + API Gateway+ Lambda를 서버로,
               AWS의 RDS를 데이터베이스 서비스로 이용하고 있습니다.
             </li>
             <br></br>
