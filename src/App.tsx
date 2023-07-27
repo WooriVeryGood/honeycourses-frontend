@@ -9,40 +9,55 @@ import CourseList from "./components/CourseList/CourseList";
 import CourseReviews from "./components/CourseReviews/CourseReviews";
 import AddReview from "./components/AddReview/AddReview";
 import AddCourse from "./components/AddCourse/AddCourse";
-import ReactGA from 'react-ga';
 import TermsConditions from "./components/TermsConditions/TermsConditions";
 import Support from "./components/Support/Support";
+import { Amplify } from "aws-amplify";
+import { Authenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+import awsExports from "./aws-exports";
+import { I18n } from 'aws-amplify';
+import { translations } from '@aws-amplify/ui-react';
+import { RequireAuth } from "./RequireAuth";
+import { Login } from "./components/Login/Login";
+I18n.putVocabularies(translations);
+I18n.setLanguage('ko');
+Amplify.configure(awsExports);
 
-function App() {
-  function GoogleAnalytics() {
-    const location = useLocation();
+I18n.putVocabularies({
+  ko: {
+    'Enter your Password': '비밀번호 입력',
+    'Please confirm your Password': '비밀번호 재입력',
+    'Password must have lower case letters': '비밀번호는 소문자를 포함해야 합니다',
+    'Password must have special characters': '비밀번호는 특수문자를 포함해야 합니다',
+    'Password must have upper case letters': '비밀번호는 대문자를 포함해야 합니다',
+    'Password must have at least 8 characters': '비밀번호는 8자 이상이어야 합니다',
+    'Password must have numbers': '비밀번호는 숫자를 포함해야 합니다',
+    'Your passwords must match': '비밀번호가 일치하지 않습니다',
+    'An account with the given email already exists.': '이미 존재하는 이메일입니다',
+  },
+  
+});
 
-    useEffect(() => {
-      ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID as string);
-      ReactGA.set({ page: location.pathname });
-      ReactGA.pageview(location.pathname);
-    }, [location]);
 
-    return null;
-  }
+export default function App() {
+
 
   return (
-    <BrowserRouter>
-    <GoogleAnalytics />
-      <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/courses" element={<CourseList />} />
-        <Route path="/courses/view/:classID" element={<CourseReviews />} />
-        <Route path="/courses/addReview/:classID" element={<AddReview />} />
-        <Route path="/courses/addCourse" element={<AddCourse />} />
-        <Route path="/termsConditions" element={<TermsConditions />} />
-        <Route path="/support" element={<Support />} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/courses" element={<RequireAuth><CourseList /></RequireAuth>} />
+            <Route path="/courses/view/:classID" element={<RequireAuth><CourseReviews /></RequireAuth>} />
+            <Route path="/courses/addReview/:classID" element={<RequireAuth><AddReview /></RequireAuth>} />
+            <Route path="/courses/addCourse" element={<RequireAuth><AddCourse /></RequireAuth>} />
+            <Route path="/termsConditions" element={<TermsConditions />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
   );
 }
 
-export default App;

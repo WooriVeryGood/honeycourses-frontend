@@ -1,9 +1,13 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
+import { Button } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import { useLocation } from "react-router-dom";
+import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 
 export default function Header() {
+  const { route, user, signOut } = useAuthenticator((context) => [context.user, context.route]);
+  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
   let location = useLocation();
   const backgroundColor = location.pathname === "/" ? "white" : "#50CB93";
   const logoImage =
@@ -54,6 +58,11 @@ export default function Header() {
             <Nav.Link className="text text-center" href="/support">
               Support Us!
             </Nav.Link>
+            {authStatus !== "authenticated" ? (
+              <Button variant="success" href="/login">로그인</Button>
+            ) : (
+              <Button variant="danger" onClick={signOut}>로그아웃</Button>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

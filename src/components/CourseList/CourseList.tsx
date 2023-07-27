@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 import axios from "axios";
 import "./CourseList.css";
+import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 
 interface Course {
   course_id: string;
@@ -20,6 +21,9 @@ interface Course {
 const apiUrl = process.env.REACT_APP_API_URL;
 
 function CourseList() {
+  const { route } = useAuthenticator((context) => [context.route]);
+  const { user, signOut } = useAuthenticator((context) => [context.user]);
+  const { authStatus } = useAuthenticator(context => [context.authStatus]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState(true);
