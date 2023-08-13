@@ -196,7 +196,7 @@ export default function HomePage() {
 
                 <Alert key="update" variant="info">
                   <Alert.Link href="#" onClick={() => setOpen(!open)}>
-                    &gt; 업데이트 내역 확인 (최신 업데이트: 2023.7.28)
+                    &gt; 업데이트 내역 확인 (최신 업데이트: 2023.8.13)
                   </Alert.Link>
                   <Collapse in={open}>
                     <div id="update-log">
@@ -209,6 +209,10 @@ export default function HomePage() {
                         1. 1.1.0b 버전 정식 릴리즈. <br />
                         2. 로그인 기능 추가. <br />
                         3. AWS Amplify로 서버 서비스 이전.
+                      </div><br />
+                      <div>
+                        <strong>Release@2023.08.13:</strong> <br></br>
+                        1. 커뮤니티 베타 기능 추가.
                       </div>
                     </div>
                   </Collapse>

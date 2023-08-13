@@ -7,9 +7,9 @@ export default function Footer() {
         <div className="col-md-10 d-flex align-items-center">
           <span className="text-muted">
             &copy; 2023 답변 받았습니다! by 우리잘했조. <br></br>
-            honeycourses-frontend <strong>v.1.1.0b_20230728</strong>
+            honeycourses-frontend <strong>v.1.1.0b_20230813</strong>
             <br></br>
-            honeycourses-backend-express <strong>v.1.1.0b_20230728</strong>
+            honeycourses-backend-express <strong>v.1.1.0b_20230813</strong>
           </span>
         </div>
         <ul className="nav col-md-1 justify-content-end list-unstyled d-flex">
