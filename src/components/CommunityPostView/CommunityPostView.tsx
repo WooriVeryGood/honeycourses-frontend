@@ -35,7 +35,7 @@ const pseudonyms = [
   "Carol",
   "Dave",
   "Eve",
-  "Fracis",
+  "Francis",
   "Grace",
   "Hans",
   "Isabella",
@@ -44,6 +44,18 @@ const pseudonyms = [
   "Louis",
   "Margaret",
   "Nathan",
+  "Olivia",
+  "Paul",
+  "Queen",
+  "Richard",
+  "Susan",
+  "Thomas",
+  "Uma",
+  "Vivian",
+  "Winnie",
+  "Xander",
+  "Yasmine",
+  "Zach",
 ];
 
 export default function CommunityPostView() {
@@ -55,7 +67,34 @@ export default function CommunityPostView() {
   const [uniqueCommenters, setUniqueCommenters] = useState<string[]>([]);
   const postId = window.location.pathname.split("/").pop();
 
-  const commentColors = ["#d9e1fc", "#edd9f2", "#d9f2e5", "#FFD54F", "#A1887F"];
+  const commentColors = [
+    "#d9e1fc",
+    "#edd9f2",
+    "#d9f2e5",
+    "#FFD54F",
+    "#A1887F",
+    "#FFAB91",
+    "#FFCC80",
+    "#FFF176",
+    "#DCE775",
+    "#AED581",
+    "#81C784",
+    "#4FC3F7",
+    "#4DD0E1",
+    "#4DB6AC",
+    "#B39DDB",
+    "#FF8A80",
+    "#90A4AE",
+    "#C5E1A5",
+    "#E6EE9C",
+    "#80DEEA",
+    "#80CBC4",
+    "#FFE0B2",
+    "#B3E5FC",
+    "#B2DFDB",
+    "#E1BEE7",
+    "#F8BBD0",
+  ];
 
   const getCommentBackgroundColor = (
     commentAuthorHash: string,
@@ -66,7 +105,7 @@ export default function CommunityPostView() {
     }
     const authorPosition = uniqueCommenters.indexOf(commentAuthorHash);
     if (authorPosition === -1) {
-      return "white"; 
+      return "white";
     }
     return commentColors[authorPosition % commentColors.length];
   };
@@ -200,7 +239,9 @@ export default function CommunityPostView() {
                 {post.post_title}
               </Card.Title>
               <hr className="divider"></hr>
-              <Card.Text style={{ whiteSpace: "pre-wrap", marginBottom: "30px" }}>
+              <Card.Text
+                style={{ whiteSpace: "pre-wrap", marginBottom: "30px" }}
+              >
                 {post.post_content.replace(/<br\s*[/]?>/gi, "\n")}
               </Card.Text>
               <div
