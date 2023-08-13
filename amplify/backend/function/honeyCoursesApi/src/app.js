@@ -6,9 +6,6 @@ or in the "license" file accompanying this file. This file is distributed on an 
 See the License for the specific language governing permissions and limitations under the License.
 */
 
-
-
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
@@ -53,7 +50,7 @@ app.use(morganMiddleware);
 app.use('/', coursesRouter);
 
 app.listen(3000, function() {
-    console.log("Production- App started")
+    console.log("Dev- Backend started")
 });
 
 // Export the app object. When executing the application local this does nothing. However,
