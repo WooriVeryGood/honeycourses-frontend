@@ -30,7 +30,7 @@
     <a href="https://github.com/1524101973">배호진 💻</a>
   </td>
   <td align="center">
-    <a href="https://github.com/hyewon02"><img height="150px" width="150px" src=""/></a>
+    <a href="https://github.com/hyewon02"><img height="150px" width="150px" src="https://avatars.githubusercontent.com/u/107465569?v=4"/></a>
     <br />
     <a href="https://github.com/hyewon02">김혜원 💻</a>
   </td>
