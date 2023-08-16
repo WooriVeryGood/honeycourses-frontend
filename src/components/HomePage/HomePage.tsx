@@ -211,11 +211,6 @@ export default function HomePage() {
                         3. AWS Amplify로 서버 서비스 이전.
                       </div><br />
                       <div>
-                        <strong>Release@2023.08.14:</strong> <br></br>
-                        1. 1.1.0c 버전 정식 릴리즈. <br />
-                        2. 새내기 개발자 추가.
-                      </div><br />
-                      <div>
                         <strong>Release@2023.08.13:</strong> <br></br>
                         1. 커뮤니티 베타 기능 추가.
                       </div>
