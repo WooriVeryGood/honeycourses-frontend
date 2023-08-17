@@ -1,83 +1,192 @@
 .slogan {
     display: inline-block;
-    width: 55%;
+    width: 50%;
     font-family: 'Gowun Dodum', sans-serif;
     font-size: 80px;
-    margin-top: 10px;
-    margin-left: 140px;
+    margin-left: 9%;
     word-spacing: 6px;
 }
 
-.support-us{
+.support-us {
     display: inline-block;
-    width: 40%;
+    width: 39%;
+    margin-left: 2%;
     margin-top: 4%;
 }
+.support-us p{
+    color: #807e87;
+    font-weight: bolder;
+    line-height: 30px;
+}
 
-.support-button{
-    margin-top: 15px;
-    border-radius:20px;
+.support-button {
+    margin-top: 1%;
+    border-radius: 20px;
     width: 150px;
     height: 40px;
     color: white;
-    background-color:#19282F;
-    border:none;
+    background-color: #19282F;
+    border: none;
     cursor: pointer;
 }
 
+.about-box{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-gap: 10px;
+}
+
+.st-box{
+    display: grid;
+    grid-gap: 10px;
+}
+
 .main-about {
-    position: absolute;
-    display: inline-block;
-    margin-top: 30px;
-    width: 60%;
-    height: 94.5%;
     border: 2.5px solid black;
     border-radius: 25px;
     background-color: #19282F;
     color: white;
 }
 
-.woori-button{
+.lead{
+    margin:50px;
+}
+.lead strong{
+    font-size: 32px;
+}
+
+.lead p{
+    color: #dfdee2;
+    margin-top: 90px;
+}
+.woori-button {
     margin-bottom: 50px;
-    border-radius:20px;
+    border-radius: 20px;
     width: 180px;
     height: 40px;
     color: black;
     font-weight: bolder;
-    background-color:rgb(80, 203, 147);
-    border:none;
+    background-color: rgb(80, 203, 147);
+    border: none;
     cursor: pointer;
 }
 
 .second-about {
-    display: inline-block;
-    margin-left: 10px;
-    width: 100%;
-    height: 53%;
     border: 2.5px solid black;
     border-radius: 25px;
     background-color: rgb(80, 203, 147);
 }
 
+.second-about p{
+    font-size: 20px;
+    margin: 4%;
+    font-weight: bolder;
+}
+
 .third-about {
-    display: inline-block;
-    margin-left: 10px;
-    margin-top: 10px;
-    width: 100%;
-    height: 45%;
     border: 2.5px solid black;
     border-radius: 25px;
     background-color: white;
 }
+.third-about p{
+    font-size: 20px;
+    margin: 30px;
+    font-weight: bolder;
+}
 
-.repo-button{
+.repo-button {
     margin-top: 20px;
     margin-left: 30px;
-    border-radius:20px;
+    border-radius: 20px;
     width: 150px;
     height: 40px;
     color: white;
-    background-color:#19282F;
-    border:none;
+    background-color: #19282F;
+    border: none;
     cursor: pointer;
+}
+
+@media (min-width:991px){
+    .about-box{
+        grid-template-columns: repeat(5,1fr);
+    }
+    .main-about{
+        grid-column: 1/4;
+    }
+    .st-box{
+        grid-column: 4/6;
+    }
+}
+
+@media(min-width:1252px)and (max-width: 1629px){
+    .slogan{
+        font-size: 60px;
+    }
+    .support-us{
+        margin-top: 1%;
+    }
+}
+
+@media(max-width:1251px){
+    .slogan{
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        text-align: center;
+    }
+    .support-us{
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        text-align: center;
+    }
+}
+
+@media(max-width:831px){
+    .slogan{
+        font-size: 30px;
+    }
+    .support-us p{
+        font-size: 12px;
+        line-height: 20px;
+    }
+    .support-button {
+        width: 120px;
+        height: 32px;
+    }
+    .woori-button {
+        margin-bottom: 20px;
+        width: 150px;
+        height: 32px;
+        font-size: 18px;
+    }
+    .lead{
+        margin: 20px;
+    }
+    .lead strong{
+        font-size: 18px;
+    }
+    .lead p{
+        font-size: 12px;
+        margin-top: 30px;
+    }
+    .second-about p{
+        margin: 20px;
+        font-size: 18px;
+    }
+    .third-about p{
+        font-size: 18px;
+        margin: 20px;
+        margin-top: 0;
+        font-weight: bolder;
+    }
+    .repo-button {
+        margin-bottom: 20px;
+        margin-left: 20px;
+        width: 135px;
+        height: 32px;
+        font-size: 18px;
+
+    }
 }
