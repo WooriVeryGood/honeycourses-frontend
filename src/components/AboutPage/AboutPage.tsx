@@ -1,6 +1,6 @@
 import PageView from "../PageView/PageView";
 import { Container } from "react-bootstrap";
-import "./AboutPage.css";
+import "./AboutPage.module.css";
 import { useNavigate } from "react-router-dom";
 import Image from "react-bootstrap/Image";
 import { relative } from "path";
