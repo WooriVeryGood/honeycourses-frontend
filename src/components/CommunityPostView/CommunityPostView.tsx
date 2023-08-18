@@ -68,6 +68,20 @@ export default function CommunityPostView() {
   const postId = window.location.pathname.split("/").pop();
 
   const commentColors = [
+    "#91C8E4",//파
+    "#EAC696",//갈
+    "#C8E4B2",//초
+    "#D8D9DA",//회
+    "#FFE17B",//노
+    "#DFCCFB",//보
+    "#E19898",//핑
+    "#33BBC5",//파
+    "#A8DF8E",//초
+    "#EBE76C",//겨
+    "#5C5470",//짙회
+    "#A6E3E9",//하
+    "#E3FDFD",//연하
+    "#A6B1E1",//연남
     "#d9e1fc",
     "#edd9f2",
     "#d9f2e5",
@@ -82,18 +96,6 @@ export default function CommunityPostView() {
     "#4FC3F7",
     "#4DD0E1",
     "#4DB6AC",
-    "#B39DDB",
-    "#FF8A80",
-    "#90A4AE",
-    "#C5E1A5",
-    "#E6EE9C",
-    "#80DEEA",
-    "#80CBC4",
-    "#FFE0B2",
-    "#B3E5FC",
-    "#B2DFDB",
-    "#E1BEE7",
-    "#F8BBD0",
   ];
 
   const getCommentBackgroundColor = (
