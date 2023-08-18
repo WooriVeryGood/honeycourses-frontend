@@ -1,9 +1,8 @@
 import PageView from "../PageView/PageView";
 import { Container } from "react-bootstrap";
-import "./AboutPage.module.css";
+import styles from "./AboutPage.module.css";
 import { useNavigate } from "react-router-dom";
 import Image from "react-bootstrap/Image";
-import { relative } from "path";
 
 export default function AboutPage() {
   const navigate = useNavigate();
@@ -13,17 +12,16 @@ export default function AboutPage() {
   return (
     <PageView>
       <Container>
-
-        <h1 className="slogan">
+        <h1 className={styles.slogan}>
           소통의 중심에서,<br></br>
           &emsp;답변 받았습니다.
         </h1>
-        <div className="support-us">
+        <div className={styles.supportUs}>
           <p>
             원활한 웹사이트 운영을 위해 학우분들의 도움이 필요합니다! <br></br>
             자세한 사항은 Support Us! 페이지를 참고해주세요 :)
           </p>
-          <button className="support-button" onClick={navigateToSupport}>
+          <button className={styles.supportButton} onClick={navigateToSupport}>
             Support Us
           </button>
         </div>
@@ -39,11 +37,11 @@ export default function AboutPage() {
           <hr style={{ border: "none", borderTop: "3px dotted blue", color: "#fff", backgroundColor: "#fff", height: "1px", width: "100%", marginTop: "37px" }}></hr>
         </div>
 
-        <div className="about-box" style={{ position: "relative", top: "-5px" }}>
+        <div className={styles.aboutBox} style={{ position: "relative", top: "-5px" }}>
 
-          <div className="main-about">
-            <p className="lead">
-              <button className="woori-button" onClick={() => { window.open("https://github.com/WooriVeryGood") }}>
+          <div className={styles.mainAbout}>
+            <p className={styles.lead}>
+              <button className={styles.wooriButton} onClick={() => { window.open("https://github.com/WooriVeryGood") }}>
                 WooriVeryGood
               </button><br></br>
               <strong>
@@ -62,8 +60,8 @@ export default function AboutPage() {
 
           </div>
 
-          <div className="st-box">
-            <div className="second-about">
+          <div className={styles.stBox}>
+            <div className={styles.secondAbout}>
               <p>
                 학기 초마다 한국 학우들의 수강 경험과 평가를 듣기 위해 수없이 많은
                 질문들이 북전교에 올라오지만, 90% 이상의 질문은 저희의 경험상{" "}
@@ -76,8 +74,8 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="third-about">
-              <button className="repo-button" onClick={() => { window.open("https://github.com/WooriVeryGood/honeycourses-frontend") }}>
+            <div className={styles.thirdAbout}>
+              <button className={styles.repoButton} onClick={() => { window.open("https://github.com/WooriVeryGood/honeycourses-frontend") }}>
                 Github Repo
               </button>
               <p>

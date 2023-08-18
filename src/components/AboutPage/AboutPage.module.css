@@ -7,19 +7,19 @@
     word-spacing: 6px;
 }
 
-.support-us {
+.supportUs {
     display: inline-block;
     width: 39%;
     margin-left: 2%;
     margin-top: 4%;
 }
-.support-us p{
+.supportUs p{
     color: #807e87;
     font-weight: bolder;
     line-height: 30px;
 }
 
-.support-button {
+.supportButton {
     margin-top: 1%;
     border-radius: 20px;
     width: 150px;
@@ -30,19 +30,19 @@
     cursor: pointer;
 }
 
-.about-box{
+.aboutBox{
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     grid-gap: 10px;
 }
 
-.st-box{
+.stBox{
     display: grid;
     grid-gap: 10px;
 }
 
-.main-about {
+.mainAbout {
     border: 2.5px solid black;
     border-radius: 25px;
     background-color: #19282F;
@@ -60,7 +60,7 @@
     color: #dfdee2;
     margin-top: 90px;
 }
-.woori-button {
+.wooriButton {
     margin-bottom: 50px;
     border-radius: 20px;
     width: 180px;
@@ -72,30 +72,30 @@
     cursor: pointer;
 }
 
-.second-about {
+.secondAbout {
     border: 2.5px solid black;
     border-radius: 25px;
     background-color: rgb(80, 203, 147);
 }
 
-.second-about p{
+.secondAbout p{
     font-size: 20px;
     margin: 4%;
     font-weight: bolder;
 }
 
-.third-about {
+.thirdAbout {
     border: 2.5px solid black;
     border-radius: 25px;
     background-color: white;
 }
-.third-about p{
+.thirdAbout p{
     font-size: 20px;
     margin: 30px;
     font-weight: bolder;
 }
 
-.repo-button {
+.repoButton {
     margin-top: 20px;
     margin-left: 30px;
     border-radius: 20px;
@@ -108,13 +108,13 @@
 }
 
 @media (min-width:991px){
-    .about-box{
+    .aboutBox{
         grid-template-columns: repeat(5,1fr);
     }
-    .main-about{
+    .mainAbout{
         grid-column: 1/4;
     }
-    .st-box{
+    .stBox{
         grid-column: 4/6;
     }
 }
@@ -123,7 +123,7 @@
     .slogan{
         font-size: 60px;
     }
-    .support-us{
+    .supportUs{
         margin-top: 1%;
     }
 }
@@ -135,7 +135,7 @@
         margin-left: 0;
         text-align: center;
     }
-    .support-us{
+    .supportUs{
         display: block;
         width: 100%;
         margin-left: 0;
@@ -147,15 +147,15 @@
     .slogan{
         font-size: 30px;
     }
-    .support-us p{
+    .supportUs p{
         font-size: 12px;
         line-height: 20px;
     }
-    .support-button {
+    .supportButton {
         width: 120px;
         height: 32px;
     }
-    .woori-button {
+    .wooriButton {
         margin-bottom: 20px;
         width: 150px;
         height: 32px;
@@ -171,17 +171,17 @@
         font-size: 12px;
         margin-top: 30px;
     }
-    .second-about p{
+    .secondAbout p{
         margin: 20px;
         font-size: 18px;
     }
-    .third-about p{
+    .thirdAbout p{
         font-size: 18px;
         margin: 20px;
         margin-top: 0;
         font-weight: bolder;
     }
-    .repo-button {
+    .repoButton {
         margin-bottom: 20px;
         margin-left: 20px;
         width: 135px;
