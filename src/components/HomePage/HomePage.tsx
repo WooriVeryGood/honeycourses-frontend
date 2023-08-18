@@ -218,6 +218,10 @@ export default function HomePage() {
                       <div>
                         <strong>Release@2023.08.13:</strong> <br></br>
                         1. 커뮤니티 베타 기능 추가.
+                      </div><br />
+                      <div>
+                        <strong>Release@2023.08.18:</strong> <br></br>
+                        1. 댓글 색깔 변경.
                       </div>
                     </div>
                   </Collapse>
