@@ -4,6 +4,7 @@ on:
   push:
     branches-ignore:
       - main
+      - dev
 
 jobs:
   deploy:
@@ -23,6 +24,6 @@ jobs:
         with:
           target_branch: gh-pages
           build_dir: build
-          fqdn: dev.honeycourses.com
+          
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
