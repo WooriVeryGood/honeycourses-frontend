@@ -70,7 +70,7 @@ export function Login() {
                   return {
                     acknowledgement:
                       "올바른 학번@pku.edu.cn 이메일을 입력해주세요",
-                    descriptiveText: "(21학번부터는 학번@stu.pku.edu.cn 형식입니다)"
+                    descriptiveText: "(20학번부터는 학번@stu.pku.edu.cn 형식입니다)"
                   };
                 }
               },
