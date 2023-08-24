@@ -1,0 +1,414 @@
+/* 폰트 추가 */
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 헤더 */
+.supportHeader{
+    width: 100%;
+    height: 30%;
+    text-align: center;
+}
+.lead{
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 60px;
+    line-height: 120%;
+    margin-bottom: 2%;
+}
+.supportHeader>div{
+    font-family: 'Gowun Dodum', sans-serif;
+    color: #807e87;
+    font-size: 20px;
+    line-height: 90%;
+}
+.hl{
+    background: linear-gradient(to top, #FFE400 50%, transparent 50%);
+}
+
+/* 본문 */
+.mainBox{
+    width: 100%;
+    height: 80%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+}
+.contents{
+    grid-column: 1/3;
+    width: 100%;
+    height: 70%;
+    margin: auto;
+    position: relative;
+    display: flex;
+    top: -10%;
+}
+.rightLong{
+    grid-column: 3/4;
+}
+
+/* contents 소속 */
+.firstBox{
+    align-items: center;
+    font-family: 'NanumSquareNeo-Variable';
+    position: absolute;
+    left: 15%;
+    width: 80%;
+    height: 90%;
+    background-color: #122f48;
+    display: flex;
+    border: .15vw solid black;
+    border-radius: 25px;
+    font-size: 1rem;
+}
+.firstBox>div{
+    margin: 5%;
+    align-items: center;
+}
+.firstBox>div>p{
+    margin-top: 7%;
+    font-size: 1.1em;
+    color: #cccccc;
+}
+.firstBox>div>strong{
+    font-size: 2.2em;
+    color: #ffffff;
+    
+}
+.firstBox>div>strong>div{
+    position: relative;
+}
+.circle{
+    width: 100%;
+    height: 10%;
+}
+.myCircle1{
+    position: absolute;
+    top: 12%;
+    left: 6%;
+    width: 2em;
+    height: 2em;
+    border: .08em solid black;
+    border-radius: 50%;
+}
+.myCircle2{
+    position: absolute;
+    left: 8%;
+    top: 8%;
+    width: 2.8em;
+    height: 2.8em;
+    border: .07 solid black;
+    border-radius: 50%;
+    background-color:  #ff9900;
+}
+
+.secondBox{
+    align-items: center;
+    font-family: 'NanumSquareNeo-Variable';
+    position: absolute;
+    top: 10%;
+    left: 15%;
+    width: 80%;
+    height: 90%;
+    background-color: #122f48;
+    display: flex;
+    border: 2.5px solid black;
+    border-radius: 25px;
+    font-size: 1rem;
+}
+.secondBox>div{
+    margin: 5%;
+    align-items: center;
+}
+.secondBox>div>ul{
+    margin-top: 7%;
+    font-size: 1em;
+    color: #cccccc;
+}
+.secondBox>div>strong{
+    font-size: 2.2em;
+    color: #ffffff; 
+}
+.secondBox>div>strong>div{
+    position: relative;
+}
+.bottomDotted{
+    border-bottom-width: 1;
+    border-bottom-color: #ff9900;
+    border-bottom-style: dotted;
+}
+
+.thirdBox{
+    align-items: center;
+    font-family: 'NanumSquareNeo-Variable';
+    position: absolute;
+    top: 20%;
+    left: 15%;
+    width: 80%;
+    height: 90%;
+    background-color: #122f48;
+    display: flex;
+    border: 2.5px solid black;
+    border-radius: 25px;
+    font-size: 1rem;
+}
+.thirdBox>div{
+    margin: 5%;
+    align-items: center;
+}
+.thirdBox>div>ul{
+    margin-top: 7%;
+    font-size: .85vw;
+    color: #cccccc;
+    font-size: 1.1em;
+}
+.thirdBox>div>strong{
+    font-size: 2.2em;
+    color: #ffffff;
+    font-size: 2.2em;
+}
+.thirdBox>div>strong>div{
+    position: relative;
+}
+.hl2{
+    background: linear-gradient(to top, #0066CC 50%, transparent 50%);
+}
+li{
+    margin-bottom: 2%;
+}
+
+/* 티켓모양 */
+.rightLong>div{
+    width: 60%;
+    height: 100%;
+}
+.flight{
+    box-shadow: 0px 2px  4px #b7b8bb;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+.flight>div>p{
+    margin: 15%;
+    font-size: 12px;
+    color: #74707d;
+    text-align: center;
+}
+.flight>div>p>strong{
+    font-size: 25px;
+    color: black;
+}
+.flight>div{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+}
+
+.seat{
+    box-shadow: 0px 2px  4px #b7b8bb;
+}
+.seat>div>p{
+    margin: 15%;
+    font-size: 12px;
+    color: #74707d;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.seat>div>p>strong{
+    font-size: 35px;
+    color: black;
+    
+}
+.seat>div{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+}
+.t1{
+    grid-column: 1/2;
+}
+.g2{
+    grid-column: 2/3;
+}
+.sA{
+    grid-column: 3/4;
+}
+
+.check{
+    font-family: 'NanumSquareNeo-Variable';
+    font-size: 20px;
+    font-weight: bolder;
+    border: 2.5px solid black;
+    border-top: 1px dashed black;
+    border-radius: 25px;
+    background-color: #f7f9fb;
+    
+}
+.qrCode{
+    border: 2.5px solid black;
+    border-radius: 25px;
+    text-align: center;
+    border-bottom: 1px dashed black;
+    background-color: #f7f9fb;
+}
+.codeImg{
+    margin: 7% 0;
+}
+.qrPay{
+    margin: 10%;
+}
+
+/* 반응형 */
+@media (max-width:1368px){
+    .firstBox{
+        font-size: .8rem;
+    }
+    .secondBox{
+        font-size: .8rem;
+    }
+    .thirdBox{
+        font-size: .8rem;
+    }
+}
+@media(max-width:990px){
+    .secondBox{
+        font-size: .75rem;
+    }
+    .thirdBox{
+        font-size: .75rem;
+    }
+
+    .supportHeader{
+        height: 25vw;
+    }
+    .lead{
+        font-size: 5.5vw;
+    }
+    .supportHeader>div{
+        font-size: 2.5vw;
+    }
+    
+    .mainBox{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        position: relative;
+        top: -5px;
+    }
+    .contents{
+        grid-column: 1/2;
+        grid-row: 1/2;
+    }
+    .rightLong{
+        grid-column: 1/2;
+        grid-row: 2/3;
+    }
+    
+    .firstBox{
+        left: 10%;
+    }
+
+    .secondBox{
+        left: 10%;
+    }
+    .thirdBox{
+        left: 10%;
+    }
+    
+    .rightLong>div{
+        margin: 0 20%;
+    }
+    
+}
+@media(max-width:725px){
+    .mainBox{
+        height: 200vw;
+    }
+}
+@media(max-width:625px){
+    .mainBox{
+        height: 250vw;
+    }
+    .firstBox>div>strong{
+        font-size: 2em;
+        font-weight: lighter;
+    }
+    .secondBox>div>strong{
+        font-size: 2em;
+        font-weight: lighter;
+    }
+    .thirdBox>div>strong{
+        font-size: 2em;
+        font-weight: lighter;
+    }
+}
+@media(max-width:495px){
+    .mainBox{
+        height: 300vw;
+    }
+    .secondBox{
+        height: 110%;
+    }
+    .thirdBox{
+        height: 110%;
+    }
+    .firstBox>div>strong{
+        font-size: 1.9em;
+    }
+    .secondBox>div>strong{
+        font-size: 1.9em;
+    }
+    .thirdBox>div>strong{
+        font-size: 1.9em;
+    }
+    .rightLong>div{
+        width: 80%;
+        margin: 0 10%;
+    }
+    .flight>div>p{
+        font-size: 10px;
+    }
+    .flight>div>p>strong{
+        font-size: 20px;
+    }
+    
+    .seat>div>p{
+        font-size: 10px;
+    }
+    .seat>div>p>strong{
+        font-size: 25px;
+    }
+    .qrPay{
+        font-size: 15px;
+    }
+}
+@media(max-width:415px){
+    .mainBox{
+        height: 300vw;
+    }
+    .firstBox{
+        font-size: .7rem;
+    }
+    .firstBox>div>strong{
+        font-size: 1.8em;
+        font-weight: lighter;
+    }
+    .secondBox{
+        height: 110%;
+        font-size: .7rem;
+    }
+    .secondBox>div>strong{
+        font-weight: lighter;
+        font-size: 1.5em;
+    }
+    .thirdBox{
+        height: 110%;
+        font-size: .7rem;
+    }
+    .thirdBox>div>strong{
+        font-weight: lighter;
+        font-size: 1.5em;
+    }
+}
