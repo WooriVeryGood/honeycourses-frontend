@@ -215,8 +215,8 @@ export default function HomePage() {
                         1. 커뮤니티 베타 기능 추가.
                       </div><br />
                       <div>
-                        <strong>Release@2023.08.18:</strong> <br></br>
-                        1. 댓글 색깔 변경.
+                        <strong>Release@2023.08.30:</strong> <br></br>
+                        1. 커뮤니티 카테고리별 분류 기능 추가.
                       </div>
                     </div>
                   </Collapse>
