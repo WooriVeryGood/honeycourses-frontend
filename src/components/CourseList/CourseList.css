@@ -1,5 +1,6 @@
 .nav-link {
     color: black;
+    width: 80px;
 }
 
 .nav-link:enabled {
@@ -9,5 +10,5 @@
 .btn-primary:enabled {
     background-color: #43A680;
     border-color: #43A680;
-    color:white
+    color:white;
 }
