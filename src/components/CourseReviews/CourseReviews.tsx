@@ -32,7 +32,17 @@ export default function CourseReviews() {
   const courseId = window.location.pathname.split("/").pop();
   const navigate = useNavigate();
 
-  const handleUpvote = (reviewId: number) => {
+  const handleUpvote = async (reviewId: number) => {
+    const jwtToken = await getCognitoToken();
+    if (!jwtToken) {
+      console.error("Cognito token not available");
+      return;
+    }
+  
+    const headers = {
+      Authorization: `Bearer ${jwtToken}`,
+    };
+  
     const updatedReviews = reviews.map((review) => {
       if (review.review_id === reviewId) {
         return {
@@ -43,16 +53,31 @@ export default function CourseReviews() {
         return review;
       }
     });
+  
     setReviews(updatedReviews);
-    axios.post(`${apiUrl}/courses/${courseId}/reviews/${reviewId}`, {
-      reviewPoint: updatedReviews.find(
-        (review) => review.review_id === reviewId
-      )?.review_point,
-    });
-    localStorage.setItem(`${reviewId}`, "vote");
+    try {
+      await axios.post(`${apiUrl}/courses/${courseId}/reviews/${reviewId}`, {
+        reviewPoint: updatedReviews.find(
+          (review) => review.review_id === reviewId
+        )?.review_point,
+      }, { headers });
+      localStorage.setItem(`${reviewId}`, "vote");
+    } catch (error) {
+      console.error('Error upvoting review:', error);
+    }
   };
-
-  const handleDownvote = (reviewId: number) => {
+  
+  const handleDownvote = async (reviewId: number) => {
+    const jwtToken = await getCognitoToken();
+    if (!jwtToken) {
+      console.error("Cognito token not available");
+      return;
+    }
+  
+    const headers = {
+      Authorization: `Bearer ${jwtToken}`,
+    };
+  
     const updatedReviews = reviews.map((review) => {
       if (review.review_id === reviewId) {
         return {
@@ -63,14 +88,20 @@ export default function CourseReviews() {
         return review;
       }
     });
+  
     setReviews(updatedReviews);
-    axios.post(`${apiUrl}/courses/${courseId}/reviews/${reviewId}`, {
-      reviewPoint: updatedReviews.find(
-        (review) => review.review_id === reviewId
-      )?.review_point,
-    });
-    localStorage.setItem(`${reviewId}`, "vote");
+    try {
+      await axios.post(`${apiUrl}/courses/${courseId}/reviews/${reviewId}`, {
+        reviewPoint: updatedReviews.find(
+          (review) => review.review_id === reviewId
+        )?.review_point,
+      }, { headers });
+      localStorage.setItem(`${reviewId}`, "vote");
+    } catch (error) {
+      console.error('Error downvoting review:', error);
+    }
   };
+  
 
 const getCognitoToken = async () => {
     try {
@@ -82,14 +113,12 @@ const getCognitoToken = async () => {
     }
   };
 
-  // Rest of the component...
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
-        const jwtToken = await getCognitoToken(); // Retrieve Cognito token
+        const jwtToken = await getCognitoToken(); 
         if (!jwtToken) {
-          // Handle the case where token retrieval failed
           console.error("Cognito token not available");
           setIsLoading(false);
           return;
@@ -99,7 +128,6 @@ const getCognitoToken = async () => {
           Authorization: `Bearer ${jwtToken}`,
         };
 
-        // Make the API requests with headers
         Promise.all([
           axios.get(`${apiUrl}/courses/${courseId}/reviews`, { headers }),
           axios.get(`${apiUrl}/courses/${courseId}/name`, { headers }),
