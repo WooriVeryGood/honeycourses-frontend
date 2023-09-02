@@ -161,7 +161,7 @@ function CourseList() {
                   <ul className={styles.categories}>
                     <li className="nav-item">
                       <button
-                        className={`nav-link btn ${selectedCategory === "All" && !showYouguan
+                        className={`navLink nav-link btn ${selectedCategory === "All" && !showYouguan
                           ? "btn-primary"
                           : ""
                           }`}
@@ -172,7 +172,7 @@ function CourseList() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`nav-link btn ${selectedCategory === "通选课" ? "btn-primary" : ""
+                        className={`navLink nav-link btn ${selectedCategory === "通选课" ? "btn-primary" : ""
                           }`}
                         onClick={() => handleSelectCategory("通选课")}
                       >
@@ -181,7 +181,7 @@ function CourseList() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`nav-link btn ${selectedCategory === "体育课" ? "btn-primary" : ""
+                        className={`navLink nav-link btn ${selectedCategory === "体育课" ? "btn-primary" : ""
                           }`}
                         onClick={() => handleSelectCategory("体育课")}
                       >
@@ -190,7 +190,7 @@ function CourseList() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`nav-link btn ${selectedCategory === "专业课" ? "btn-primary" : ""
+                        className={`navLink nav-link btn ${selectedCategory === "专业课" ? "btn-primary" : ""
                           }`}
                         onClick={() => handleSelectCategory("专业课")}
                       >
@@ -199,7 +199,7 @@ function CourseList() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`nav-link btn ${selectedCategory === "公选课" ? "btn-primary" : ""
+                        className={`navLink nav-link btn ${selectedCategory === "公选课" ? "btn-primary" : ""
                           }`}
                         onClick={() => handleSelectCategory("公选课")}
                       >
@@ -208,7 +208,7 @@ function CourseList() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`nav-link btn ${selectedCategory === "英语课" ? "btn-primary" : ""
+                        className={`navLink nav-link btn ${selectedCategory === "英语课" ? "btn-primary" : ""
                           }`}
                         onClick={() => handleSelectCategory("英语课")}
                       >
@@ -217,7 +217,7 @@ function CourseList() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`nav-link btn ${showYouguan ? "btn-primary" : ""
+                        className={`navLink nav-link btn ${showYouguan ? "btn-primary" : ""
                           }`}
                         onClick={handleShowYouguan}
                       >
