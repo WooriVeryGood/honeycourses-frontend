@@ -63,6 +63,7 @@
     margin-top: 90px;
 }
 .wooriButton {
+    font-family: none;
     margin-bottom: 50px;
     border-radius: 20px;
     width: 180px;
