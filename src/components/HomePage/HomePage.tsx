@@ -9,7 +9,7 @@ import Typewriter from "typewriter-effect";
 import { CSSTransition } from "react-transition-group";
 import "./HomePage.css";
 import { Link } from "react-router-dom";
-import { Auth } from 'aws-amplify';
+import { Auth } from "aws-amplify";
 
 interface Course {
   course_id: string;
@@ -37,7 +37,9 @@ export default function HomePage() {
         const headers = {
           Authorization: `Bearer ${jwtToken}`,
         };
-        const response = await axios.get<Course[]>(`${apiUrl}/courses`, { headers });
+        const response = await axios.get<Course[]>(`${apiUrl}/courses`, {
+          headers,
+        });
         setCourses(response.data);
       } catch (error) {
         console.error("Error fetching courses:", error);
@@ -194,36 +196,48 @@ export default function HomePage() {
                   안내를 읽어주세요.<br></br>
                 </p>
 
+                <Alert key="update" variant="success">
+                    커뮤니티 베타 서비스가 종료되었습니다. 추후 서비스 정식 출시 시 북전교에 공지될 예정입니다. 베타 서비스에 참여해주신 여러분들께 감사드립니다:)
+                </Alert>
+
                 <Alert key="update" variant="info">
                   <Alert.Link href="#" onClick={() => setOpen(!open)}>
-                    &gt; 업데이트 내역 확인 (최신 업데이트: 2023.8.13)
+                    &gt; 업데이트 내역 확인 (최신 업데이트: 2023.09.07)
                   </Alert.Link>
                   <Collapse in={open}>
                     <div id="update-log">
                       <div>
                         <strong>Release@2023.06.25:</strong> <br></br>
                         1. 1.0.0 버전 정식 릴리즈.
-                      </div><br />
+                      </div>
+                      <br />
                       <div>
                         <strong>Release@2023.07.28:</strong> <br></br>
                         1. 1.1.0b 버전 정식 릴리즈. <br />
                         2. 로그인 기능 추가. <br />
                         3. AWS Amplify로 서버 서비스 이전.
-                      </div><br />
+                      </div>
+                      <br />
                       <div>
                         <strong>Release@2023.08.13:</strong> <br></br>
                         1. 커뮤니티 베타 기능 추가.
-                      </div><br />
+                      </div>
+                      <br />
                       <div>
                         <strong>Release@2023.08.30:</strong> <br></br>
                         1. 커뮤니티 카테고리별 분류 기능 추가.
                       </div>
+                      <br />
+                      <div>
+                        <strong>Release@2023.09.07:</strong> <br></br>
+                        1. UI 전면적 리디자인.<br />
+                        2. 커뮤니티 베타 서비스 종료.<br />
+                        3. 강의평가 작성 이벤트 공지 추가.
+                      </div>
                     </div>
                   </Collapse>
                 </Alert>
-                <p>
-                  Made with 💙 by @우리잘했조.
-                </p>
+                <p>Made with 💙 by @우리잘했조.</p>
               </figure>
             </div>
           </CSSTransition>

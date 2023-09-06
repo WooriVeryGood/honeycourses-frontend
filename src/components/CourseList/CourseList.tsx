@@ -1,16 +1,16 @@
-import React, { useState, useEffect, Children } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import PageView from "../PageView/PageView";
-import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 import axios from "axios";
 import "./CourseList.css";
-import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
-import { Auth } from 'aws-amplify';
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { Auth } from "aws-amplify";
 import styles from "./CourseList.module.css";
-import items from "./sidebar.json" // 전공 목록
+import items from "./sidebar.json"; // 전공 목록
+import { Alert, Collapse, ListGroup } from "react-bootstrap";
 
 interface Course {
   course_id: string;
@@ -23,9 +23,6 @@ interface Course {
 
 const apiUrl = process.env.REACT_APP_API_URL;
 function CourseList() {
-  const { route } = useAuthenticator((context) => [context.route]);
-  const { user, signOut } = useAuthenticator((context) => [context.user]);
-  const { authStatus } = useAuthenticator(context => [context.authStatus]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,20 +30,32 @@ function CourseList() {
   const [layoutRightTitle, setTitle] = useState("All"); //오른쪽 layout 제목 설정
   const [majorBtn, selectBtn] = useState(""); // 专业课버튼만 추리기
   const [open, setOpen] = useState(false); // 전공 사이드바 화살표 방향
+  const [eventOpen, setEventOpen] = useState(false); // 이벤트 배너 토글
   const [selectedMajor, setSelectedMajor] = useState("专业"); // 전공 버튼 선택
   const [majorOpen, setMajorOpen] = useState(false);
+  const [searchCourses, setSearchCourses] = useState<Course[]>([]); //검색 기능
+  const [searchInput, setSearchInput] = useState(""); //검색 기능
 
   //전공별 분류
-  const filterdMajors =
-    courses.filter(
-      (course: any) =>
-        course.kaikeYuanxi === selectedMajor
-    );
+  const filterdMajors = courses.filter(
+    (course: any) => course.kaikeYuanxi === selectedMajor
+  );
 
   const handleSelectMajor = (major: string) => {
     setMajorOpen(true); // 전공별 버튼 누르면 강의목록 카테고리별 분류 숨김
     setSelectedMajor(major);
-    setOpen(!open)
+    setOpen(!open);
+  };
+
+  // 검색 기능
+  const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    setSearchInput(inputValue);
+
+    const filtered = courses.filter((course) =>
+      course.course_name.toLowerCase().includes(inputValue.toLowerCase())
+    );
+    setSearchCourses(filtered);
   };
 
   // 전공 선택 기능
@@ -56,21 +65,23 @@ function CourseList() {
         return (
           <div className={open ? styles.open : styles.sidebarItem}>
             <div className={styles.sidebarTitle}>
-              <span>
-                {selectedMajor}
-              </span>
+              <span>{selectedMajor}</span>
               <i className="bi-chevron-down" onClick={() => setOpen(!open)}></i>
             </div>
             <div className={styles.sidebarContent}>
-              {props.item.childrens.map((child: any, index: Number) => <MyMajor key={index} Selectmajor={"전공"} item={child} />)}
+              {props.item.childrens.map((child: any, index: Number) => (
+                <MyMajor key={index} Selectmajor={"전공"} item={child} />
+              ))}
             </div>
           </div>
         );
-      }
-      else {
+      } else {
         return (
           <div>
-            <button className={styles.myMajorBtn} onClick={() => handleSelectMajor(props.item.title)}>
+            <button
+              className={styles.myMajorBtn}
+              onClick={() => handleSelectMajor(props.item.title)}
+            >
               {props.item.title}
             </button>
           </div>
@@ -86,8 +97,7 @@ function CourseList() {
     //专业课버튼만 추려내기
     if (category === "专业课") {
       selectBtn("전공");
-    }
-    else {
+    } else {
       selectBtn("");
     }
     setMajorOpen(false); // 강의 목록 버튼 누르면 전공별 분류 숨김
@@ -136,10 +146,10 @@ function CourseList() {
         ? courses.filter((course) => course.isYouguan)
         : courses
       : courses.filter(
-        (course) =>
-          course.course_category === selectedCategory &&
-          (!showYouguan || course.isYouguan)
-      );
+          (course) =>
+            course.course_category === selectedCategory &&
+            (!showYouguan || course.isYouguan)
+        );
 
   return (
     <div>
@@ -148,23 +158,21 @@ function CourseList() {
           fluid
           className="d-flex justify-content-center align-items-start"
         >
-
           <div className={styles.CourseListContainer}>
             <div className={styles.CourseListLeft}>
               <div className={styles.listLayout}>
                 <div>
-                  <h2>
-                    강의 목록
-                  </h2>
+                  <h2>강의 목록</h2>
                 </div>
                 <nav>
                   <ul className={styles.categories}>
                     <li className="nav-item">
                       <button
-                        className={`navLink nav-link btn ${selectedCategory === "All" && !showYouguan
-                          ? "btn-primary"
-                          : ""
-                          }`}
+                        className={`navLink nav-link btn ${
+                          selectedCategory === "All" && !showYouguan
+                            ? "btn-primary"
+                            : ""
+                        }`}
                         onClick={() => handleSelectCategory("All")}
                       >
                         All
@@ -172,8 +180,9 @@ function CourseList() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`navLink nav-link btn ${selectedCategory === "通选课" ? "btn-primary" : ""
-                          }`}
+                        className={`navLink nav-link btn ${
+                          selectedCategory === "通选课" ? "btn-primary" : ""
+                        }`}
                         onClick={() => handleSelectCategory("通选课")}
                       >
                         通选课
@@ -181,8 +190,9 @@ function CourseList() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`navLink nav-link btn ${selectedCategory === "体育课" ? "btn-primary" : ""
-                          }`}
+                        className={`navLink nav-link btn ${
+                          selectedCategory === "体育课" ? "btn-primary" : ""
+                        }`}
                         onClick={() => handleSelectCategory("体育课")}
                       >
                         体育课
@@ -190,8 +200,9 @@ function CourseList() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`navLink nav-link btn ${selectedCategory === "专业课" ? "btn-primary" : ""
-                          }`}
+                        className={`navLink nav-link btn ${
+                          selectedCategory === "专业课" ? "btn-primary" : ""
+                        }`}
                         onClick={() => handleSelectCategory("专业课")}
                       >
                         专业课
@@ -199,8 +210,9 @@ function CourseList() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`navLink nav-link btn ${selectedCategory === "公选课" ? "btn-primary" : ""
-                          }`}
+                        className={`navLink nav-link btn ${
+                          selectedCategory === "公选课" ? "btn-primary" : ""
+                        }`}
                         onClick={() => handleSelectCategory("公选课")}
                       >
                         公选课
@@ -208,8 +220,9 @@ function CourseList() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`navLink nav-link btn ${selectedCategory === "英语课" ? "btn-primary" : ""
-                          }`}
+                        className={`navLink nav-link btn ${
+                          selectedCategory === "英语课" ? "btn-primary" : ""
+                        }`}
                         onClick={() => handleSelectCategory("英语课")}
                       >
                         英语课
@@ -217,8 +230,9 @@ function CourseList() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`navLink nav-link btn ${showYouguan ? "btn-primary" : ""
-                          }`}
+                        className={`navLink nav-link btn ${
+                          showYouguan ? "btn-primary" : ""
+                        }`}
                         onClick={handleShowYouguan}
                       >
                         중국유관
@@ -229,17 +243,124 @@ function CourseList() {
               </div>
             </div>
 
-
             <div className={styles.CourseListRight}>
+              <Alert key="update" variant="info">
+                <Alert.Link href="#" onClick={() => setEventOpen(!eventOpen)}>
+                  🔥강의평가 작성 이벤트가 진행되고 있습니다!🔥 (눌러서 자세히
+                  보기)
+                </Alert.Link>
+                <Collapse in={eventOpen}>
+                  <div id="update-log">
+                    <br></br>
+                    🌟 选课 피크 기간에 맞춰, 우리잘했조는 한국인 학생회의
+                    지원과 함께 <strong>강의평가 작성 이벤트</strong>를 진행하고
+                    있습니다!!
+                    <br></br>
+                    <br></br>
+                    🔥본 이벤트의 규칙은 간단합니다! 현 시각부터 跨院系选课가
+                    시작되는 9월 13일까지 1주일의 기간동안, 웹사이트에 ✍
+                    <strong>가장 많은 강의평가를 작성해주신 한분</strong>✍께
+                    학생회 측에서 학생회측에서 기프티콘을 지급할 예정입니다!
+                    <br></br>
+                    <br></br>
+                    ✨이벤트 응모는 원줸{" "}
+                    <a
+                      href="https://wj.qq.com/s2/13081729/1df0"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      (링크)
+                    </a>{" "}
+                    을 통해 이루어지며, 학우분들께서는 리뷰를 최대한 많이
+                    작성하신 이후, 마감 기간인 9월 13일 오후 5시 전까지 본인이
+                    작성한 리뷰의 갯수를 작성하시고 해당 리뷰들의 스크린샷을
+                    첨부해주시면 완료됩니다! 스크린샷 촬영/첨부시 관련
+                    주의사항은 원줸을 참고해주세요.
+                    <br></br>
+                    <br></br>
+                    🎖경품을 지원해주신 학생회분들께 다시한번 감사드리며, 이번
+                    쉔커 기간만큼은, "답변 받았습니다!"로 채워지는 북전교 대신,
+                    이벤트를 통해 모두가 도움 받을수 있도록 시스템이 정착될 수
+                    있었으면 좋겠습니다:))
+                    <br></br>
+                    <br></br>
+                    많은 참여 부탁드립니다:)
+                  </div>
+                </Collapse>
+              </Alert>
+              <div>
+                <input
+                  className="form-control mr-sm-2"
+                  type="search"
+                  placeholder="수업 검색해보기"
+                  aria-label="Search"
+                  style={{ width: "100%", height: "50px" }}
+                  value={searchInput}
+                  onChange={handleSearchInputChange}
+                />
+
+                {searchInput && (
+                  <div className="d-flex justify-content-center">
+                    <div style={{ width: "90%" }}>
+                      <ListGroup>
+                        {searchCourses.map((course) => (
+                          <Link
+                            to={`/courses/view/${course.course_id}`}
+                            key={course.course_id}
+                            className="list-group-item"
+                          >
+                            <div className="d-flex justify-content-between align-items-center">
+                              <h5>
+                                {course.course_name}{" "}
+                                <Badge
+                                  bg="#236969"
+                                  style={{ backgroundColor: "#236969" }}
+                                >
+                                  {course.course_category}
+                                </Badge>{" "}
+                                <Badge
+                                  bg="#65C18C"
+                                  style={{ backgroundColor: "#65C18C" }}
+                                >
+                                  {course.kaikeYuanxi}
+                                </Badge>{" "}
+                                {course.isYouguan ? (
+                                  <Badge
+                                    className="rounded-pill"
+                                    bg="#FF7BA9"
+                                    style={{ backgroundColor: "#489CC1" }}
+                                  >
+                                    중국유관
+                                  </Badge>
+                                ) : null}
+                              </h5>
+                              <span className="text-body-secondary">
+                                {course.course_credit}학점
+                              </span>
+                            </div>
+                          </Link>
+                        ))}
+                      </ListGroup>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <br></br>
               <div className={styles.rightHeader}>
-                <div className={open? styles.openRightTitle: styles.rightTitle}>
+                <div
+                  className={open ? styles.openRightTitle : styles.rightTitle}
+                >
                   {layoutRightTitle}
                   <Button
                     href="/courses/addCourse"
                     className="my-auto align-self-center"
                     variant="success"
                     size="sm"
-                    style={{ marginLeft: "20px", backgroundColor: "#43A680", borderColor: "#43A680" }}
+                    style={{
+                      marginLeft: "20px",
+                      backgroundColor: "#43A680",
+                      borderColor: "#43A680",
+                    }}
                   >
                     <img
                       src="/images/plus.svg"
@@ -252,10 +373,14 @@ function CourseList() {
                   </Button>
                 </div>
                 <div className={styles.sidebar}>
-                  {items.map((item, index) => <MyMajor key={index} Selectmajor={majorBtn} item={item} />)}
+                  {items.map((item, index) => (
+                    <MyMajor key={index} Selectmajor={majorBtn} item={item} />
+                  ))}
                 </div>
               </div>
-              <div className={majorOpen ? styles.myReviews : styles.myMajorReviews}>
+              <div
+                className={majorOpen ? styles.myReviews : styles.myMajorReviews}
+              >
                 {/* 카테고리별 수업 분류 */}
                 <div className={styles.groupReviews}>
                   {filteredCourses.map((course) => (
@@ -346,15 +471,11 @@ function CourseList() {
                   ))}
                 </div>
               </div>
-
             </div>
-
-
           </div>
-
         </Container>
       </PageView>
-    </div >
+    </div>
   );
 }
 
