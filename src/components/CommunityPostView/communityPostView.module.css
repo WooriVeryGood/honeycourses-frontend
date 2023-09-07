@@ -1,0 +1,99 @@
+.card {
+    margin-bottom: 30px;
+    border-width: 0;
+    border-radius: 0;
+    width: 55%;
+    margin: 3% 23%;
+}
+
+.mainTop{
+    display: flex;
+    flex-direction: column;
+}
+.mainBottom{
+    display: flex;
+    border-bottom: 1px solid #a9aab0;
+}
+.sharp {
+    margin: 0 3%;
+    color: grey;
+    font-size: 15px;
+}
+
+.likeComment {
+    position: absolute;
+    bottom: -35px;
+    left: 15px;
+    display: flex;
+    align-items: center;
+    
+}
+
+.date {
+    color: grey;
+    font-size: 12px;
+}
+
+.cardText{
+    margin-top: 20px;
+    white-space: pre-wrap;
+    margin-bottom: 30px;
+    font-weight:600;
+}
+.cardTitle{
+    color: #43A680; 
+    font-weight: 800;
+    font-size: 1.7rem;
+}
+
+.comment{
+    width: 100%;
+    margin-top: 20px;
+    border-width: 0;
+    border-radius: 0;
+}
+.cardHeader{
+    display: flex;
+    gap: 10px
+}
+.author{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+@media(max-width:1170px){
+    .cardText{
+        margin-top: 20px;
+        
+    }
+    .likeComment {
+        position: absolute;
+        bottom: -25px;
+    }
+}
+@media(max-width:860px){
+    .likeComment {
+        position: absolute;
+        bottom: -15px;
+    }
+    .card {
+        width: 83%;
+        margin: 3% 10%;
+    }
+}
+@media(max-width:480px){
+    .likeComment {
+        position: absolute;
+        bottom: -5px;
+    }
+    .card {
+        width: 92%;
+        margin: 3% 5%;
+    }
+    .send{
+        font-size: 14px;
+    }
+    .cardTitle{
+        font-size: 1.5rem;
+    }
+}

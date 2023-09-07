@@ -14,8 +14,9 @@
     margin-top: 4%;
 }
 .supportUs p{
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 18px;
     color: #807e87;
-    font-weight: bolder;
     line-height: 30px;
 }
 
@@ -43,9 +44,10 @@
 }
 
 .mainAbout {
+    font-family: 'NanumSquareNeo-Variable';
     border: 2.5px solid black;
     border-radius: 25px;
-    background-color: #19282F;
+    background-color: #122f48;
     color: white;
 }
 
@@ -61,6 +63,7 @@
     margin-top: 90px;
 }
 .wooriButton {
+    font-family: none;
     margin-bottom: 50px;
     border-radius: 20px;
     width: 180px;
@@ -73,6 +76,7 @@
 }
 
 .secondAbout {
+    font-family: 'NanumSquareNeo-Variable';
     border: 2.5px solid black;
     border-radius: 25px;
     background-color: rgb(80, 203, 147);
@@ -85,6 +89,7 @@
 }
 
 .thirdAbout {
+    font-family: 'NanumSquareNeo-Variable';
     border: 2.5px solid black;
     border-radius: 25px;
     background-color: white;

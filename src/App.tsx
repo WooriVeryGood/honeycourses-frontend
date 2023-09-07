@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -11,17 +11,16 @@ import AddReview from "./components/AddReview/AddReview";
 import AddCourse from "./components/AddCourse/AddCourse";
 import TermsConditions from "./components/TermsConditions/TermsConditions";
 import Support from "./components/Support/Support";
-import CommunityHome from "./components/CommunityHome/CommunityHome";
+// import CommunityHome from "./components/CommunityHome/CommunityHome";
 import { Amplify } from "aws-amplify";
-import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import awsExports from "./aws-exports";
 import { I18n } from 'aws-amplify';
 import { translations } from '@aws-amplify/ui-react';
 import { RequireAuth } from "./RequireAuth";
 import { Login } from "./components/Login/Login";
-import CommunityPostView from "./components/CommunityPostView/CommunityPostView";
-import AddPost from "./components/AddPost/AddPost";
+// import CommunityPostView from "./components/CommunityPostView/CommunityPostView";
+// import AddPost from "./components/AddPost/AddPost";
 I18n.putVocabularies(translations);
 I18n.setLanguage('ko');
 Amplify.configure(awsExports);
@@ -56,9 +55,10 @@ export default function App() {
             <Route path="/courses/view/:classID" element={<RequireAuth><CourseReviews /></RequireAuth>} />
             <Route path="/courses/addReview/:classID" element={<RequireAuth><AddReview /></RequireAuth>} />
             <Route path="/courses/addCourse" element={<RequireAuth><AddCourse /></RequireAuth>} />
-            <Route path="/community" element={<RequireAuth><CommunityHome /></RequireAuth>} />
+            {/*<Route path="/community" element={<RequireAuth><CommunityHome /></RequireAuth>} />
             <Route path="/community/view/:postID" element={<RequireAuth><CommunityPostView /></RequireAuth>} />
             <Route path="/community/addPost" element={<RequireAuth><AddPost /></RequireAuth>} />
+            */}
             <Route path="/termsConditions" element={<TermsConditions />} />
             <Route path="/support" element={<Support />} />
             <Route path="/login" element={<Login />} />

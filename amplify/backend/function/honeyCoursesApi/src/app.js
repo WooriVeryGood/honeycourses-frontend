@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License"). You may not use 
 or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License.
 */
-
+const swaggerUi = require("swagger-ui-express");
 const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
@@ -15,6 +15,24 @@ const coursesRouter = require('./courses');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
+const swaggerJsdoc = require("swagger-jsdoc");
+
+
+const options = {
+  swaggerDefinition: {
+    openapi: "3.0.0",
+    info: {
+      title: "HoneyCourses API",
+      version: "1.0.0",
+      description: "honeycourses.com의 API 문서입니다.",
+    },
+    basePath: "/",
+  },
+  apis: ["./courses.js"],
+};
+
+const specs = swaggerJsdoc(options);
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -22,6 +40,8 @@ dayjs.extend(timezone);
 const app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
+app.use("/apiDocs", swaggerUi.serve, swaggerUi.setup(specs));
+
 
 // Enable CORS for all methods
 app.use(function(req, res, next) {

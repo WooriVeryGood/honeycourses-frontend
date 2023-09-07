@@ -9,7 +9,7 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import Badge from "react-bootstrap/Badge";
 import axios from "axios";
 import "./CommunityPostView.css";
-
+import styles from "./communityPostView.module.css";
 interface Post {
   post_id: number;
   post_category: string;
@@ -216,22 +216,9 @@ export default function CommunityPostView() {
     <PageView isLoading={isLoading}>
       <Container fluid className="justify-content-center align-items-start">
         {post && (
-          <Card
-            style={{ width: "90%", marginBottom: "30px" }}
-            className="mx-auto"
-          >
-            <div
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "15px",
-                color: "grey",
-              }}
-            >
-              #{post.post_id}
-            </div>
-            <Card.Body className="text-start">
-              <Card.Title style={{ color: "#43A680" }}>
+          <Card className={styles.card}>
+            <div className={styles.mainTop}>
+              <Card.Title className={styles.cardTitle}>
                 <Badge
                   bg="#236969"
                   style={{ backgroundColor: "#236969", marginRight: "10px" }}
@@ -240,21 +227,22 @@ export default function CommunityPostView() {
                 </Badge>
                 {post.post_title}
               </Card.Title>
-              <hr className="divider"></hr>
-              <Card.Text
-                style={{ whiteSpace: "pre-wrap", marginBottom: "30px" }}
-              >
+              <div className={styles.mainBottom}>
+                <div className={styles.sharp}>
+                  #{post.post_id}
+                </div>
+                <div className={styles.date}>
+                  {new Date(post.post_time).toLocaleDateString()}{" "}
+                  {new Date(post.post_time).toLocaleTimeString()}
+                </div>
+              </div>
+            </div>
+
+            <Card.Body className="text-start">
+              <Card.Text className={styles.cardText}>
                 {post.post_content.replace(/<br\s*[/]?>/gi, "\n")}
               </Card.Text>
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "10px",
-                  right: "15px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
+              <div className={styles.likeComment}>
                 <img
                   src="/images/like.svg"
                   alt="likes-icon"
@@ -277,18 +265,6 @@ export default function CommunityPostView() {
                 />
                 <span>{post.post_comments}</span>{" "}
               </div>
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "10px",
-                  left: "15px",
-                  color: "grey",
-                  fontSize: "12px",
-                }}
-              >
-                {new Date(post.post_time).toLocaleDateString()}{" "}
-                {new Date(post.post_time).toLocaleTimeString()}
-              </div>
             </Card.Body>
           </Card>
         )}
@@ -296,6 +272,7 @@ export default function CommunityPostView() {
         <div className="comment-section">
           <div className="comment-input-group">
             <Form.Control
+            className={styles.send}
               as="textarea"
               value={newComment}
               onChange={(e) => {
@@ -304,37 +281,39 @@ export default function CommunityPostView() {
                 }
               }}
               placeholder="댓글을 작성해주세요 (200자 이내)"
-              style={{ marginRight: "10px", flexGrow: 1 }}
+              style={{ marginRight: "10px", flexGrow: 1, height: "40px" }}
             />
-            <Button
-              onClick={handlePostComment}
-              style={{ alignSelf: "flex-end" }}
-            >
-              댓글 작성
-            </Button>
+            <i className="bi bi-send" onClick={handlePostComment} style={{ alignSelf: "flex-end", fontSize: "170%", cursor: "pointer" }} ></i>
           </div>
 
           <div className="comments-list" style={{ width: "100%" }}>
             {comments.map((comment) => (
               <Card
                 key={comment.comment_id}
-                style={{
-                  width: "100%",
-                  marginTop: "20px",
-                  backgroundColor: getCommentBackgroundColor(
-                    comment.comment_author,
-                    post?.post_author || ""
-                  ),
-                }}
-                className="mx-auto"
+                className={styles.comment}
               >
-                <Card.Header>
-                  {getAuthorName(
-                    comment.comment_author,
-                    post?.post_author || ""
-                  )}
-                </Card.Header>
-                <Card.Body className="text-start">
+                <div className={styles.cardHeader}>
+                  <div className={styles.cardCircle} style={{
+                    backgroundColor: getCommentBackgroundColor(
+                      comment.comment_author,
+                      post?.post_author || ""
+                    ),
+                  }}>
+                  </div>
+                  <div className={styles.author}
+                    style={{
+                      position: "relative", display: "inline-block", boxShadow: `inset 0 -10px ${getCommentBackgroundColor(
+                        comment.comment_author,
+                        post?.post_author || ""
+                      )}`
+                    }}>
+                    {getAuthorName(
+                      comment.comment_author,
+                      post?.post_author || ""
+                    )}
+                  </div>
+                </div>
+                <Card.Body className={styles.cardBody}>
                   <Card.Text>{comment.comment_content}</Card.Text>
                 </Card.Body>
               </Card>
