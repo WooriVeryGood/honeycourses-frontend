@@ -8,11 +8,13 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { Auth } from "aws-amplify";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export default function AddReview() {
   const courseId = window.location.pathname.split("/").pop();
+  const { user } = useAuthenticator((context) => [context.user]);
   const [reviewTitle, setReviewTitle] = useState("");
   const [course_name, setCourseName] = useState("");
   const [instructorName, setInstructorName] = useState("");
@@ -31,12 +33,14 @@ export default function AddReview() {
     const headers = {
       Authorization: `Bearer ${jwtToken}`,
     };
+    const userEmail = user?.attributes?.email;
     const data = {
       reviewTitle,
       instructorName,
       semester,
       reviewContent,
       gradeGot,
+      userEmail
     };
     axios
       .post(`${apiUrl}/courses/${courseId}/reviews`, data, { headers })
@@ -162,6 +166,7 @@ export default function AddReview() {
               <option value="22-23년도 3학기/계절학기">
                 22-23년도 3학기/계절학기
               </option>
+              <option value="23-24년도 1학기">23-24년도 1학기</option>
             </Form.Select>
           </InputGroup>
           <InputGroup

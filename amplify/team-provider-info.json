@@ -15,7 +15,7 @@
       "function": {
         "honeyCoursesApi": {
           "deploymentBucketName": "amplify-amplify121b68b287cf4-staging-172404-deployment",
-          "s3Key": "amplify-builds/honeyCoursesApi-6b6a467a735469757834-build.zip"
+          "s3Key": "amplify-builds/honeyCoursesApi-6b4c4245543832726871-build.zip"
         }
       },
       "api": {
