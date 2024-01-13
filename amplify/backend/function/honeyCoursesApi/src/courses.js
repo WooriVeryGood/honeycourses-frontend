@@ -109,7 +109,7 @@ router.get("/courses", (req, res) => {
 router.get("/courses/:id/reviews", (req, res) => {
   const courseId = req.params.id;
   pool.query(
-    "SELECT * FROM reviews WHERE course_id = ?",
+    "SELECT review_id, course_id, review_content, review_title, review_point, instructor_name, taken_semyr, grade FROM reviews WHERE course_id = ?",
     [courseId],
     (error, results) => {
       if (error) {
@@ -204,11 +204,11 @@ router.get("/courses/:id/name", (req, res) => {
 // id에 해당하는 강의에 새로운 리뷰 추가
 router.post("/courses/:id/reviews", (req, res) => {
   const courseId = req.params.id;
-  const { reviewContent, instructorName, reviewTitle, semester, gradeGot } =
+  const { reviewContent, instructorName, reviewTitle, semester, gradeGot, userEmail } =
     req.body;
   const formattedReview = reviewContent.replace(/\n/g, "<br>");
   const sql =
-    "INSERT INTO reviews (course_id, review_content, instructor_name, review_title, taken_semyr, grade) VALUES (?, ?, ?, ?, ?, ?)";
+    "INSERT INTO reviews (course_id, review_content, instructor_name, review_title, taken_semyr, grade, author_email) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
   pool.query(
     sql,
@@ -219,6 +219,7 @@ router.post("/courses/:id/reviews", (req, res) => {
       reviewTitle,
       semester,
       gradeGot,
+      userEmail
     ],
     (err, result) => {
       if (err) {
