@@ -24,34 +24,38 @@ export default function AddReview() {
   const [reviewContent, setReviewContent] = useState(
     "考核방식: \n\n任务量:\n\n평가: "
   );
+  const [isSubmitted, setSubmit] = useState(false);
   const navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const userSession = await Auth.currentSession();
-    const jwtToken = userSession.getIdToken().getJwtToken();
+    if (!isSubmitted) {
+      setSubmit(true);
+      const userSession = await Auth.currentSession();
+      const jwtToken = userSession.getIdToken().getJwtToken();
 
-    const headers = {
-      Authorization: `Bearer ${jwtToken}`,
-    };
-    const userEmail = user?.attributes?.email;
-    const data = {
-      reviewTitle,
-      instructorName,
-      semester,
-      reviewContent,
-      gradeGot,
-      userEmail
-    };
-    axios
-      .post(`${apiUrl}/courses/${courseId}/reviews`, data, { headers })
-      .then((response) => {
-        console.log(response.data);
-        alert("리뷰 등록에 성공했습니다!");
-        navigate(`/courses/view/${courseId}`);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      const headers = {
+        Authorization: `Bearer ${jwtToken}`,
+      };
+      const userEmail = user?.attributes?.email;
+      const data = {
+        reviewTitle,
+        instructorName,
+        semester,
+        reviewContent,
+        gradeGot,
+        userEmail
+      };
+      axios
+        .post(`${apiUrl}/courses/${courseId}/reviews`, data, { headers })
+        .then((response) => {
+          console.log(response.data);
+          alert("리뷰 등록에 성공했습니다!");
+          navigate(`/courses/view/${courseId}`);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   useEffect(() => {

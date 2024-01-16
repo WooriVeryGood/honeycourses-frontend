@@ -17,34 +17,38 @@ export default function AddCourse() {
   const [courseCategory, setCourseCat] = useState("");
   const [yuanxi, setYuanxi] = useState("");
   const [youGuanStat, setYouGuanStat] = useState(0);
+  const [isSubmitted, setSubmit] = useState(false);
 
   const navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const userSession = await Auth.currentSession();
-    const jwtToken = userSession.getIdToken().getJwtToken();
+    if (!isSubmitted) {
+      setSubmit(true);
+      const userSession = await Auth.currentSession();
+      const jwtToken = userSession.getIdToken().getJwtToken();
 
-    const headers = {
-      Authorization: `Bearer ${jwtToken}`,
-    };
-    const data = {
-      courseName,
-      courseCredit,
-      courseCategory,
-      yuanxi,
-      youGuanStat,
-    };
-    axios
-      .post(`${apiUrl}/courses`, data, { headers })
-      .then((response) => {
-        console.log(response.data);
-        alert("수업 등록에 성공했습니다!");
-        navigate(`/courses`);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      const headers = {
+        Authorization: `Bearer ${jwtToken}`,
+      };
+      const data = {
+        courseName,
+        courseCredit,
+        courseCategory,
+        yuanxi,
+        youGuanStat,
+      };
+      axios
+        .post(`${apiUrl}/courses`, data, { headers })
+        .then((response) => {
+          console.log(response.data);
+          alert("수업 등록에 성공했습니다!");
+          navigate(`/courses`);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
   return (
     <PageView>
