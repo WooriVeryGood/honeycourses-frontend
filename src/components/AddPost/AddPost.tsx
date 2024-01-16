@@ -21,39 +21,43 @@ export default function AddPost() {
   const [postContent, setPostContent] = useState("");
   const [category, setCategory] = useState("");
   const [contentLength, setContentLength] = useState(0);
+  const [isSubmitted, setSubmit] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const userSession = await Auth.currentSession();
-    const jwtToken = userSession.getIdToken().getJwtToken();
+    if (!isSubmitted) {
+      setSubmit(true);
+      const userSession = await Auth.currentSession();
+      const jwtToken = userSession.getIdToken().getJwtToken();
 
-    const headers = {
-      Authorization: `Bearer ${jwtToken}`,
-    };
+      const headers = {
+        Authorization: `Bearer ${jwtToken}`,
+      };
 
-    const data = {
-      email: user?.attributes?.email,
-      post_title: postTitle,
-      post_content: postContent,
-      post_category: category,
-    };
+      const data = {
+        email: user?.attributes?.email,
+        post_title: postTitle,
+        post_content: postContent,
+        post_category: category,
+      };
 
-    axios
-      .post(`${apiUrl}/community`, data, { headers })
-      .then((response) => {
-        if (response.data.success) {
-          alert("게시글 등록에 성공했습니다!");
-          navigate(`/community`);
-        } else {
-          alert("게시글 등록에 실패했습니다. 다시 시도해주세요.");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      axios
+        .post(`${apiUrl}/community`, data, { headers })
+        .then((response) => {
+          if (response.data.success) {
+            alert("게시글 등록에 성공했습니다!");
+            navigate(`/community`);
+          } else {
+            alert("게시글 등록에 실패했습니다. 다시 시도해주세요.");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
