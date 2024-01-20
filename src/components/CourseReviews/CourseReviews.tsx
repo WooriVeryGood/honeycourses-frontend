@@ -1,4 +1,3 @@
-import "./CourseReviews.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import PageView from "../PageView/PageView";
@@ -8,6 +7,7 @@ import Container from "react-bootstrap/Container";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { useNavigate } from "react-router-dom";
 import { Auth } from 'aws-amplify';
+import styles from "./CourseReviews.module.css";
 
 // 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)
 
@@ -166,10 +166,10 @@ const getCognitoToken = async () => {
     <PageView isLoading={isLoading}>
       <Container fluid className="justify-content-center align-items-start">
         <div
-          className="d-flex flex-wrap align-items-left"
+          className={styles.courseReviewHeader}
           style={{ marginBottom: "15px" }}
         >
-          <h2 style={{ margin: "0 5%" }}>{course_name}</h2>
+          <h2 className={styles.courseName} style={{ margin: "0 10px" }}>{course_name}</h2>
 
           {reviews.length > 0 && (
             <Button
@@ -206,11 +206,8 @@ const getCognitoToken = async () => {
         ) : (
           reviews.map((review) => (
             <Card
-              style={{ width: "90%", marginBottom: "30px" }}
               key={review.review_id}
-              className={`mx-auto ${
-                review.review_point < 0 ? "text-muted" : ""
-              }`}
+              className={styles.reviewCard}
             >
               <Card.Body className="text-start">
                 <Card.Title style={{ color: "#43A680" }}>
