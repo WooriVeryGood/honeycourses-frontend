@@ -202,7 +202,7 @@ export default function HomePage() {
 
                 <Alert key="update" variant="info">
                   <Alert.Link href="#" onClick={() => setOpen(!open)}>
-                    &gt; 업데이트 내역 확인 (최신 업데이트: 2023.09.07)
+                    &gt; 업데이트 내역 확인 (최신 업데이트: 2024.01.20)
                   </Alert.Link>
                   <Collapse in={open}>
                     <div id="update-log">
@@ -233,6 +233,12 @@ export default function HomePage() {
                         1. UI 전면적 리디자인.<br />
                         2. 커뮤니티 베타 서비스 종료.<br />
                         3. 강의평가 작성 이벤트 공지 추가.
+                      </div>
+                      <br />
+                      <div>
+                        <strong>Release@2024.01.20:</strong> <br></br>
+                        1. 강의평가 조회 UI 개선.<br />
+                        2. 제출버튼 반복 클릭시 신규 수업/강의평가가 반복적으로 올라가는 문제 해결.<br />
                       </div>
                     </div>
                   </Collapse>

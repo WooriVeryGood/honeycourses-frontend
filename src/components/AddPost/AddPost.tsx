@@ -9,6 +9,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { Auth } from "aws-amplify";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import styles from "./AddPost.module.css";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -21,54 +22,55 @@ export default function AddPost() {
   const [postContent, setPostContent] = useState("");
   const [category, setCategory] = useState("");
   const [contentLength, setContentLength] = useState(0);
+  const [isSubmitted, setSubmit] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const userSession = await Auth.currentSession();
-    const jwtToken = userSession.getIdToken().getJwtToken();
+    if (!isSubmitted) {
+      setSubmit(true);
+      const userSession = await Auth.currentSession();
+      const jwtToken = userSession.getIdToken().getJwtToken();
 
-    const headers = {
-      Authorization: `Bearer ${jwtToken}`,
-    };
+      const headers = {
+        Authorization: `Bearer ${jwtToken}`,
+      };
 
-    const data = {
-      email: user?.attributes?.email,
-      post_title: postTitle,
-      post_content: postContent,
-      post_category: category,
-    };
+      const data = {
+        email: user?.attributes?.email,
+        post_title: postTitle,
+        post_content: postContent,
+        post_category: category,
+      };
 
-    axios
-      .post(`${apiUrl}/community`, data, { headers })
-      .then((response) => {
-        if (response.data.success) {
-          alert("게시글 등록에 성공했습니다!");
-          navigate(`/community`);
-        } else {
-          alert("게시글 등록에 실패했습니다. 다시 시도해주세요.");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      axios
+        .post(`${apiUrl}/community`, data, { headers })
+        .then((response) => {
+          if (response.data.success) {
+            alert("게시글 등록에 성공했습니다!");
+            navigate(`/community`);
+          } else {
+            alert("게시글 등록에 실패했습니다. 다시 시도해주세요.");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
     <PageView>
-      <Container fluid className="justify-content-center align-items-center">
-        <Row>
-          <Col xs={8}>
-            <h2 style={{ marginLeft: "14%" }}>게시글 추가</h2>
-          </Col>
-        </Row>
+      <Container fluid className={styles.addPostBox}>
+        <div>
+          <div>
+            <h2 className={styles.addPostTitle}>게시글 추가</h2>
+          </div>
+        </div>
         <Form onSubmit={handleSubmit}>
-          <InputGroup
-            className="mb-3 mx-auto"
-            style={{ width: "80%", marginTop: "30px", marginBottom: "30px" }}
-          >
+          <InputGroup className="mb-3 mx-auto"  style={{ flexWrap:"nowrap"}}>
             <InputGroup.Text id="inputGroup-sizing-lg">제목</InputGroup.Text>
             <Form.Control
               aria-label="Large"
@@ -83,10 +85,7 @@ export default function AddPost() {
             />
           </InputGroup>
 
-          <InputGroup
-            className="mb-3 mx-auto"
-            style={{ width: "80%", marginTop: "30px", marginBottom: "30px" }}
-          >
+          <InputGroup className="mb-3 mx-auto"  style={{ flexWrap:"nowrap"}}>
             <InputGroup.Text>내용</InputGroup.Text>
             <Form.Control
               as="textarea"
@@ -101,16 +100,12 @@ export default function AddPost() {
               required
             />
           </InputGroup>
-          <div
-            className="text-end mr-4"
-            style={{ width: "80%", margin: "0 auto" }}
-          >
+          <div className="text-end mr-4">
             {contentLength}/2000
           </div>
 
           <Form.Select
             className="mx-auto"
-            style={{ width: "80%" }}
             aria-label="카테고리 선택"
             value={category}
             onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
