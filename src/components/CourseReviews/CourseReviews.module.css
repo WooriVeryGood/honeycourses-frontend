@@ -11,9 +11,10 @@
 .reviewCard{
     margin: 35px auto;
     width: 1150px;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
 }
 .courseName{
-    font-family: 'Noto Serif SC', serif;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
 }
 
 @media(max-width:1120px){

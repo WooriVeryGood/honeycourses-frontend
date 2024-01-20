@@ -9,6 +9,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { Auth } from "aws-amplify";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import styles from "./AddReview.module.css";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -81,29 +82,25 @@ export default function AddReview() {
 
   return (
     <PageView isLoading={isLoading}>
-      <Container fluid className="justify-content-center align-items-center">
-        <Row>
-          <Col xs={8}>
-            <h2 style={{ marginLeft: "14%" }}>수강평가 작성: {course_name}</h2>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={8}>
-            <p className="fw-light" style={{ marginLeft: "14%" }}>
-              주의: 다른 학우들에게 도움이 될수 있도록 밑의 양식대로 평가를
-              작성해주세요. 꼭 양식대로 작성할 필요는 없습니다. 비방, 욕설,
+      <Container fluid className={styles.addReviewBox}>
+        <div>
+          <div>
+            <h2 className={styles.addReviewTitle}>수강 평가 작성 {course_name}</h2>
+          </div>
+        </div>
+        <div>
+          <div>
+            <p className={styles.addReviewCaution}>
+              다른 학우들에게 도움이 될 수 있도록 밑의 양식대로 평가를
+              작성해 주세요. 꼭 양식대로 작성할 필요는 없습니다. 비방, 욕설,
               조롱, 성적인 내용이 포함되어 있거나 도배/뻘글로 판단될 경우
-              관리자가 수강평가를 삭제할 수 있습니다
-              <div className=""></div>
+              관리자가 수강 평가를 삭제할 수 있습니다
             </p>
-          </Col>
-        </Row>
+          </div>
+        </div>
         <Form onSubmit={handleSubmit}>
-          <InputGroup
-            className="mb-3 mx-auto"
-            style={{ width: "80%", marginTop: "30px", marginBottom: "30px" }}
-          >
-            <InputGroup.Text id="inputGroup-sizing-lg">제목</InputGroup.Text>
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
+            <InputGroup.Text id="inputGroup-sizing-lg" style={{ flexWrap:"nowrap"}}>제목</InputGroup.Text>
             <Form.Control
               aria-label="Large"
               aria-describedby="inputGroup-sizing-sm"
@@ -112,10 +109,7 @@ export default function AddReview() {
               required
             />
           </InputGroup>
-          <InputGroup
-            className="mb-3 mx-auto"
-            style={{ width: "80%", marginTop: "30px", marginBottom: "30px" }}
-          >
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
             <InputGroup.Text id="inputGroup-sizing-lg">교수</InputGroup.Text>
             <Form.Control
               aria-label="Large"
@@ -125,10 +119,7 @@ export default function AddReview() {
               required
             />
           </InputGroup>
-          <InputGroup
-            className="mb-3 mx-auto"
-            style={{ width: "80%", marginTop: "30px", marginBottom: "30px" }}
-          >
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
             <InputGroup.Text id="inputGroup-sizing-lg">
               수강 학기
             </InputGroup.Text>
@@ -173,10 +164,7 @@ export default function AddReview() {
               <option value="23-24년도 1학기">23-24년도 1학기</option>
             </Form.Select>
           </InputGroup>
-          <InputGroup
-            className="mb-3 mx-auto"
-            style={{ width: "80%", marginTop: "30px", marginBottom: "30px" }}
-          >
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
             <InputGroup.Text id="inputGroup-sizing-lg">내용</InputGroup.Text>
             <Form.Control
               as="textarea"
@@ -188,10 +176,7 @@ export default function AddReview() {
               required
             />
           </InputGroup>
-          <InputGroup
-            className="mb-3 mx-auto"
-            style={{ width: "80%", marginTop: "30px", marginBottom: "30px" }}
-          >
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
             <InputGroup.Text id="inputGroup-sizing-lg">성적</InputGroup.Text>
             <Form.Control
               aria-label="Large"

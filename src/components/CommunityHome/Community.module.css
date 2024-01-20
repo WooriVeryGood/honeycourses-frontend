@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
 .communityContainer {
     width: 100%;
     display: flex;
     gap: 3rem;
     padding: 0 15%;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
 }
 
 .comLeft {
