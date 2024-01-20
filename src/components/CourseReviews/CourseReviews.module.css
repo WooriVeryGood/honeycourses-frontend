@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
+
+.Card.Text {
+    white-space: pre-line;
+}
+.courseReviewHeader{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.reviewCard{
+    margin: 35px auto;
+    width: 1150px;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+}
+.courseName{
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+}
+
+@media(max-width:1120px){
+    .reviewCard{
+        margin: 0 auto;
+        margin-top: 35px;
+        margin-bottom: 30px;
+        width: 90%;
+    }
+}

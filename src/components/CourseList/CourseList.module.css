@@ -3,6 +3,7 @@
     width: 75%;
     display: flex;
     gap: 3rem;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
 }
 .CourseListLeft{
     width: 20%;
@@ -27,7 +28,7 @@
     padding-left: 5%;
 }
 .categories>li{
-    font-family: 'Noto Serif SC', serif;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
     margin-top: 4%;
     font-size: 1.2em;
 }
@@ -38,12 +39,12 @@
     align-items: center;
 }
 .rightTitle{
-    font-family: 'Noto Serif SC', serif;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
     font-size: 2.1em;
     font-weight: bold;
 }
 .openRightTitle{
-    font-family: 'Noto Serif SC', serif;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
     font-size: 2.1em;
     font-weight: bold;
     padding-bottom: 200px;
@@ -67,7 +68,7 @@
     flex-direction: column;
 }
 .courseName{
-    font-family: 'Noto Serif SC', serif;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
     font-size: 1.2em;
     font-weight: 550;
     margin: 3% 0;
@@ -86,7 +87,7 @@
     grid-template-rows: auto;
 }
 .sidebarTitle span{
-    font-family: 'Noto Serif SC', serif;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
     text-align: center;
 }
 .sidebarTitle i{
@@ -97,7 +98,7 @@
     transform: rotate(180deg);
 }
 .sidebarContent{
-    font-family: 'Noto Serif SC', serif;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
     width: 250px;
     height: 0;
     overflow: hidden;

@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
+.addPostBox{
+    width: 800px;
+    margin: 0 auto;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+}
+.addPostTitle{
+    font-weight: bolder;
+    width: 100%;
+    color: black;
+    margin: 15px auto;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 35px;
+}
+
+@media(min-width:650px)and (max-width: 950px){
+    .addPostBox{
+        width: 550px;
+        margin: 0 auto;
+    }
+}
+@media(max-width:650px){
+    .addPostBox{
+        width: 90%;
+        margin: 0 auto;
+    }
+}

@@ -214,7 +214,7 @@ export default function CommunityPostView() {
 
   return (
     <PageView isLoading={isLoading}>
-      <Container fluid className="justify-content-center align-items-start">
+      <Container fluid className={styles.communityPostViewContainer}>
         {post && (
           <Card className={styles.card}>
             <div className={styles.mainTop}>
