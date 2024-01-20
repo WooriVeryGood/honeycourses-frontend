@@ -55,9 +55,9 @@ export default function App() {
             <Route path="/courses/view/:classID" element={<RequireAuth><CourseReviews /></RequireAuth>} />
             <Route path="/courses/addReview/:classID" element={<RequireAuth><AddReview /></RequireAuth>} />
             <Route path="/courses/addCourse" element={<RequireAuth><AddCourse /></RequireAuth>} />
-            <Route path="/community" element={<RequireAuth><CommunityHome /></RequireAuth>} />
+            {/*<Route path="/community" element={<RequireAuth><CommunityHome /></RequireAuth>} />
             <Route path="/community/view/:postID" element={<RequireAuth><CommunityPostView /></RequireAuth>} />
-            <Route path="/community/addPost" element={<RequireAuth><AddPost /></RequireAuth>} />
+  <Route path="/community/addPost" element={<RequireAuth><AddPost /></RequireAuth>} />*/}
             <Route path="/termsConditions" element={<TermsConditions />} />
             <Route path="/support" element={<Support />} />
             <Route path="/login" element={<Login />} />
