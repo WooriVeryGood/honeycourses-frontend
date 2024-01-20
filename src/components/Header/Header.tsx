@@ -58,9 +58,9 @@ export default function Header() {
             <Nav.Link className="text text-center" href="/courses">
               Courses
             </Nav.Link>
-            {/*<Nav.Link className="text text-center" href="/community">
+            <Nav.Link className="text text-center" href="/community">
               Community
-    </Nav.Link>*/}
+    </Nav.Link>
             <Nav.Link className="text text-center" href="/support">
               Support Us!
             </Nav.Link>

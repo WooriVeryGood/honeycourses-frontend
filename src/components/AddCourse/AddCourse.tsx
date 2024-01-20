@@ -78,7 +78,7 @@ export default function AddCourse() {
           </div>
         </div>
         <Form className={styles.addCourseSubmit} onSubmit={handleSubmit}>
-          <InputGroup className="mb-3 mx-auto">
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
             <InputGroup.Text id="inputGroup-sizing-lg" style={{ flexWrap:"nowrap"}}>강의명</InputGroup.Text>
             <Form.Control
               aria-label="Large"
@@ -88,7 +88,7 @@ export default function AddCourse() {
               required
             />
           </InputGroup>
-          <InputGroup className="mb-3 mx-auto">
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
             <InputGroup.Text id="inputGroup-sizing-lg">학점</InputGroup.Text>
             <Form.Control
               as="textarea"
