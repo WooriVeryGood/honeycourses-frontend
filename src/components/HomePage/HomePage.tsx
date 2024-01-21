@@ -32,8 +32,7 @@ export default function HomePage() {
     const fetchCourses = async () => {
       try {
         const userSession = await Auth.currentSession();
-        const jwtToken = userSession.getIdToken().getJwtToken();
-
+        const jwtToken = userSession.getAccessToken().getJwtToken();
         const headers = {
           Authorization: `Bearer ${jwtToken}`,
         };
