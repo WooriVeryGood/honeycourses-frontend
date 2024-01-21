@@ -7,6 +7,7 @@ import Container from "react-bootstrap/Container";
 import { useNavigate } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import styles from "./CourseReviews.module.css";
+import { Badge } from "react-bootstrap";
 
 // 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)
 
@@ -22,6 +23,7 @@ interface Review {
   grade: string;
   liked: boolean;
   review_time: string;
+  mine: boolean;
 }
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -63,6 +65,33 @@ export default function CourseReviews() {
       setReviews(updatedReviews);
     } catch (error) {
       console.error("Error updating review like status:", error);
+    }
+  };
+
+  const handleDeleteReview = async (reviewId: number) => {
+    if (window.confirm("리뷰를 삭제하시겠습니까?")) {
+      try {
+        const jwtToken = await getCognitoToken();
+        if (!jwtToken) {
+          console.error("Cognito token not available");
+          return;
+        }
+
+        const headers = {
+          Authorization: `Bearer ${jwtToken}`,
+        };
+
+        await axios.delete(`${apiUrl}/courses/reviews/${reviewId}`, {
+          headers,
+        });
+
+        alert("리뷰가 삭제되었습니다.");
+        // Remove the deleted review from the state
+        setReviews(reviews.filter((review) => review.review_id !== reviewId));
+      } catch (error) {
+        console.error("Error deleting review:", error);
+        alert("리뷰 삭제에 실패했습니다.");
+      }
     }
   };
 
@@ -175,10 +204,56 @@ export default function CourseReviews() {
         ) : (
           reviews.map((review) => (
             <Card key={review.review_id} className={styles.reviewCard}>
+              {review.mine && (
+                <div
+                  style={{ position: "absolute", top: "10px", right: "10px" }}
+                >
+                  <Button
+                    variant="success"
+                    style={{ marginRight: "5px" }}
+                    onClick={() =>
+                      navigate(
+                        `/courses/${courseId}/editReview/${review.review_id}`,
+                        {
+                          state: {
+                            reviewTitle: review.review_title,
+                            reviewContent: review.review_content,
+                          },
+                        }
+                      )
+                    }
+                  >
+                    수정
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDeleteReview(review.review_id)}
+                  >
+                    삭제
+                  </Button>
+                </div>
+              )}
               <Card.Body className="text-start">
-                <Card.Title style={{ color: "#43A680" }}>
+                <Card.Title
+                  style={{
+                    color: "#43A680",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
                   {review.review_title}
+                  <span style={{ marginLeft: "5px" }}></span>{" "}
+                  {review.mine ? (
+                    <Badge
+                      className="rounded-pill"
+                      bg="#FF7BA9"
+                      style={{ backgroundColor: "#489CC1", marginLeft: "10px" }} // Adjust marginLeft for spacing
+                    >
+                      내가 작성한 리뷰
+                    </Badge>
+                  ) : null}
                 </Card.Title>
+
                 <hr className="divider"></hr>
                 <Card.Text style={{ whiteSpace: "pre-wrap" }}>
                   <p className="fw-semibold" style={{ color: "grey" }}>
