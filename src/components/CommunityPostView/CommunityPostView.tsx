@@ -229,6 +229,35 @@ export default function CommunityPostView() {
     }
   };
 
+  const isMyComment = (commentAuthor: string) => {
+    return user.getUsername() == commentAuthor;
+  };
+
+  const requestDeleteComment = async (commentId: number) => {
+    try {
+      const isDelete = window.confirm("댓글을 삭제할까요?");
+      if (!isDelete)
+        return;
+      const headers = await apiHeader();
+      const response = await axios.delete(
+        `${apiUrl}/comments/${commentId}`,
+        { headers }
+      );
+
+      if (response.data) {
+        const deletedCommentId = response.data.comment_id;
+        alert("댓글을 삭제했습니다!");
+        setComments(
+          comments.filter((comment) =>
+            comment.comment_id != deletedCommentId
+          )
+        )
+      }
+    } catch (error) {
+      console.error("Error like comment:", error);
+    }
+  }
+
   useEffect(() => {
     const fetchPostAndComments = async () => {
       try {
@@ -360,38 +389,42 @@ export default function CommunityPostView() {
                   }}>
                   </div>
                   <div>
-                  <span className={styles.author}
-                    style={{
-                      position: "relative", display: "inline-block", boxShadow: `inset 0 -10px ${getCommentBackgroundColor(
+                    <span className={styles.author}
+                      style={{
+                        position: "relative", display: "inline-block", boxShadow: `inset 0 -10px ${getCommentBackgroundColor(
+                          comment.comment_author,
+                          post?.post_author || ""
+                        )}`
+                      }}>
+                      {getAuthorName(
                         comment.comment_author,
                         post?.post_author || ""
-                      )}`
-                    }}>
-                    {getAuthorName(
-                      comment.comment_author,
-                      post?.post_author || ""
-                    )}
-                  </span>
-                  <span className={styles.date}>
-                    {new Date(comment.comment_time).toLocaleDateString()}{" "}
-                    {new Date(comment.comment_time).toLocaleTimeString()}
-                  </span>
-                  <div style={{ float: "right", marginLeft: "4px", cursor: "pointer"}} onClick={() => requestLikeComment(comment.comment_id)}>
-                  <img
-                    src="/images/like.svg"
-                    alt="likes-icon"
-                    style={{
-                      marginRight: "4px",
-                      width: "14px",
-                      height: "14px",
-                    }}
-                  />
-                  <span style={{ fontSize: "14px" }}>
-                    {comment.comment_likes}
-                  </span>
-
-                  </div>
+                      )}
+                    </span>
+                    <span className={styles.date}>
+                      {new Date(comment.comment_time).toLocaleDateString()}{" "}
+                      {new Date(comment.comment_time).toLocaleTimeString()}
+                    </span>
+                    <div style={{ float: "right", marginLeft: "8px", cursor: "pointer"}} onClick={() => requestLikeComment(comment.comment_id)}>
+                      <img
+                        src="/images/like.svg"
+                        alt="likes-icon"
+                        style={{
+                          marginRight: "4px",
+                          width: "14px",
+                          height: "14px",
+                        }}
+                      />
+                      <span style={{ fontSize: "14px" }}>
+                        {comment.comment_likes}
+                      </span>
+                    </div>
                   
+                    {(isMyComment(comment.comment_author)) ? 
+                      <span style={{ marginLeft: "8px", cursor: "pointer", fontSize: "14px" }} onClick={() => requestDeleteComment(comment.comment_id)}>
+                        댓글 삭제
+                      </span> : 
+                      null}
                   </div>
                 </div>
                 <Card.Body className={styles.cardBody}>
