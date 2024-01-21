@@ -10,6 +10,7 @@ import Badge from "react-bootstrap/Badge";
 import axios from "axios";
 import "./CommunityPostView.css";
 import styles from "./communityPostView.module.css";
+
 interface Post {
   post_id: number;
   post_category: string;
@@ -19,6 +20,7 @@ interface Post {
   post_likes: number;
   post_author: string;
   post_time: string;
+  liked: boolean;
 }
 
 interface Comment {
@@ -58,6 +60,58 @@ const pseudonyms = [
   "Zach",
 ];
 
+const commentBackgroundColors = [
+  "#91C8E4",//파
+  "#EAC696",//갈
+  "#C8E4B2",//초
+  "#D8D9DA",//회
+  "#FFE17B",//노
+  "#DFCCFB",//보
+  "#E19898",//핑
+  "#33BBC5",//파
+  "#A8DF8E",//초
+  "#EBE76C",//겨
+  "#5C5470",//짙회
+  "#A6E3E9",//하
+  "#E3FDFD",//연하
+  "#A6B1E1",//연남
+  "#d9e1fc",
+  "#edd9f2",
+  "#d9f2e5",
+  "#FFD54F",
+  "#A1887F",
+  "#FFAB91",
+  "#FFCC80",
+  "#FFF176",
+  "#DCE775",
+  "#AED581",
+  "#81C784",
+  "#4FC3F7",
+  "#4DD0E1",
+  "#4DB6AC",
+];
+
+const getCognitoToken = async () => {
+  try {
+    const userSession = await Auth.currentSession();
+    return userSession.getAccessToken().getJwtToken();
+  } catch (error) {
+    console.error("Error getting Cognito token:", error);
+    return null;
+  }
+};
+
+const apiHeader = async () => {
+  const jwtToken = await getCognitoToken();
+  if (!jwtToken) {
+    console.error("Cognito token not available");
+    return;
+  }
+  return {
+    Authorization: `Bearer ${jwtToken}`,
+  };
+};
+
 export default function CommunityPostView() {
   const { user } = useAuthenticator((context) => [context.user, context.route]);
   const [post, setPost] = useState<Post | null>(null);
@@ -67,89 +121,36 @@ export default function CommunityPostView() {
   const [uniqueCommenters, setUniqueCommenters] = useState<string[]>([]);
   const postId = window.location.pathname.split("/").pop();
 
-  const commentColors = [
-    "#91C8E4",//파
-    "#EAC696",//갈
-    "#C8E4B2",//초
-    "#D8D9DA",//회
-    "#FFE17B",//노
-    "#DFCCFB",//보
-    "#E19898",//핑
-    "#33BBC5",//파
-    "#A8DF8E",//초
-    "#EBE76C",//겨
-    "#5C5470",//짙회
-    "#A6E3E9",//하
-    "#E3FDFD",//연하
-    "#A6B1E1",//연남
-    "#d9e1fc",
-    "#edd9f2",
-    "#d9f2e5",
-    "#FFD54F",
-    "#A1887F",
-    "#FFAB91",
-    "#FFCC80",
-    "#FFF176",
-    "#DCE775",
-    "#AED581",
-    "#81C784",
-    "#4FC3F7",
-    "#4DD0E1",
-    "#4DB6AC",
-  ];
-
   const getCommentBackgroundColor = (
-    commentAuthorHash: string,
-    postAuthorHash: string
+    commentAuthor: string,
+    postAuthor: string
   ) => {
-    if (commentAuthorHash === postAuthorHash) {
+    if (commentAuthor === postAuthor)
       return "white";
-    }
-    const authorPosition = uniqueCommenters.indexOf(commentAuthorHash);
-    if (authorPosition === -1) {
+    
+    const authorPosition = uniqueCommenters.indexOf(commentAuthor);
+    if (authorPosition === -1) 
       return "white";
-    }
-    return commentColors[authorPosition % commentColors.length];
+    return commentBackgroundColors[authorPosition % commentBackgroundColors.length];
   };
 
-  const getCognitoToken = async () => {
-    try {
-      const userSession = await Auth.currentSession();
-      return userSession.getIdToken().getJwtToken();
-    } catch (error) {
-      console.error("Error getting Cognito token:", error);
-      return null;
-    }
-  };
-
-  const getAuthorName = (commentAuthorHash: string, postAuthorHash: string) => {
-    if (commentAuthorHash === postAuthorHash) {
+  const getAuthorName = (commentAuthor: string, postAuthor: string) => {
+    if (commentAuthor === postAuthor)
       return "작성자";
-    }
-    const authorPosition = uniqueCommenters.indexOf(commentAuthorHash);
-    if (authorPosition === -1) {
+
+    const authorPosition = uniqueCommenters.indexOf(commentAuthor);
+    if (authorPosition === -1)
       return "Unknown";
-    }
     return pseudonyms[authorPosition % pseudonyms.length];
   };
 
   const handlePostComment = async () => {
     try {
-      const jwtToken = await getCognitoToken();
-      if (!jwtToken) {
-        console.error("Cognito token not available");
-        return;
-      }
-
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
-
+      const headers = await apiHeader();
       const response = await axios.post(
-        `${apiUrl}/community/${postId}/comment`,
+        `${apiUrl}/community/${postId}/comments`,
         {
           content: newComment,
-          email: user?.attributes?.email,
         },
         { headers }
       );
@@ -168,31 +169,24 @@ export default function CommunityPostView() {
   useEffect(() => {
     const fetchPostAndComments = async () => {
       try {
-        const jwtToken = await getCognitoToken();
-        if (!jwtToken) {
-          console.error("Cognito token not available");
-          return;
-        }
-
-        const headers = {
-          Authorization: `Bearer ${jwtToken}`,
-        };
+        const headers = await apiHeader();
         setIsLoading(true);
-        const postData = await axios.get(`${apiUrl}/community/${postId}`, {
-          headers,
-        });
-        setPost(postData.data[0]);
+        const postData = await axios.get(
+          `${apiUrl}/community/${postId}`, 
+          { headers }
+        );
+        setPost(postData.data);
 
-        const commentsData = await axios.get(
+        const response = await axios.get(
           `${apiUrl}/community/${postId}/comments`,
           { headers }
         );
-        setComments(commentsData.data);
+        setComments(response.data);
 
-        const uniqueAuthors = commentsData.data.reduce(
+        const uniqueAuthors = response.data.reduce(
           (acc: string[], curr: Comment) => {
             if (
-              curr.comment_author !== postData.data[0].post_author &&
+              curr.comment_author !== postData.data.post_author &&
               !acc.includes(curr.comment_author)
             ) {
               acc.push(curr.comment_author);
