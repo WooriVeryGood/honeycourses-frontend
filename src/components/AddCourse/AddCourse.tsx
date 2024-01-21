@@ -13,11 +13,11 @@ import styles from "./AddCourse.module.css";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export default function AddCourse() {
-  const [courseName, setCourseName] = useState("");
-  const [courseCredit, setCourseCredit] = useState("");
-  const [courseCategory, setCourseCat] = useState("");
-  const [yuanxi, setYuanxi] = useState("");
-  const [youGuanStat, setYouGuanStat] = useState(0);
+  const [course_name, setCourseName] = useState("");
+  const [course_credit, setCourseCredit] = useState("");
+  const [course_category, setCourseCat] = useState("");
+  const [kaikeYuanxi, setYuanxi] = useState("");
+  const [isYouguan, setYouGuanStat] = useState(0);
   const [isSubmitted, setSubmit] = useState(false);
 
   const navigate = useNavigate();
@@ -27,17 +27,17 @@ export default function AddCourse() {
     if (!isSubmitted) {
       setSubmit(true);
       const userSession = await Auth.currentSession();
-      const jwtToken = userSession.getIdToken().getJwtToken();
+      const jwtToken = userSession.getAccessToken().getJwtToken();
 
       const headers = {
         Authorization: `Bearer ${jwtToken}`,
       };
       const data = {
-        courseName,
-        courseCredit,
-        courseCategory,
-        yuanxi,
-        youGuanStat,
+        course_name,
+        course_credit,
+        course_category,
+        kaikeYuanxi,
+        isYouguan,
       };
       axios
         .post(`${apiUrl}/courses`, data, { headers })
@@ -83,7 +83,7 @@ export default function AddCourse() {
             <Form.Control
               aria-label="Large"
               aria-describedby="inputGroup-sizing-sm"
-              value={courseName}
+              value={course_name}
               onChange={(event) => setCourseName(event.target.value)}
               required
             />
@@ -95,7 +95,7 @@ export default function AddCourse() {
               rows={1}
               aria-label="Large"
               aria-describedby="inputGroup-sizing-sm"
-              value={courseCredit}
+              value={course_credit}
               onChange={(event) => setCourseCredit(event.target.value)}
               required
             />
@@ -104,7 +104,7 @@ export default function AddCourse() {
           <Form.Select
             className="mx-auto"
             aria-label="수업 종류 선택기"
-            value={courseCategory}
+            value={course_category}
             onChange={(event) => setCourseCat(event.target.value)}
             required
           >
@@ -119,7 +119,7 @@ export default function AddCourse() {
           <Form.Select
             className="mx-auto"
             aria-label="카이커웬시 선택기"
-            value={yuanxi}
+            value={kaikeYuanxi}
             onChange={(event) => setYuanxi(event.target.value)}
             required
           >
@@ -176,7 +176,7 @@ export default function AddCourse() {
           <Form.Select
             className="mx-auto"
             aria-label="유관여부 선택기"
-            value={youGuanStat}
+            value={isYouguan}
             onChange={(event) => setYouGuanStat(parseInt(event.target.value))}
             required
           >

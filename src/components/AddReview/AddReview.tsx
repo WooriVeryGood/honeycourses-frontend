@@ -16,13 +16,13 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export default function AddReview() {
   const courseId = window.location.pathname.split("/").pop();
   const { user } = useAuthenticator((context) => [context.user]);
-  const [reviewTitle, setReviewTitle] = useState("");
+  const [review_title, setReviewTitle] = useState("");
   const [course_name, setCourseName] = useState("");
-  const [instructorName, setInstructorName] = useState("");
-  const [semester, setSemester] = useState("");
-  const [gradeGot, setGrade] = useState("");
+  const [instructor_name, setInstructorName] = useState("");
+  const [taken_semyr, setSemester] = useState("");
+  const [grade, setGrade] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [reviewContent, setReviewContent] = useState(
+  const [review_content, setReviewContent] = useState(
     "考核방식: \n\n任务量:\n\n평가: "
   );
   const [isSubmitted, setSubmit] = useState(false);
@@ -32,19 +32,18 @@ export default function AddReview() {
     if (!isSubmitted) {
       setSubmit(true);
       const userSession = await Auth.currentSession();
-      const jwtToken = userSession.getIdToken().getJwtToken();
+      const jwtToken = userSession.getAccessToken().getJwtToken();
 
       const headers = {
         Authorization: `Bearer ${jwtToken}`,
       };
-      const userEmail = user?.attributes?.email;
+
       const data = {
-        reviewTitle,
-        instructorName,
-        semester,
-        reviewContent,
-        gradeGot,
-        userEmail
+        review_title,
+        instructor_name,
+        taken_semyr,
+        review_content,
+        grade,
       };
       axios
         .post(`${apiUrl}/courses/${courseId}/reviews`, data, { headers })
@@ -104,7 +103,7 @@ export default function AddReview() {
             <Form.Control
               aria-label="Large"
               aria-describedby="inputGroup-sizing-sm"
-              value={reviewTitle}
+              value={review_title}
               onChange={(event) => setReviewTitle(event.target.value)}
               required
             />
@@ -114,7 +113,7 @@ export default function AddReview() {
             <Form.Control
               aria-label="Large"
               aria-describedby="inputGroup-sizing-sm"
-              value={instructorName}
+              value={instructor_name}
               onChange={(event) => setInstructorName(event.target.value)}
               required
             />
@@ -126,7 +125,7 @@ export default function AddReview() {
             <Form.Select
               aria-label="Large"
               aria-describedby="inputGroup-sizing-sm"
-              value={semester}
+              value={taken_semyr}
               onChange={(event) => setSemester(event.target.value)}
               required
             >
@@ -171,7 +170,7 @@ export default function AddReview() {
               rows={10}
               aria-label="Large"
               aria-describedby="inputGroup-sizing-sm"
-              value={reviewContent}
+              value={review_content}
               onChange={(event) => setReviewContent(event.target.value)}
               required
             />
@@ -182,7 +181,7 @@ export default function AddReview() {
               aria-label="Large"
               aria-describedby="inputGroup-sizing-sm"
               placeholder="선택사항. 退课했을 시 W로 적어주세요."
-              value={gradeGot}
+              value={grade}
               onChange={(event) => setGrade(event.target.value)}
             />
           </InputGroup>
