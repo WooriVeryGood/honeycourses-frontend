@@ -4,10 +4,10 @@ import PageView from "../PageView/PageView";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { useNavigate } from "react-router-dom";
-import { Auth } from 'aws-amplify';
+import { Auth } from "aws-amplify";
 import styles from "./CourseReviews.module.css";
+import { Badge } from "react-bootstrap";
 
 // 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)
 
@@ -15,12 +15,15 @@ interface Review {
   review_title: string;
   review_id: number;
   review_content: string;
-  review_point: number;
+  like_count: number;
   course_name: string;
   voted: boolean;
   instructor_name: string;
   taken_semyr: string;
   grade: string;
+  liked: boolean;
+  review_time: string;
+  mine: boolean;
 }
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -38,86 +41,74 @@ export default function CourseReviews() {
       console.error("Cognito token not available");
       return;
     }
-  
     const headers = {
       Authorization: `Bearer ${jwtToken}`,
     };
-  
-    const updatedReviews = reviews.map((review) => {
-      if (review.review_id === reviewId) {
-        return {
-          ...review,
-          review_point: review.review_point + 1,
-        };
-      } else {
-        return review;
-      }
-    });
-  
-    setReviews(updatedReviews);
     try {
-      await axios.post(`${apiUrl}/courses/${courseId}/reviews/${reviewId}`, {
-        reviewPoint: updatedReviews.find(
-          (review) => review.review_id === reviewId
-        )?.review_point,
-      }, { headers });
-      localStorage.setItem(`${reviewId}`, "vote");
+      const response = await axios.put(
+        `${apiUrl}/courses/reviews/${reviewId}/like`,
+        {},
+        { headers }
+      );
+      const updatedReviewData = response.data;
+      const updatedReviews = reviews.map((review) => {
+        if (review.review_id === reviewId) {
+          return {
+            ...review,
+            like_count: updatedReviewData.like_count,
+            liked: updatedReviewData.liked,
+          };
+        } else {
+          return review;
+        }
+      });
+      setReviews(updatedReviews);
     } catch (error) {
-      console.error('Error upvoting review:', error);
+      console.error("Error updating review like status:", error);
     }
   };
-  
-  const handleDownvote = async (reviewId: number) => {
-    const jwtToken = await getCognitoToken();
-    if (!jwtToken) {
-      console.error("Cognito token not available");
-      return;
-    }
-  
-    const headers = {
-      Authorization: `Bearer ${jwtToken}`,
-    };
-  
-    const updatedReviews = reviews.map((review) => {
-      if (review.review_id === reviewId) {
-        return {
-          ...review,
-          review_point: review.review_point - 1,
-        };
-      } else {
-        return review;
-      }
-    });
-  
-    setReviews(updatedReviews);
-    try {
-      await axios.post(`${apiUrl}/courses/${courseId}/reviews/${reviewId}`, {
-        reviewPoint: updatedReviews.find(
-          (review) => review.review_id === reviewId
-        )?.review_point,
-      }, { headers });
-      localStorage.setItem(`${reviewId}`, "vote");
-    } catch (error) {
-      console.error('Error downvoting review:', error);
-    }
-  };
-  
 
-const getCognitoToken = async () => {
+  const handleDeleteReview = async (reviewId: number) => {
+    if (window.confirm("리뷰를 삭제하시겠습니까?")) {
+      try {
+        const jwtToken = await getCognitoToken();
+        if (!jwtToken) {
+          console.error("Cognito token not available");
+          return;
+        }
+
+        const headers = {
+          Authorization: `Bearer ${jwtToken}`,
+        };
+
+        await axios.delete(`${apiUrl}/courses/reviews/${reviewId}`, {
+          headers,
+        });
+
+        alert("리뷰가 삭제되었습니다.");
+        // Remove the deleted review from the state
+        setReviews(reviews.filter((review) => review.review_id !== reviewId));
+      } catch (error) {
+        console.error("Error deleting review:", error);
+        alert("리뷰 삭제에 실패했습니다.");
+      }
+    }
+  };
+
+  const getCognitoToken = async () => {
     try {
       const userSession = await Auth.currentSession();
-      return userSession.getIdToken().getJwtToken();
+      return userSession.getAccessToken().getJwtToken();
     } catch (error) {
       console.error("Error getting Cognito token:", error);
       return null;
     }
   };
 
-
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
-        const jwtToken = await getCognitoToken(); 
+        const jwtToken = await getCognitoToken();
         if (!jwtToken) {
           console.error("Cognito token not available");
           setIsLoading(false);
@@ -139,7 +130,7 @@ const getCognitoToken = async () => {
               })
             );
             setReviews(initializedReviews);
-            setCourseName(nameResponse.data[0].course_name);
+            setCourseName(nameResponse.data.course_name);
             setIsLoading(false);
             window.scrollTo(0, 0);
           })
@@ -169,7 +160,9 @@ const getCognitoToken = async () => {
           className={styles.courseReviewHeader}
           style={{ marginBottom: "15px" }}
         >
-          <h2 className={styles.courseName} style={{ margin: "0 10px" }}>{course_name}</h2>
+          <h2 className={styles.courseName} style={{ margin: "0 10px" }}>
+            {course_name}
+          </h2>
 
           {reviews.length > 0 && (
             <Button
@@ -177,7 +170,12 @@ const getCognitoToken = async () => {
               href={`/courses/addReview/${courseId}`}
               variant="success"
               size="sm"
-              style={{ marginTop: "1%", marginLeft: "1rem", backgroundColor:"#43A680",  borderColor:"#43A680" }}
+              style={{
+                marginTop: "1%",
+                marginLeft: "1rem",
+                backgroundColor: "#43A680",
+                borderColor: "#43A680",
+              }}
             >
               <img
                 src="/images/plus.svg"
@@ -205,48 +203,114 @@ const getCognitoToken = async () => {
           </div>
         ) : (
           reviews.map((review) => (
-            <Card
-              key={review.review_id}
-              className={styles.reviewCard}
-            >
-              <Card.Body className="text-start">
-                <Card.Title style={{ color: "#43A680" }}>
-                  {review.review_title}
-                </Card.Title>
-                <hr className="divider"></hr>
-                <Card.Text style={{ whiteSpace: "pre-wrap" }}>
-                <p className="fw-semibold" style={{color:"grey"}}>수강학기: {review.taken_semyr}, 교수: {review.instructor_name}</p>
-                
-                  {review.review_content.replace(/<br\s*[/]?>/gi, "\n")}
-
-                  <br></br><br></br>
-                  <span style={{ whiteSpace: "nowrap" }}><p className="fw-bold" style={{ display: "inline" }}>성적: </p>{review.grade}</span>
-                 
-                </Card.Text>
-                <hr className="divider"></hr>
-                <ButtonGroup aria-label="Basic example" className="float-end">
+            <Card key={review.review_id} className={styles.reviewCard}>
+              {review.mine && (
+                <div
+                  style={{ position: "absolute", top: "10px", right: "10px" }}
+                >
                   <Button
                     variant="success"
-                    onClick={() => handleUpvote(review.review_id)}
-                    disabled={
-                      localStorage.getItem(`${review.review_id}`) != null
-                    } 
+                    style={{ marginRight: "5px" }}
+                    onClick={() =>
+                      navigate(
+                        `/courses/${courseId}/editReview/${review.review_id}`,
+                        {
+                          state: {
+                            reviewTitle: review.review_title,
+                            reviewContent: review.review_content,
+                          },
+                        }
+                      )
+                    }
                   >
-                    추천
+                    수정
                   </Button>
-                  <span style={{ margin: "0 10px" }}>
-                    {review.review_point}
-                  </span>
                   <Button
                     variant="danger"
-                    onClick={() => handleDownvote(review.review_id)}
-                    disabled={
-                      localStorage.getItem(`${review.review_id}`) != null
-                    } 
+                    onClick={() => handleDeleteReview(review.review_id)}
                   >
-                    비추
+                    삭제
                   </Button>
-                </ButtonGroup>
+                </div>
+              )}
+              <Card.Body className="text-start">
+                <Card.Title
+                  style={{
+                    color: "#43A680",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  {review.review_title}
+                  <span style={{ marginLeft: "5px" }}></span>{" "}
+                  {review.mine ? (
+                    <Badge
+                      className="rounded-pill"
+                      bg="#FF7BA9"
+                      style={{ backgroundColor: "#489CC1", marginLeft: "10px" }} // Adjust marginLeft for spacing
+                    >
+                      내가 작성한 리뷰
+                    </Badge>
+                  ) : null}
+                </Card.Title>
+
+                <hr className="divider"></hr>
+                <Card.Text style={{ whiteSpace: "pre-wrap" }}>
+                  <p className="fw-semibold" style={{ color: "grey" }}>
+                    수강학기: {review.taken_semyr}, 교수:{" "}
+                    {review.instructor_name}
+                  </p>
+
+                  {review.review_content.replace(/<br\s*[/]?>/gi, "\n")}
+
+                  <br></br>
+                  <br></br>
+
+                  <span style={{ whiteSpace: "nowrap" }}>
+                    <p className="fw-bold" style={{ display: "inline" }}>
+                      성적:{" "}
+                    </p>
+                    {review.grade}
+                  </span>
+                  <br></br>
+                </Card.Text>
+                <hr className="divider"></hr>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div
+                    className={styles.date}
+                    style={{
+                      fontSize: "16px",
+                      opacity: 0.7,
+                      marginRight: "auto",
+                    }}
+                  >
+                    {review.review_time === null ? (
+                      "24년 1월 전에 작성된 리뷰입니다."
+                    ) : (
+                      <>
+                        {new Date(review.review_time).toLocaleDateString()} 작성
+                      </>
+                    )}
+                  </div>
+                  <Button
+                    className="float-end"
+                    variant="success"
+                    onClick={() => handleUpvote(review.review_id)}
+                    style={{ opacity: review.liked ? 0.7 : 1 }}
+                  >
+                    {review.liked ? "추천 취소 " : "추천 "}
+                    <img
+                      src="/images/likeWhite.svg"
+                      alt="likes-icon"
+                      style={{
+                        marginRight: "5px",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                    />
+                    {review.like_count}
+                  </Button>
+                </div>
               </Card.Body>
             </Card>
           ))

@@ -117,7 +117,7 @@ function CourseList() {
     const fetchDataFromApi = async () => {
       try {
         const userSession = await Auth.currentSession();
-        const jwtToken = userSession.getIdToken().getJwtToken();
+        const jwtToken = userSession.getAccessToken().getJwtToken();
 
         const headers = {
           Authorization: `Bearer ${jwtToken}`,
