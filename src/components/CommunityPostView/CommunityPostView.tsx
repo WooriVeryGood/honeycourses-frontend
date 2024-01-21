@@ -169,6 +169,40 @@ export default function CommunityPostView() {
     }
   };
 
+  const requestLikePost = async () => {
+    try {
+      const headers = await apiHeader();
+      const response = await axios.put(
+        `${apiUrl}/community/${postId}/like`,
+        null,
+        { headers }
+      );
+
+      if (response.data) {
+        const liked = response.data.liked;
+        if (liked)
+          alert("게시글을 추천했습니다!");
+        else
+          alert("게시글 추천을 취소했습니다!");
+        if (post !== (undefined || null)) {
+          post.liked = liked;
+          post.post_likes = response.data.like_count;
+          setPost((prevState) => {
+            if (prevState == (undefined || null))
+              return prevState;
+            return {
+              ...prevState,
+              liked: liked,
+              post_likes: response.data.like_count
+            };
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error like comment:", error);
+    }
+  };
+
   const requestLikeComment = async (commentId: number) => {
     try {
       const headers = await apiHeader();
@@ -266,16 +300,18 @@ export default function CommunityPostView() {
                 {post.post_content.replace(/<br\s*[/]?>/gi, "\n")}
               </Card.Text>
               <div className={styles.likeComment}>
-                <img
-                  src="/images/like.svg"
-                  alt="likes-icon"
-                  style={{
-                    marginRight: "5px",
-                    width: "20px",
-                    height: "20px",
-                  }}
-                />
-                <span>{post.post_likes}</span>{" "}
+                <span style={{ cursor: "pointer" }} onClick={requestLikePost}>
+                  <img
+                    src="/images/like.svg"
+                    alt="likes-icon"
+                    style={{
+                      marginRight: "5px",
+                      width: "20px",
+                      height: "20px",
+                    }}
+                  />
+                  <span>{post.post_likes}</span>{" "}
+                </span>
                 <img
                   src="/images/comments.svg"
                   alt="comments-icon"
