@@ -122,6 +122,8 @@ export default function CommunityPostView() {
   const [newComment, setNewComment] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [uniqueCommenters, setUniqueCommenters] = useState<string[]>([]);
+  const [isCommentUpdate, setIsCommentUpdate] = useState(false);
+  const [updateComment, setUpdateComment] = useState<Comment | null>(null);
   const postId = window.location.pathname.split("/").pop();
 
   const getCommentBackgroundColor = (
@@ -222,7 +224,7 @@ export default function CommunityPostView() {
           comments.map((comment) =>
             comment.comment_id != commentId ? comment : { ...comment, comment_likes: response.data.like_count, liked: response.data.liked}
           )
-        )
+        );
       }
     } catch (error) {
       console.error("Error like comment:", error);
@@ -231,6 +233,29 @@ export default function CommunityPostView() {
 
   const isMyComment = (commentAuthor: string) => {
     return user.getUsername() == commentAuthor;
+  };
+
+  const requestUpdateComment = async (commentId: number, comment_content: string) => {
+    try {
+      const isUpdate = window.confirm("댓글을 수정할까요?");
+      if (!isUpdate)
+        return;
+      const headers = await apiHeader();
+      const response = await axios.put(
+        `${apiUrl}/comments/${commentId}`,
+        {
+          "content": comment_content
+        },
+        { headers }
+      );
+
+      if (response.data) {
+        alert("댓글을 수정했습니다!");
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Error like comment:", error);
+    }
   };
 
   const requestDeleteComment = async (commentId: number) => {
@@ -419,16 +444,71 @@ export default function CommunityPostView() {
                         {comment.comment_likes}
                       </span>
                     </div>
-                  
+                    {(isMyComment(comment.comment_author)) && !isCommentUpdate ? 
+                      <span style={{ marginLeft: "8px", cursor: "pointer", fontSize: "14px" }} onClick={() => {
+                        setIsCommentUpdate(true);
+                        setUpdateComment((prevState) => {
+                          if (prevState == null)
+                            return {
+                              comment_id: comment.comment_id,
+                              comment_content: comment.comment_content,
+                              comment_author: comment.comment_author,
+                              comment_likes: comment.comment_likes,
+                              comment_time: comment.comment_time,
+                              liked: comment.liked
+                            };
+                          return {
+                            comment_id: comment.comment_id,
+                            comment_content: comment.comment_content,
+                            comment_author: comment.comment_author,
+                            comment_likes: comment.comment_likes,
+                            comment_time: comment.comment_time,
+                            liked: comment.liked
+                          }
+                        });
+                      }}>
+                        수정
+                      </span> : 
+                      null}
+
                     {(isMyComment(comment.comment_author)) ? 
                       <span style={{ marginLeft: "8px", cursor: "pointer", fontSize: "14px" }} onClick={() => requestDeleteComment(comment.comment_id)}>
-                        댓글 삭제
+                        삭제
                       </span> : 
                       null}
                   </div>
                 </div>
                 <Card.Body className={styles.cardBody}>
-                  <Card.Text>{comment.comment_content}</Card.Text>
+                  { isCommentUpdate && updateComment != null && comment.comment_id == updateComment.comment_id ?
+                  <div>
+                    <Form.Control
+                      className={styles.send}
+                      as="textarea"
+                      value={updateComment.comment_content}
+                      onChange={(e) => {
+                          if (e.target.value.length <= 200) {
+                            setUpdateComment((prevState) => {
+                              if (prevState == null)
+                                return null;
+                              return {
+                                ...prevState,
+                                comment_content: e.target.value
+                              }
+                            });
+                          }
+                        }}
+                        placeholder="댓글을 작성해주세요 (200자 이내)"
+                        style={{ marginRight: "10px", flexGrow: 1, height: "40px" }}
+                    />
+                    <span style={{ marginRight: "8px", cursor: "pointer", fontSize: "14px"}} onClick={() => requestUpdateComment(comment.comment_id, updateComment!.comment_content)}>
+                      수정
+                    </span>
+                    <span style={{ cursor: "pointer", fontSize: "14px"}} onClick={() => setIsCommentUpdate(false)}>
+                      취소
+                    </span>
+                    </div> :
+                    <Card.Text>{comment.comment_content}</Card.Text>
+                  }
                 </Card.Body>
               </Card>
             ))}
