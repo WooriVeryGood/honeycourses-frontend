@@ -27,6 +27,9 @@ interface Comment {
   comment_id: number;
   comment_content: string;
   comment_author: string;
+  comment_likes: number;
+  comment_time: string;
+  liked: boolean;
 }
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -166,6 +169,32 @@ export default function CommunityPostView() {
     }
   };
 
+  const requestLikeComment = async (commentId: number) => {
+    try {
+      const headers = await apiHeader();
+      const response = await axios.put(
+        `${apiUrl}/comments/${commentId}/like`,
+        null,
+        { headers }
+      );
+
+      if (response.data) {
+        const liked = response.data.liked;
+        if (liked)
+          alert("댓글을 추천했습니다!");
+        else
+          alert("댓글 추천을 취소했습니다!");
+        setComments(
+          comments.map((comment) =>
+            comment.comment_id != commentId ? comment : { ...comment, comment_likes: response.data.like_count, liked: response.data.liked}
+          )
+        )
+      }
+    } catch (error) {
+      console.error("Error like comment:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchPostAndComments = async () => {
       try {
@@ -294,7 +323,8 @@ export default function CommunityPostView() {
                     ),
                   }}>
                   </div>
-                  <div className={styles.author}
+                  <div>
+                  <span className={styles.author}
                     style={{
                       position: "relative", display: "inline-block", boxShadow: `inset 0 -10px ${getCommentBackgroundColor(
                         comment.comment_author,
@@ -305,6 +335,27 @@ export default function CommunityPostView() {
                       comment.comment_author,
                       post?.post_author || ""
                     )}
+                  </span>
+                  <span className={styles.date}>
+                    {new Date(comment.comment_time).toLocaleDateString()}{" "}
+                    {new Date(comment.comment_time).toLocaleTimeString()}
+                  </span>
+                  <div style={{ float: "right", marginLeft: "4px", cursor: "pointer"}} onClick={() => requestLikeComment(comment.comment_id)}>
+                  <img
+                    src="/images/like.svg"
+                    alt="likes-icon"
+                    style={{
+                      marginRight: "4px",
+                      width: "14px",
+                      height: "14px",
+                    }}
+                  />
+                  <span style={{ fontSize: "14px" }}>
+                    {comment.comment_likes}
+                  </span>
+
+                  </div>
+                  
                   </div>
                 </div>
                 <Card.Body className={styles.cardBody}>
