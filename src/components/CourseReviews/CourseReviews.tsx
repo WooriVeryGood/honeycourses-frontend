@@ -200,33 +200,44 @@ export default function CourseReviews() {
                   <br></br>
                 </Card.Text>
                 <hr className="divider"></hr>
-                <Button
-                  className="float-end"
-                  variant="success"
-                  onClick={() => handleUpvote(review.review_id)}
-                  disabled={localStorage.getItem(`${review.review_id}`) != null}
-                  style={{ opacity: review.liked ? 0.7 : 1 }}
-                >
-                  {review.liked ? "추천 취소 " : "추천 "}
-                  <img
-                    src="/images/likeWhite.svg"
-                    alt="likes-icon"
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div
+                    className={styles.date}
                     style={{
-                      marginRight: "5px",
-                      width: "20px",
-                      height: "20px",
+                      fontSize: "16px",
+                      opacity: 0.7,
+                      marginRight: "auto",
                     }}
-                  />
-                  {review.like_count}
-                </Button>
-                <div className={styles.date} style={{fontSize: "16px", opacity: 0.7}}>
-                  {review.review_time === null ? (
-                    "24년 1월 전에 작성된 리뷰입니다."
-                  ) : (
-                    <>
-                      {new Date(review.review_time).toLocaleDateString()}{" "} 작성
-                    </>
-                  )}
+                  >
+                    {review.review_time === null ? (
+                      "24년 1월 전에 작성된 리뷰입니다."
+                    ) : (
+                      <>
+                        {new Date(review.review_time).toLocaleDateString()} 작성
+                      </>
+                    )}
+                  </div>
+                  <Button
+                    className="float-end"
+                    variant="success"
+                    onClick={() => handleUpvote(review.review_id)}
+                    disabled={
+                      localStorage.getItem(`${review.review_id}`) != null
+                    }
+                    style={{ opacity: review.liked ? 0.7 : 1 }}
+                  >
+                    {review.liked ? "추천 취소 " : "추천 "}
+                    <img
+                      src="/images/likeWhite.svg"
+                      alt="likes-icon"
+                      style={{
+                        marginRight: "5px",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                    />
+                    {review.like_count}
+                  </Button>
                 </div>
               </Card.Body>
             </Card>
