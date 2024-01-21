@@ -221,9 +221,6 @@ export default function CourseReviews() {
                     className="float-end"
                     variant="success"
                     onClick={() => handleUpvote(review.review_id)}
-                    disabled={
-                      localStorage.getItem(`${review.review_id}`) != null
-                    }
                     style={{ opacity: review.liked ? 0.7 : 1 }}
                   >
                     {review.liked ? "추천 취소 " : "추천 "}
