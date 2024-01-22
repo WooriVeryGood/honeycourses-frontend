@@ -129,6 +129,9 @@ export default function CommunityPostView() {
   const [isPostEdit, setIsPostEdit] = useState(false);
   const [editPostTitle, setEditPostTitle] = useState("");
   const [editPostContent, setEditPostContent] = useState("");
+  const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+  const [isEditingComment, setIsEditingComment] = useState(false);
+  const [isEditingPost, setIsEditingPost] = useState(false);
   const navigate = useNavigate();
 
   const getCommentBackgroundColor = (
@@ -153,6 +156,8 @@ export default function CommunityPostView() {
   };
 
   const handlePostComment = async () => {
+    if (isSubmittingComment) return;
+    setIsSubmittingComment(true);
     try {
       const headers = await apiHeader();
       const response = await axios.post(
@@ -169,8 +174,10 @@ export default function CommunityPostView() {
       } else {
         console.error("Error in response after posting comment.");
       }
+      setIsSubmittingComment(false);
     } catch (error) {
       console.error("Error posting comment:", error);
+      setIsSubmittingComment(false);
     }
   };
 
@@ -242,6 +249,8 @@ export default function CommunityPostView() {
   };
 
   const submitPostEdit = async () => {
+    if (isEditingPost) return;
+    setIsEditingPost(true);
     try {
       const headers = await apiHeader();
       const response = await axios.put(
@@ -258,8 +267,10 @@ export default function CommunityPostView() {
         setIsPostEdit(false);
         window.location.reload();
       }
+      setIsEditingPost(false);
     } catch (error) {
       console.error("Error updating post:", error);
+      setIsEditingPost(false);
     }
   };
 
@@ -289,6 +300,8 @@ export default function CommunityPostView() {
     commentId: number,
     comment_content: string
   ) => {
+    if (isEditingComment) return;
+    setIsEditingComment(true);
     try {
       const isUpdate = window.confirm("댓글을 수정할까요?");
       if (!isUpdate) return;
@@ -305,8 +318,10 @@ export default function CommunityPostView() {
         alert("댓글을 수정했습니다!");
         window.location.reload();
       }
+      setIsEditingComment(false);
     } catch (error) {
       console.error("Error like comment:", error);
+      setIsEditingComment(false);
     }
   };
 
@@ -411,7 +426,7 @@ export default function CommunityPostView() {
                     placeholder="내용"
                     required
                   />
-                  <Button variant="primary" onClick={submitPostEdit}>
+                  <Button variant="primary" onClick={submitPostEdit} disabled = {isEditingPost}>
                     제출
                   </Button>
                   <Button

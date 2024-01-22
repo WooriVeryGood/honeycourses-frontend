@@ -46,9 +46,11 @@ export default function AddPost() {
           if (response.data.author !== null) {
             // 201 Created response에 author가 있으면 성공
             alert("게시글 등록에 성공했습니다!");
+            setSubmit(false);
             navigate(`/community`);
           } else {
             alert("게시글 등록에 실패했습니다. 다시 시도해주세요.");
+            setSubmit(false);
           }
         })
         .catch((error) => {
@@ -115,7 +117,7 @@ export default function AddPost() {
           </Form.Select>
 
           <div className="d-flex justify-content-end mt-4 mr-3">
-            <Button variant="success" type="submit">
+            <Button variant="success" type="submit" disabled={isSubmitted}>
               게시
             </Button>
           </div>

@@ -35,6 +35,7 @@ export default function CourseReviews() {
   const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
   const [editedTitle, setEditedTitle] = useState("");
   const [editedContent, setEditedContent] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
   const courseId = window.location.pathname.split("/").pop();
   const navigate = useNavigate();
 
@@ -72,6 +73,9 @@ export default function CourseReviews() {
   };
 
   const submitEdit = async (reviewId: number) => {
+    if (isEditing) return;
+
+    setIsEditing(true);
     try {
       const jwtToken = await getCognitoToken();
       if (!jwtToken) {
@@ -107,9 +111,11 @@ export default function CourseReviews() {
           )
         );
       }
+      setIsEditing(false);
     } catch (error) {
       console.error("Error updating review:", error);
       alert("리뷰 수정에 실패했습니다.");
+      setIsEditing(false);
     }
   };
 
@@ -255,6 +261,7 @@ export default function CourseReviews() {
                       <Button
                         variant="primary"
                         onClick={() => submitEdit(review.review_id)}
+                        disabled={isEditing}
                       >
                         제출
                       </Button>

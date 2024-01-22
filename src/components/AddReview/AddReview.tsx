@@ -50,10 +50,12 @@ export default function AddReview() {
         .then((response) => {
           console.log(response.data);
           alert("리뷰 등록에 성공했습니다!");
+          setSubmit(false);
           navigate(`/courses/view/${courseId}`);
         })
         .catch((error) => {
           console.log(error);
+          setSubmit(false);
         });
     }
   };
@@ -186,7 +188,7 @@ export default function AddReview() {
             />
           </InputGroup>
           <div className="d-flex justify-content-end mt-4 mr-3">
-            <Button variant="success" type="submit">
+            <Button variant="success" type="submit" disabled={isSubmitted}>
               제출
             </Button>
           </div>
