@@ -38,6 +38,8 @@ export default function CourseReviews() {
   const [isEditing, setIsEditing] = useState(false);
   const courseId = window.location.pathname.split("/").pop();
   const navigate = useNavigate();
+  const [isShowMore,setShowMore] = useState(false);
+  const [showMoreReviewId,setShowMoreReviewId]=useState<number | null>(null);
 
   const handleUpvote = async (reviewId: number) => {
     const jwtToken = await getCognitoToken();
@@ -103,10 +105,10 @@ export default function CourseReviews() {
           reviews.map((review) =>
             review.review_id === reviewId
               ? {
-                  ...review,
-                  review_title: editedTitle,
-                  review_content: editedContent,
-                }
+                ...review,
+                review_title: editedTitle,
+                review_content: editedContent,
+              }
               : review
           )
         );
@@ -144,6 +146,11 @@ export default function CourseReviews() {
       }
     }
   };
+
+  // const onClickShowMore = ()=>{
+  //   setShowMore(!isShowMore);
+  //   setEditingReviewId(review.review_id)
+  // };
 
   const getCognitoToken = async () => {
     try {
@@ -253,11 +260,9 @@ export default function CourseReviews() {
           reviews.map((review) => (
             <Card key={review.review_id} className={styles.reviewCard}>
               {review.mine && (
-                <div
-                  style={{ position: "absolute", top: "10px", right: "10px" }}
-                >
+                <div>
                   {editingReviewId === review.review_id ? (
-                    <>
+                    <div className={styles.editButtons}>
                       <Button
                         variant="primary"
                         onClick={() => submitEdit(review.review_id)}
@@ -271,26 +276,43 @@ export default function CourseReviews() {
                       >
                         취소
                       </Button>
-                    </>
+                    </div>
                   ) : (
-                    <>
+                    <div className={styles.reviewButtons} style={{ position: "absolute", top: "10px", right: "10px" }}>
                       <Button
-                        variant="success"
-                        onClick={() => {
-                          setEditingReviewId(review.review_id);
-                          setEditedTitle(review.review_title);
-                          setEditedContent(review.review_content);
+                        className={styles.showMoreButton}
+                        style={{ backgroundColor: "transparent", border: "none" }}
+                        onClick={()=>{
+                          setShowMore(!isShowMore);
+                          setShowMoreReviewId(review.review_id)
                         }}
                       >
-                        수정
+                        <img
+                          src="/images/showMoreButton.png"
+                          alt="show-more-icon"
+                        />
                       </Button>
-                      <Button
-                        variant="danger"
-                        onClick={() => handleDeleteReview(review.review_id)}
-                      >
-                        삭제
-                      </Button>
-                    </>
+                      <div className={isShowMore&&showMoreReviewId===review.review_id? styles.reviewChangeDelete:styles.hiddenReviewChangeDelete}>
+                        <Button
+                          className={styles.ReviewChange}
+                          variant="success"
+                          onClick={() => {
+                            setEditingReviewId(review.review_id);
+                            setEditedTitle(review.review_title);
+                            setEditedContent(review.review_content);
+                          }}
+                        >
+                          수정
+                        </Button>
+                        <Button
+                          className={styles.reviewDelete}
+                          variant="danger"
+                          onClick={() => handleDeleteReview(review.review_id)}
+                        >
+                          삭제
+                        </Button>
+                      </div>
+                    </div>
                   )}
                 </div>
               )}
@@ -303,7 +325,6 @@ export default function CourseReviews() {
                       onChange={(e) => setEditedTitle(e.target.value)}
                       placeholder="제목"
                       className="mb-2"
-                      style={{ width: '65%' }} 
                       required
                     />
                     <Form.Control
@@ -314,6 +335,16 @@ export default function CourseReviews() {
                       placeholder="내용"
                       required
                     ></Form.Control>
+                    <div
+                    style={{width:"65%",height:"50px"}}
+                    >
+                      {review.mine && (
+                <div
+                  style={{ position: "absolute", top: "10px", right: "10px" }}
+                >
+                </div>
+              )}
+                    </div>
                   </>
                 ) : (
                   // Display Mode
@@ -323,10 +354,14 @@ export default function CourseReviews() {
                         color: "#43A680",
                         display: "flex",
                         alignItems: "center",
+                        width:"80%",
                       }}
                     >
                       {review.review_title}
-                      <span style={{ marginLeft: "5px" }}></span>{" "}
+                      
+                      
+                      {/* 필요한가? */}
+                      {/* <span style={{ marginLeft: "5px" }}></span>{" "}
                       {review.mine ? (
                         <Badge
                           className="rounded-pill"
@@ -338,10 +373,10 @@ export default function CourseReviews() {
                         >
                           내가 작성한 리뷰
                         </Badge>
-                      ) : null}
+                      ) : null} */}
                     </Card.Title>
 
-                    <hr className="divider"></hr>
+                    <hr className={styles.divider}></hr>
                     <Card.Text style={{ whiteSpace: "pre-wrap" }}>
                       <p className="fw-semibold" style={{ color: "grey" }}>
                         수강학기: {review.taken_semyr}, 교수:{" "}
@@ -353,7 +388,7 @@ export default function CourseReviews() {
                       <br></br>
                       <br></br>
 
-                      <span style={{ whiteSpace: "nowrap" }}>
+                      <span>
                         <p className="fw-bold" style={{ display: "inline" }}>
                           성적:{" "}
                         </p>
@@ -386,7 +421,7 @@ export default function CourseReviews() {
                         onClick={() => handleUpvote(review.review_id)}
                         style={{ opacity: review.liked ? 0.7 : 1 }}
                       >
-                        {review.liked ? "추천 취소 " : "추천 "}
+                        {/* {review.liked ? "추천 취소 " : "추천 "} */}
                         <img
                           src="/images/likeWhite.svg"
                           alt="likes-icon"
