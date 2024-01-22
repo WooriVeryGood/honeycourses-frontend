@@ -23,6 +23,8 @@ yarn-debug.log*
 yarn-error.log*
 .env
 
+amplify\backend\function\honeyCoursesApi\src/.env
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
@@ -44,4 +46,3 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-amplify\backend\function\honeyCoursesApi\src/.env

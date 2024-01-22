@@ -63,6 +63,7 @@
 .author{
     font-size: 18px;
     font-weight: 600;
+    margin-right: 8px;
 }
 
 @media(max-width:1170px){

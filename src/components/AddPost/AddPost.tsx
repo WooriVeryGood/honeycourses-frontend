@@ -14,10 +14,6 @@ import styles from "./AddPost.module.css";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export default function AddPost() {
-  const { user, signOut } = useAuthenticator((context) => [
-    context.user,
-    context.route,
-  ]);
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
   const [category, setCategory] = useState("");
@@ -32,14 +28,13 @@ export default function AddPost() {
     if (!isSubmitted) {
       setSubmit(true);
       const userSession = await Auth.currentSession();
-      const jwtToken = userSession.getIdToken().getJwtToken();
+      const jwtToken = userSession.getAccessToken().getJwtToken();
 
       const headers = {
         Authorization: `Bearer ${jwtToken}`,
       };
 
       const data = {
-        email: user?.attributes?.email,
         post_title: postTitle,
         post_content: postContent,
         post_category: category,
@@ -48,11 +43,14 @@ export default function AddPost() {
       axios
         .post(`${apiUrl}/community`, data, { headers })
         .then((response) => {
-          if (response.data.success) {
+          if (response.data.author !== null) {
+            // 201 Created response에 author가 있으면 성공
             alert("게시글 등록에 성공했습니다!");
+            setSubmit(false);
             navigate(`/community`);
           } else {
             alert("게시글 등록에 실패했습니다. 다시 시도해주세요.");
+            setSubmit(false);
           }
         })
         .catch((error) => {
@@ -70,7 +68,7 @@ export default function AddPost() {
           </div>
         </div>
         <Form onSubmit={handleSubmit}>
-          <InputGroup className="mb-3 mx-auto"  style={{ flexWrap:"nowrap"}}>
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
             <InputGroup.Text id="inputGroup-sizing-lg">제목</InputGroup.Text>
             <Form.Control
               aria-label="Large"
@@ -85,7 +83,7 @@ export default function AddPost() {
             />
           </InputGroup>
 
-          <InputGroup className="mb-3 mx-auto"  style={{ flexWrap:"nowrap"}}>
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
             <InputGroup.Text>내용</InputGroup.Text>
             <Form.Control
               as="textarea"
@@ -100,9 +98,7 @@ export default function AddPost() {
               required
             />
           </InputGroup>
-          <div className="text-end mr-4">
-            {contentLength}/2000
-          </div>
+          <div className="text-end mr-4">{contentLength}/2000</div>
 
           <Form.Select
             className="mx-auto"
@@ -121,7 +117,7 @@ export default function AddPost() {
           </Form.Select>
 
           <div className="d-flex justify-content-end mt-4 mr-3">
-            <Button variant="success" type="submit">
+            <Button variant="success" type="submit" disabled={isSubmitted}>
               게시
             </Button>
           </div>
