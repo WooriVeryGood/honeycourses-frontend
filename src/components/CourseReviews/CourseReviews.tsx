@@ -7,7 +7,7 @@ import Container from "react-bootstrap/Container";
 import { useNavigate } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import styles from "./CourseReviews.module.css";
-import { Badge } from "react-bootstrap";
+import { Badge, Form } from "react-bootstrap";
 
 // 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)
 
@@ -32,6 +32,9 @@ export default function CourseReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [course_name, setCourseName] = useState("");
+  const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
+  const [editedTitle, setEditedTitle] = useState("");
+  const [editedContent, setEditedContent] = useState("");
   const courseId = window.location.pathname.split("/").pop();
   const navigate = useNavigate();
 
@@ -68,6 +71,48 @@ export default function CourseReviews() {
     }
   };
 
+  const submitEdit = async (reviewId: number) => {
+    try {
+      const jwtToken = await getCognitoToken();
+      if (!jwtToken) {
+        console.error("Cognito token not available");
+        return;
+      }
+
+      const headers = {
+        Authorization: `Bearer ${jwtToken}`,
+      };
+
+      const response = await axios.put(
+        `${apiUrl}/courses/reviews/${reviewId}`,
+        {
+          review_title: editedTitle,
+          review_content: editedContent,
+        },
+        { headers }
+      );
+
+      if (response.data) {
+        alert("리뷰가 수정되었습니다.");
+        setEditingReviewId(null);
+        setReviews(
+          reviews.map((review) =>
+            review.review_id === reviewId
+              ? {
+                  ...review,
+                  review_title: editedTitle,
+                  review_content: editedContent,
+                }
+              : review
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error updating review:", error);
+      alert("리뷰 수정에 실패했습니다.");
+    }
+  };
+
   const handleDeleteReview = async (reviewId: number) => {
     if (window.confirm("리뷰를 삭제하시겠습니까?")) {
       try {
@@ -86,7 +131,6 @@ export default function CourseReviews() {
         });
 
         alert("리뷰가 삭제되었습니다.");
-        // Remove the deleted review from the state
         setReviews(reviews.filter((review) => review.review_id !== reviewId));
       } catch (error) {
         console.error("Error deleting review:", error);
@@ -164,29 +208,27 @@ export default function CourseReviews() {
             {course_name}
           </h2>
 
-          {reviews.length > 0 && (
-            <Button
-              className="my-auto"
-              href={`/courses/addReview/${courseId}`}
-              variant="success"
-              size="sm"
-              style={{
-                marginTop: "1%",
-                marginLeft: "1rem",
-                backgroundColor: "#43A680",
-                borderColor: "#43A680",
-              }}
-            >
-              <img
-                src="/images/plus.svg"
-                className="bi"
-                width="23"
-                height="23"
-                alt="github-icon"
-              />
-              평가 작성
-            </Button>
-          )}
+          <Button
+            className="my-auto"
+            href={`/courses/addReview/${courseId}`}
+            variant="success"
+            size="sm"
+            style={{
+              marginTop: "1%",
+              marginLeft: "1rem",
+              backgroundColor: "#43A680",
+              borderColor: "#43A680",
+            }}
+          >
+            <img
+              src="/images/plus.svg"
+              className="bi"
+              width="23"
+              height="23"
+              alt="add-icon"
+            />
+            평가 작성
+          </Button>
         </div>
 
         {reviews.length === 0 ? (
@@ -208,109 +250,150 @@ export default function CourseReviews() {
                 <div
                   style={{ position: "absolute", top: "10px", right: "10px" }}
                 >
-                  <Button
-                    variant="success"
-                    style={{ marginRight: "5px" }}
-                    onClick={() =>
-                      navigate(
-                        `/courses/${courseId}/editReview/${review.review_id}`,
-                        {
-                          state: {
-                            reviewTitle: review.review_title,
-                            reviewContent: review.review_content,
-                          },
-                        }
-                      )
-                    }
-                  >
-                    수정
-                  </Button>
-                  <Button
-                    variant="danger"
-                    onClick={() => handleDeleteReview(review.review_id)}
-                  >
-                    삭제
-                  </Button>
+                  {editingReviewId === review.review_id ? (
+                    <>
+                      <Button
+                        variant="primary"
+                        onClick={() => submitEdit(review.review_id)}
+                      >
+                        제출
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        onClick={() => setEditingReviewId(null)}
+                      >
+                        취소
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        variant="success"
+                        onClick={() => {
+                          setEditingReviewId(review.review_id);
+                          setEditedTitle(review.review_title);
+                          setEditedContent(review.review_content);
+                        }}
+                      >
+                        수정
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleDeleteReview(review.review_id)}
+                      >
+                        삭제
+                      </Button>
+                    </>
+                  )}
                 </div>
               )}
               <Card.Body className="text-start">
-                <Card.Title
-                  style={{
-                    color: "#43A680",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  {review.review_title}
-                  <span style={{ marginLeft: "5px" }}></span>{" "}
-                  {review.mine ? (
-                    <Badge
-                      className="rounded-pill"
-                      bg="#FF7BA9"
-                      style={{ backgroundColor: "#489CC1", marginLeft: "10px" }} // Adjust marginLeft for spacing
-                    >
-                      내가 작성한 리뷰
-                    </Badge>
-                  ) : null}
-                </Card.Title>
-
-                <hr className="divider"></hr>
-                <Card.Text style={{ whiteSpace: "pre-wrap" }}>
-                  <p className="fw-semibold" style={{ color: "grey" }}>
-                    수강학기: {review.taken_semyr}, 교수:{" "}
-                    {review.instructor_name}
-                  </p>
-
-                  {review.review_content.replace(/<br\s*[/]?>/gi, "\n")}
-
-                  <br></br>
-                  <br></br>
-
-                  <span style={{ whiteSpace: "nowrap" }}>
-                    <p className="fw-bold" style={{ display: "inline" }}>
-                      성적:{" "}
-                    </p>
-                    {review.grade}
-                  </span>
-                  <br></br>
-                </Card.Text>
-                <hr className="divider"></hr>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <div
-                    className={styles.date}
-                    style={{
-                      fontSize: "16px",
-                      opacity: 0.7,
-                      marginRight: "auto",
-                    }}
-                  >
-                    {review.review_time === null ? (
-                      "24년 1월 전에 작성된 리뷰입니다."
-                    ) : (
-                      <>
-                        {new Date(review.review_time).toLocaleDateString()} 작성
-                      </>
-                    )}
-                  </div>
-                  <Button
-                    className="float-end"
-                    variant="success"
-                    onClick={() => handleUpvote(review.review_id)}
-                    style={{ opacity: review.liked ? 0.7 : 1 }}
-                  >
-                    {review.liked ? "추천 취소 " : "추천 "}
-                    <img
-                      src="/images/likeWhite.svg"
-                      alt="likes-icon"
-                      style={{
-                        marginRight: "5px",
-                        width: "20px",
-                        height: "20px",
-                      }}
+                {editingReviewId === review.review_id ? (
+                  <>
+                    <Form.Control
+                      type="text"
+                      value={editedTitle}
+                      onChange={(e) => setEditedTitle(e.target.value)}
+                      placeholder="제목"
+                      className="mb-2"
+                      style={{ width: '65%' }} 
+                      required
                     />
-                    {review.like_count}
-                  </Button>
-                </div>
+                    <Form.Control
+                      value={editedContent}
+                      as="textarea"
+                      rows={10}
+                      onChange={(e) => setEditedContent(e.target.value)}
+                      placeholder="내용"
+                      required
+                    ></Form.Control>
+                  </>
+                ) : (
+                  // Display Mode
+                  <>
+                    <Card.Title
+                      style={{
+                        color: "#43A680",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      {review.review_title}
+                      <span style={{ marginLeft: "5px" }}></span>{" "}
+                      {review.mine ? (
+                        <Badge
+                          className="rounded-pill"
+                          bg="#FF7BA9"
+                          style={{
+                            backgroundColor: "#489CC1",
+                            marginLeft: "10px",
+                          }} // Adjust marginLeft for spacing
+                        >
+                          내가 작성한 리뷰
+                        </Badge>
+                      ) : null}
+                    </Card.Title>
+
+                    <hr className="divider"></hr>
+                    <Card.Text style={{ whiteSpace: "pre-wrap" }}>
+                      <p className="fw-semibold" style={{ color: "grey" }}>
+                        수강학기: {review.taken_semyr}, 교수:{" "}
+                        {review.instructor_name}
+                      </p>
+
+                      {review.review_content.replace(/<br\s*[/]?>/gi, "\n")}
+
+                      <br></br>
+                      <br></br>
+
+                      <span style={{ whiteSpace: "nowrap" }}>
+                        <p className="fw-bold" style={{ display: "inline" }}>
+                          성적:{" "}
+                        </p>
+                        {review.grade}
+                      </span>
+                      <br></br>
+                    </Card.Text>
+                    <hr className="divider"></hr>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <div
+                        className={styles.date}
+                        style={{
+                          fontSize: "16px",
+                          opacity: 0.7,
+                          marginRight: "auto",
+                        }}
+                      >
+                        {review.review_time === null ? (
+                          "24년 1월 전에 작성된 리뷰입니다."
+                        ) : (
+                          <>
+                            {new Date(review.review_time).toLocaleDateString()}{" "}
+                            작성
+                          </>
+                        )}
+                      </div>
+                      <Button
+                        className="float-end"
+                        variant="success"
+                        onClick={() => handleUpvote(review.review_id)}
+                        style={{ opacity: review.liked ? 0.7 : 1 }}
+                      >
+                        {review.liked ? "추천 취소 " : "추천 "}
+                        <img
+                          src="/images/likeWhite.svg"
+                          alt="likes-icon"
+                          style={{
+                            marginRight: "5px",
+                            width: "20px",
+                            height: "20px",
+                          }}
+                        />
+                        {review.like_count}
+                      </Button>
+                    </div>
+                  </>
+                )}
               </Card.Body>
             </Card>
           ))

@@ -630,6 +630,7 @@ export default function CommunityPostView() {
                           flexGrow: 1,
                           height: "40px",
                         }}
+                        required
                       />
                       <span
                         style={{

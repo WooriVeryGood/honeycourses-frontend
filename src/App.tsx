@@ -21,7 +21,6 @@ import { RequireAuth } from "./RequireAuth";
 import { Login } from "./components/Login/Login";
 import CommunityPostView from "./components/CommunityPostView/CommunityPostView";
 import AddPost from "./components/AddPost/AddPost";
-import EditReview from "./components/EditReview/EditReview";
 I18n.putVocabularies(translations);
 I18n.setLanguage('ko');
 Amplify.configure(awsExports);
@@ -55,7 +54,6 @@ export default function App() {
             <Route path="/courses" element={<RequireAuth><CourseList /></RequireAuth>} />
             <Route path="/courses/view/:classID" element={<RequireAuth><CourseReviews /></RequireAuth>} />
             <Route path="/courses/addReview/:classID" element={<RequireAuth><AddReview /></RequireAuth>} />
-            <Route path="/courses/:courseId/editReview/:review_id" element={<RequireAuth><EditReview /></RequireAuth>} />
             <Route path="/courses/addCourse" element={<RequireAuth><AddCourse /></RequireAuth>} />
             <Route path="/community" element={<RequireAuth><CommunityHome /></RequireAuth>} />
             <Route path="/community/view/:postID" element={<RequireAuth><CommunityPostView /></RequireAuth>} />
