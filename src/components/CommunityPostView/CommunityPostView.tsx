@@ -165,12 +165,18 @@ export default function CommunityPostView() {
 
   const getAllAuthors = (comments: Comment[]): string[] => {
     const authors = new Set<string>();
+
     comments.forEach((comment) => {
-      authors.add(comment.comment_author);
+      if (comment.comment_author !== post?.post_author) {
+        authors.add(comment.comment_author);
+      }
       comment.replies.forEach((reply) => {
-        authors.add(reply.reply_author);
+        if (reply.reply_author !== post?.post_author) {
+          authors.add(reply.reply_author);
+        }
       });
     });
+
     return Array.from(authors);
   };
 
@@ -178,7 +184,6 @@ export default function CommunityPostView() {
     if (author === postAuthor) return "작성자";
 
     const allAuthors = getAllAuthors(comments);
-
     const authorPosition = allAuthors.indexOf(author);
     if (authorPosition === -1) return "Unknown";
 
@@ -430,19 +435,8 @@ export default function CommunityPostView() {
         );
         setComments(response.data);
 
-        const uniqueAuthors = response.data.reduce(
-          (acc: string[], curr: Comment) => {
-            if (
-              curr.comment_author !== postData.data.post_author &&
-              !acc.includes(curr.comment_author)
-            ) {
-              acc.push(curr.comment_author);
-            }
-            return acc;
-          },
-          []
-        );
-        setUniqueCommenters(uniqueAuthors);
+        const allAuthors = getAllAuthors(comments);
+        setUniqueCommenters(allAuthors);
 
         setIsLoading(false);
         window.scrollTo(0, 0);
