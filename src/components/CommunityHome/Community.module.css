@@ -1,14 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
 .communityContainer {
-    width: 100%;
+    width: 1000px;
     display: flex;
     gap: 3rem;
-    padding: 0 15%;
     font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
 }
 
 .comLeft {
-    width: 30%;
+    width: 20%;
     font-size: 1rem;
     margin-top: 2%;
 }
@@ -21,6 +20,11 @@
     font-size: 1rem;
 }
 
+.listLayout{
+    display: flex;
+    flex-direction: column;
+}
+
 .listLayout>div>h2 {
     font-size: 1.5em;
     font-weight: bolder;
@@ -28,7 +32,6 @@
 
 .categories {
     list-style-type: none;
-    margin-top: 10%;
     font-size: 1em;
 }
 
@@ -58,26 +61,27 @@
 }
 
 .sharp {
-    position: absolute;
-    bottom: 7px;
-    left: 15px;
+    padding-right: 10px;
     color: grey;
 }
 
 .likeComment {
-    position: absolute;
-    bottom: 10px;
-    right: 15px;
     display: flex;
     align-items: center;
 }
 
-.date {
-    position: absolute;
-    bottom: 10px;
-    left: 60px;
+.dateNpostID {
+    display: flex;
     color: grey;
     font-size: 12px;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+@media(max-width:1200px){
+    .communityContainer{
+        width: 75%;
+    }
 }
 
 @media(max-width:936px) {
@@ -105,15 +109,10 @@
     .rightHeader {
         text-align: center;
     }
-    .date{
-        bottom: 7px;
-    }
 }
 @media(max-width:580px){
     .communityContainer {
-        padding: 0 5%;
-    }
-    .date{
-        left: 50px;
+        width: 85%;
+        /* padding: 0 5%; */
     }
 }

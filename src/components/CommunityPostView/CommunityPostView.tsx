@@ -230,10 +230,10 @@ export default function CommunityPostView() {
             comment.comment_id != commentId
               ? comment
               : {
-                  ...comment,
-                  comment_likes: response.data.like_count,
-                  liked: response.data.liked,
-                }
+                ...comment,
+                comment_likes: response.data.like_count,
+                liked: response.data.liked,
+              }
           )
         );
       }
@@ -391,20 +391,40 @@ export default function CommunityPostView() {
         {post && (
           <Card className={styles.card}>
             <div className={styles.mainTop}>
-              <Card.Title className={styles.cardTitle}>
+              <Card.Title className={styles.cardTitle} style={{ display: "flex" }}>
                 <Badge
                   bg="#236969"
-                  style={{ backgroundColor: "#236969", marginRight: "10px" }}
+                  style={{ backgroundColor: "#236969", marginRight: "10px", height: "28px" }}
                 >
                   {post.post_category}
                 </Badge>
-                {post.post_title}
+                <div>
+                  {post.post_title}
+                </div>
               </Card.Title>
               <div className={styles.mainBottom}>
-                <div className={styles.sharp}>#{post.post_id}</div>
-                <div className={styles.date}>
-                  {new Date(post.post_time).toLocaleDateString()}{" "}
-                  {new Date(post.post_time).toLocaleTimeString()}
+                <div style={{ display: "flex" }}>
+                  <div className={styles.sharp}>#{post.post_id}</div>
+                  <div className={styles.date}>
+                    {new Date(post.post_time).toLocaleDateString()}{" "}
+                    {new Date(post.post_time).toLocaleTimeString()}
+                  </div>
+                </div>
+                <div className={post.liked ? styles.onLikeButton : styles.likeButton} style={{ cursor: "pointer" }}>
+                  <span
+                    onClick={requestLikePost}
+                  >
+                    <img
+                      src={post.liked ? "/images/likeGreen.svg" : "/images/likeWhiteSolidBlack.svg"}
+                      alt="likes-icon"
+                      style={{
+                        marginRight: "5px",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                    />
+                    <span className={post.liked ? styles.likeCount : styles.none}>{post.post_likes}</span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -418,6 +438,7 @@ export default function CommunityPostView() {
                     onChange={(e) => setEditPostTitle(e.target.value)}
                     placeholder="제목"
                     required
+                    style={{ marginBottom: "0.5rem" }}
                   />
                   <Form.Control
                     as="textarea"
@@ -425,66 +446,43 @@ export default function CommunityPostView() {
                     onChange={(e) => setEditPostContent(e.target.value)}
                     placeholder="내용"
                     required
+                    style={{ marginBottom: "0.5rem" }}
                   />
-                  <Button variant="primary" onClick={submitPostEdit} disabled = {isEditingPost}>
-                    제출
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    onClick={() => setIsPostEdit(false)}
-                  >
-                    취소
-                  </Button>
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <Button variant="primary" onClick={submitPostEdit} disabled={isEditingPost}>
+                      제출
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      onClick={() => setIsPostEdit(false)}
+                    >
+                      취소
+                    </Button>
+                  </div>
                 </>
               ) : (
                 <>
-                  <Card.Text className={styles.cardText}>
-                    {post.post_content.replace(/<br\s*[/]?>/gi, "\n")}
-                  </Card.Text>
-                  <div className={styles.likeComment}>
-                    <span
-                      style={{ cursor: "pointer" }}
-                      onClick={requestLikePost}
-                    >
-                      <img
-                        src="/images/like.svg"
-                        alt="likes-icon"
-                        style={{
-                          marginRight: "5px",
-                          width: "20px",
-                          height: "20px",
-                        }}
-                      />
-                      <span>{post.post_likes}</span>
-                    </span>
-                    <img
-                      src="/images/comments.svg"
-                      alt="comments-icon"
-                      style={{
-                        marginLeft: "10px",
-                        marginRight: "5px",
-                        width: "15px",
-                        height: "15px",
-                      }}
-                    />
-                    <span>{post.post_comments}</span>
-                  </div>
                   {isMyPost(post.post_author) && (
                     <div style={{ textAlign: "right" }}>
                       <Button
                         variant="outline-primary"
                         onClick={handleEditPost}
+                        style={{ borderRadius: "20px" }}
                       >
                         수정
                       </Button>{" "}
                       <Button
                         variant="outline-danger"
                         onClick={requestDeletePost}
+                        style={{ borderRadius: "20px" }}
                       >
                         삭제
                       </Button>
                     </div>
                   )}
+                  <Card.Text className={styles.cardText}>
+                    {post.post_content.replace(/<br\s*[/]?>/gi, "\n")}
+                  </Card.Text>
                 </>
               )}
             </Card.Body>
@@ -492,6 +490,22 @@ export default function CommunityPostView() {
         )}
 
         <div className="comment-section">
+          {post && (
+            <div className={styles.commentCount}>
+              <img
+                src="/images/comments.svg"
+                alt="comments-icon"
+                style={{
+                  marginLeft: "10px",
+                  marginRight: "5px",
+                  width: "15px",
+                  height: "15px",
+                }}
+              />
+              <span> 댓글 {post.post_comments} 개</span>
+            </div>
+          )}
+
           <div className="comment-input-group">
             <Form.Control
               className={styles.send}
@@ -503,17 +517,18 @@ export default function CommunityPostView() {
                 }
               }}
               placeholder="댓글을 작성해주세요 (200자 이내)"
-              style={{ marginRight: "10px", flexGrow: 1, height: "40px" }}
+              style={{ marginRight: "10px", flexGrow: 1, height: "40px", borderRadius: "20px", paddingBottom: "5px", paddingTop: "8px" }}
             />
-            <i
-              className="bi bi-send"
-              onClick={handlePostComment}
-              style={{
-                alignSelf: "flex-end",
-                fontSize: "170%",
-                cursor: "pointer",
-              }}
-            ></i>
+            <div onClick={handlePostComment} style={{ margin: "5px 5px", cursor: "pointer" }}>
+              <img
+                src="/images/send.png"
+                alt="send-icon"
+                style={{
+                  width: "30px",
+                  height: "30px",
+                }}
+              />
+            </div>
           </div>
 
           <div className="comments-list" style={{ width: "100%" }}>
@@ -529,7 +544,7 @@ export default function CommunityPostView() {
                       ),
                     }}
                   ></div>
-                  <div>
+                  <div style={{ display: "flex", alignItems: "center" }}>
                     <span
                       className={styles.author}
                       style={{
@@ -550,79 +565,12 @@ export default function CommunityPostView() {
                       {new Date(comment.comment_time).toLocaleDateString()}{" "}
                       {new Date(comment.comment_time).toLocaleTimeString()}
                     </span>
-                    <div
-                      style={{
-                        float: "right",
-                        marginLeft: "8px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => requestLikeComment(comment.comment_id)}
-                    >
-                      <img
-                        src="/images/like.svg"
-                        alt="likes-icon"
-                        style={{
-                          marginRight: "4px",
-                          width: "14px",
-                          height: "14px",
-                        }}
-                      />
-                      <span style={{ fontSize: "14px" }}>
-                        {comment.comment_likes}
-                      </span>
-                    </div>
-                    {isMyComment(comment.comment_author) && !isCommentUpdate ? (
-                      <span
-                        style={{
-                          marginLeft: "8px",
-                          cursor: "pointer",
-                          fontSize: "14px",
-                        }}
-                        onClick={() => {
-                          setIsCommentUpdate(true);
-                          setUpdateComment((prevState) => {
-                            if (prevState == null)
-                              return {
-                                comment_id: comment.comment_id,
-                                comment_content: comment.comment_content,
-                                comment_author: comment.comment_author,
-                                comment_likes: comment.comment_likes,
-                                comment_time: comment.comment_time,
-                                liked: comment.liked,
-                              };
-                            return {
-                              comment_id: comment.comment_id,
-                              comment_content: comment.comment_content,
-                              comment_author: comment.comment_author,
-                              comment_likes: comment.comment_likes,
-                              comment_time: comment.comment_time,
-                              liked: comment.liked,
-                            };
-                          });
-                        }}
-                      >
-                        수정
-                      </span>
-                    ) : null}
-
-                    {isMyComment(comment.comment_author) ? (
-                      <span
-                        style={{
-                          marginLeft: "8px",
-                          cursor: "pointer",
-                          fontSize: "14px",
-                        }}
-                        onClick={() => requestDeleteComment(comment.comment_id)}
-                      >
-                        삭제
-                      </span>
-                    ) : null}
                   </div>
                 </div>
-                <Card.Body className={styles.cardBody}>
+                <Card.Body className={styles.cardBody} style={{ paddingBottom: "5px" }}>
                   {isCommentUpdate &&
-                  updateComment != null &&
-                  comment.comment_id == updateComment.comment_id ? (
+                    updateComment != null &&
+                    comment.comment_id == updateComment.comment_id ? (
                     <div>
                       <Form.Control
                         className={styles.send}
@@ -652,6 +600,7 @@ export default function CommunityPostView() {
                           marginRight: "8px",
                           cursor: "pointer",
                           fontSize: "14px",
+                          color: "gray",
                         }}
                         onClick={() =>
                           requestUpdateComment(
@@ -663,7 +612,7 @@ export default function CommunityPostView() {
                         수정
                       </span>
                       <span
-                        style={{ cursor: "pointer", fontSize: "14px" }}
+                        style={{ cursor: "pointer", fontSize: "14px", color: "gray", }}
                         onClick={() => setIsCommentUpdate(false)}
                       >
                         취소
@@ -673,6 +622,79 @@ export default function CommunityPostView() {
                     <Card.Text>{comment.comment_content}</Card.Text>
                   )}
                 </Card.Body>
+                <div style={{ display: "flex" }}>
+                  <div
+                    style={{
+                      float: "right",
+                      marginLeft: "8px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => requestLikeComment(comment.comment_id)}
+                  >
+                    <img
+                      src={comment.liked ? "/images/likeGreen.svg" : "/images/likeWhiteSolidBlack.svg"}
+                      alt="likes-icon"
+                      style={{
+                        marginRight: "4px",
+                        width: "14px",
+                        height: "14px",
+                      }}
+                    />
+                    <span style={comment.liked ? { fontSize: "14px", color: "green", fontWeight: "bolder" } : { fontSize: "14px", color: "gray" }}>
+                      추천 {comment.comment_likes}
+                    </span>
+                  </div>
+                  <div>
+                    {isMyComment(comment.comment_author) && !isCommentUpdate ? (
+                      <span
+                        style={{
+                          marginLeft: "8px",
+                          cursor: "pointer",
+                          fontSize: "14px",
+                          color: "gray",
+                        }}
+                        onClick={() => {
+                          setIsCommentUpdate(true);
+                          setUpdateComment((prevState) => {
+                            if (prevState == null)
+                              return {
+                                comment_id: comment.comment_id,
+                                comment_content: comment.comment_content,
+                                comment_author: comment.comment_author,
+                                comment_likes: comment.comment_likes,
+                                comment_time: comment.comment_time,
+                                liked: comment.liked,
+                              };
+                            return {
+                              comment_id: comment.comment_id,
+                              comment_content: comment.comment_content,
+                              comment_author: comment.comment_author,
+                              comment_likes: comment.comment_likes,
+                              comment_time: comment.comment_time,
+                              liked: comment.liked,
+                            };
+                          });
+                        }}
+                      >
+                        &nbsp;| &nbsp; 수정&nbsp;
+                      </span>
+                    ) : null}
+                    {isMyComment(comment.comment_author) ? (
+                      <span
+                        style={{
+                          marginLeft: "8px",
+                          cursor: "pointer",
+                          fontSize: "14px",
+                          color: "gray",
+                        }}
+                        onClick={() => requestDeleteComment(comment.comment_id)}
+                      >
+                        &nbsp;삭제
+                      </span>
+                    ) : null}
+                  </div>
+
+                </div>
               </Card>
             ))}
           </div>
