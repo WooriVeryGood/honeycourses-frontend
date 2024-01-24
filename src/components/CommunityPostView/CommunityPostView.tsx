@@ -24,6 +24,15 @@ interface Post {
   liked: boolean;
 }
 
+interface Reply {
+  reply_id: number;
+  reply_content: string;
+  reply_author: string;
+  reply_likes: number;
+  reply_time: string;
+  liked: boolean;
+}
+
 interface Comment {
   comment_id: number;
   comment_content: string;
@@ -31,6 +40,7 @@ interface Comment {
   comment_likes: number;
   comment_time: string;
   liked: boolean;
+  replies: Reply[];
 }
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -130,6 +140,11 @@ export default function CommunityPostView() {
   const [editPostTitle, setEditPostTitle] = useState("");
   const [editPostContent, setEditPostContent] = useState("");
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+  const [isSubmittingReply, setIsSubmittingReply] = useState(false);
+  const [newReply, setNewReply] = useState("");
+  const [writeReplyToggle, setWriteReplyToggle] = useState<boolean[]>(
+    Array(comments.length).fill(false)
+  );
   const [isEditingComment, setIsEditingComment] = useState(false);
   const [isEditingPost, setIsEditingPost] = useState(false);
   const navigate = useNavigate();
@@ -137,21 +152,36 @@ export default function CommunityPostView() {
   const getCommentBackgroundColor = (
     commentAuthor: string,
     postAuthor: string
-  ) => {
+  ): string => {
     if (commentAuthor === postAuthor) return "white";
-
-    const authorPosition = uniqueCommenters.indexOf(commentAuthor);
+    const allAuthors = getAllAuthors(comments);
+    const authorPosition = allAuthors.indexOf(commentAuthor);
     if (authorPosition === -1) return "white";
+
     return commentBackgroundColors[
       authorPosition % commentBackgroundColors.length
     ];
   };
 
-  const getAuthorName = (commentAuthor: string, postAuthor: string) => {
-    if (commentAuthor === postAuthor) return "작성자";
+  const getAllAuthors = (comments: Comment[]): string[] => {
+    const authors = new Set<string>();
+    comments.forEach((comment) => {
+      authors.add(comment.comment_author);
+      comment.replies.forEach((reply) => {
+        authors.add(reply.reply_author);
+      });
+    });
+    return Array.from(authors);
+  };
 
-    const authorPosition = uniqueCommenters.indexOf(commentAuthor);
+  const getAuthorName = (author: string, postAuthor: string): string => {
+    if (author === postAuthor) return "작성자";
+
+    const allAuthors = getAllAuthors(comments);
+
+    const authorPosition = allAuthors.indexOf(author);
     if (authorPosition === -1) return "Unknown";
+
     return pseudonyms[authorPosition % pseudonyms.length];
   };
 
@@ -225,16 +255,29 @@ export default function CommunityPostView() {
         const liked = response.data.liked;
         if (liked) alert("댓글을 추천했습니다!");
         else alert("댓글 추천을 취소했습니다!");
+
         setComments(
-          comments.map((comment) =>
-            comment.comment_id != commentId
-              ? comment
-              : {
+          comments.map((comment) => {
+            if (comment.comment_id === commentId) {
+              return {
                 ...comment,
                 comment_likes: response.data.like_count,
                 liked: response.data.liked,
-              }
-          )
+              };
+            }
+
+            const replies = comment.replies.map((reply) =>
+              reply.reply_id === commentId
+                ? {
+                    ...reply,
+                    reply_likes: response.data.like_count,
+                    liked: response.data.liked,
+                  }
+                : reply
+            );
+
+            return { ...comment, replies };
+          })
         );
       }
     } catch (error) {
@@ -325,9 +368,37 @@ export default function CommunityPostView() {
     }
   };
 
+  const handlePostReply = async (commentId: number, reply_content: string) => {
+    if (isSubmittingReply) return;
+    setIsSubmittingReply(true);
+    try {
+      const headers = await apiHeader();
+      const response = await axios.post(
+        `${apiUrl}/comments/${commentId}/reply`,
+        {
+          content: reply_content,
+        },
+        { headers }
+      );
+
+      if (response.status === 201) {
+        alert("답글 작성에 성공했습니다!");
+        window.location.reload();
+      } else {
+        console.error("Error in response after posting reply.");
+      }
+      setIsSubmittingReply(false);
+    } catch (error) {
+      console.error("Error posting comment:", error);
+      setIsSubmittingReply(false);
+    }
+  };
+
   const requestDeleteComment = async (commentId: number) => {
     try {
-      const isDelete = window.confirm("댓글을 삭제할까요?");
+      const isDelete = window.confirm(
+        "댓글을 삭제할까요? (답글이 있는 댓글은 내용만 삭제됩니다)"
+      );
       if (!isDelete) return;
       const headers = await apiHeader();
       const response = await axios.delete(`${apiUrl}/comments/${commentId}`, {
@@ -335,11 +406,8 @@ export default function CommunityPostView() {
       });
 
       if (response.data) {
-        const deletedCommentId = response.data.comment_id;
         alert("댓글을 삭제했습니다!");
-        setComments(
-          comments.filter((comment) => comment.comment_id != deletedCommentId)
-        );
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error like comment:", error);
@@ -391,16 +459,21 @@ export default function CommunityPostView() {
         {post && (
           <Card className={styles.card}>
             <div className={styles.mainTop}>
-              <Card.Title className={styles.cardTitle} style={{ display: "flex" }}>
+              <Card.Title
+                className={styles.cardTitle}
+                style={{ display: "flex" }}
+              >
                 <Badge
                   bg="#236969"
-                  style={{ backgroundColor: "#236969", marginRight: "10px", height: "30px" }}
+                  style={{
+                    backgroundColor: "#236969",
+                    marginRight: "10px",
+                    height: "30px",
+                  }}
                 >
                   {post.post_category}
                 </Badge>
-                <div>
-                  {post.post_title}
-                </div>
+                <div>{post.post_title}</div>
               </Card.Title>
               <div className={styles.mainBottom}>
                 <div style={{ display: "flex" }}>
@@ -410,12 +483,19 @@ export default function CommunityPostView() {
                     {new Date(post.post_time).toLocaleTimeString()}
                   </div>
                 </div>
-                <div className={post.liked ? styles.onLikeButton : styles.likeButton} style={{ cursor: "pointer" }}>
-                  <span
-                    onClick={requestLikePost}
-                  >
+                <div
+                  className={
+                    post.liked ? styles.onLikeButton : styles.likeButton
+                  }
+                  style={{ cursor: "pointer" }}
+                >
+                  <span onClick={requestLikePost}>
                     <img
-                      src={post.liked ? "/images/likeGreen.svg" : "/images/likeWhiteSolidBlack.svg"}
+                      src={
+                        post.liked
+                          ? "/images/likeGreen.svg"
+                          : "/images/likeWhiteSolidBlack.svg"
+                      }
                       alt="likes-icon"
                       style={{
                         marginRight: "5px",
@@ -423,7 +503,11 @@ export default function CommunityPostView() {
                         height: "20px",
                       }}
                     />
-                    <span className={post.liked ? styles.likeCount : styles.none}>{post.post_likes}</span>
+                    <span
+                      className={post.liked ? styles.likeCount : styles.none}
+                    >
+                      {post.post_likes}
+                    </span>
                   </span>
                 </div>
               </div>
@@ -449,7 +533,11 @@ export default function CommunityPostView() {
                     style={{ marginBottom: "0.5rem" }}
                   />
                   <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <Button variant="primary" onClick={submitPostEdit} disabled={isEditingPost}>
+                    <Button
+                      variant="primary"
+                      onClick={submitPostEdit}
+                      disabled={isEditingPost}
+                    >
                       제출
                     </Button>
                     <Button
@@ -517,9 +605,19 @@ export default function CommunityPostView() {
                 }
               }}
               placeholder="댓글을 작성해주세요 (200자 이내)"
-              style={{ marginRight: "10px", flexGrow: 1, height: "40px", borderRadius: "20px", paddingBottom: "5px", paddingTop: "8px" }}
+              style={{
+                marginRight: "10px",
+                flexGrow: 1,
+                height: "40px",
+                borderRadius: "20px",
+                paddingBottom: "5px",
+                paddingTop: "8px",
+              }}
             />
-            <div onClick={handlePostComment} style={{ margin: "5px 5px", cursor: "pointer" }}>
+            <div
+              onClick={handlePostComment}
+              style={{ margin: "5px 5px", cursor: "pointer" }}
+            >
               <img
                 src="/images/send.png"
                 alt="send-icon"
@@ -532,7 +630,7 @@ export default function CommunityPostView() {
           </div>
 
           <div className="comments-list" style={{ width: "100%" }}>
-            {comments.map((comment) => (
+            {comments.map((comment, index) => (
               <Card key={comment.comment_id} className={styles.comment}>
                 <div className={styles.cardHeader}>
                   <div
@@ -567,10 +665,13 @@ export default function CommunityPostView() {
                     </span>
                   </div>
                 </div>
-                <Card.Body className={styles.cardBody} style={{ paddingBottom: "5px" }}>
+                <Card.Body
+                  className={styles.cardBody}
+                  style={{ paddingBottom: "5px" }}
+                >
                   {isCommentUpdate &&
-                    updateComment != null &&
-                    comment.comment_id == updateComment.comment_id ? (
+                  updateComment != null &&
+                  comment.comment_id == updateComment.comment_id ? (
                     <div>
                       <Form.Control
                         className={styles.send}
@@ -612,14 +713,24 @@ export default function CommunityPostView() {
                         수정
                       </span>
                       <span
-                        style={{ cursor: "pointer", fontSize: "14px", color: "gray", }}
+                        style={{
+                          cursor: "pointer",
+                          fontSize: "14px",
+                          color: "gray",
+                        }}
                         onClick={() => setIsCommentUpdate(false)}
                       >
                         취소
                       </span>
                     </div>
                   ) : (
-                    <Card.Text>{comment.comment_content}</Card.Text>
+                    <Card.Text>
+                      {comment.comment_content === null ? (
+                        <em style={{ opacity: 0.7 }}>[삭제된 댓글입니다.]</em>
+                      ) : (
+                        comment.comment_content
+                      )}
+                    </Card.Text>
                   )}
                 </Card.Body>
                 <div style={{ display: "flex" }}>
@@ -632,7 +743,11 @@ export default function CommunityPostView() {
                     onClick={() => requestLikeComment(comment.comment_id)}
                   >
                     <img
-                      src={comment.liked ? "/images/likeGreen.svg" : "/images/likeWhiteSolidBlack.svg"}
+                      src={
+                        comment.liked
+                          ? "/images/likeGreen.svg"
+                          : "/images/likeWhiteSolidBlack.svg"
+                      }
                       alt="likes-icon"
                       style={{
                         marginRight: "4px",
@@ -640,12 +755,33 @@ export default function CommunityPostView() {
                         height: "14px",
                       }}
                     />
-                    <span style={comment.liked ? { fontSize: "14px", color: "green", fontWeight: "bolder" } : { fontSize: "14px", color: "gray" }}>
+                    <span
+                      style={
+                        comment.liked
+                          ? {
+                              fontSize: "14px",
+                              color: "green",
+                              fontWeight: "bolder",
+                              display: "inline-block",
+                              margin: 0,
+                              padding: 0,
+                            }
+                          : {
+                              fontSize: "14px",
+                              color: "gray",
+                              display: "inline-block",
+                              margin: 0,
+                              padding: 0,
+                            }
+                      }
+                    >
                       추천 {comment.comment_likes}
                     </span>
                   </div>
                   <div>
-                    {isMyComment(comment.comment_author) && !isCommentUpdate ? (
+                    {isMyComment(comment.comment_author) &&
+                    !isCommentUpdate &&
+                    comment.comment_content !== null ? (
                       <span
                         style={{
                           marginLeft: "8px",
@@ -664,6 +800,7 @@ export default function CommunityPostView() {
                                 comment_likes: comment.comment_likes,
                                 comment_time: comment.comment_time,
                                 liked: comment.liked,
+                                replies: comment.replies,
                               };
                             return {
                               comment_id: comment.comment_id,
@@ -672,6 +809,7 @@ export default function CommunityPostView() {
                               comment_likes: comment.comment_likes,
                               comment_time: comment.comment_time,
                               liked: comment.liked,
+                              replies: comment.replies,
                             };
                           });
                         }}
@@ -679,7 +817,8 @@ export default function CommunityPostView() {
                         &nbsp;| &nbsp; 수정&nbsp;
                       </span>
                     ) : null}
-                    {isMyComment(comment.comment_author) ? (
+                    {isMyComment(comment.comment_author) &&
+                    comment.comment_content !== null ? (
                       <span
                         style={{
                           marginLeft: "8px",
@@ -692,8 +831,272 @@ export default function CommunityPostView() {
                         &nbsp;삭제
                       </span>
                     ) : null}
-                  </div>
 
+                    <span
+                      style={{
+                        marginLeft: "8px",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        color: "gray",
+                      }}
+                      onClick={() => {
+                        const updatedToggles = [...writeReplyToggle];
+                        updatedToggles[index] = !updatedToggles[index];
+                        setWriteReplyToggle(updatedToggles);
+                      }}
+                    >
+                      &nbsp;| &nbsp; 답글작성
+                    </span>
+                  </div>
+                </div>
+                <div className="replies">
+                  {comment.replies.map((reply) => (
+                    <Card
+                      key={reply.reply_id}
+                      className={styles.comment}
+                      style={{ marginLeft: "10%" }}
+                    >
+                      <span className="reply-arrow"></span>
+                      <div className={styles.cardHeader}>
+                        <div
+                          className={styles.cardCircle}
+                          style={{
+                            backgroundColor: getCommentBackgroundColor(
+                              reply.reply_author,
+                              post?.post_author || ""
+                            ),
+                          }}
+                        ></div>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <span
+                            className={styles.author}
+                            style={{
+                              position: "relative",
+                              display: "inline-block",
+                              boxShadow: `inset 0 -10px ${getCommentBackgroundColor(
+                                reply.reply_author,
+                                post?.post_author || ""
+                              )}`,
+                            }}
+                          >
+                            {getAuthorName(
+                              reply.reply_author,
+                              post?.post_author || ""
+                            )}
+                          </span>
+                          <span className={styles.date}>
+                            {new Date(reply.reply_time).toLocaleDateString()}{" "}
+                            {new Date(reply.reply_time).toLocaleTimeString()}
+                          </span>
+                        </div>
+                      </div>
+                      <Card.Body
+                        className={styles.cardBody}
+                        style={{ paddingBottom: "5px" }}
+                      >
+                        {isCommentUpdate &&
+                        updateComment != null &&
+                        reply.reply_id === updateComment.comment_id ? (
+                          <div>
+                            <Form.Control
+                              className={styles.send}
+                              as="textarea"
+                              value={updateComment.comment_content}
+                              onChange={(e) => {
+                                if (e.target.value.length <= 200) {
+                                  setUpdateComment((prevState) => {
+                                    if (prevState == null) return null;
+                                    return {
+                                      ...prevState,
+                                      comment_content: e.target.value,
+                                    };
+                                  });
+                                }
+                              }}
+                              placeholder="답글을 작성해주세요 (200자 이내)"
+                              style={{
+                                marginRight: "10px",
+                                flexGrow: 1,
+                                height: "40px",
+                              }}
+                              required
+                            />
+                            <span
+                              style={{
+                                marginRight: "8px",
+                                cursor: "pointer",
+                                fontSize: "14px",
+                                color: "gray",
+                              }}
+                              onClick={() =>
+                                requestUpdateComment(
+                                  reply.reply_id,
+                                  updateComment!.comment_content
+                                )
+                              }
+                            >
+                              수정
+                            </span>
+                            <span
+                              style={{
+                                cursor: "pointer",
+                                fontSize: "14px",
+                                color: "gray",
+                              }}
+                              onClick={() => setIsCommentUpdate(false)}
+                            >
+                              취소
+                            </span>
+                          </div>
+                        ) : (
+                          <Card.Text>{reply.reply_content}</Card.Text>
+                        )}
+                      </Card.Body>
+                      <div style={{ display: "flex" }}>
+                        <div
+                          style={{
+                            float: "right",
+                            marginLeft: "8px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => requestLikeComment(reply.reply_id)}
+                        >
+                          <img
+                            src={
+                              reply.liked
+                                ? "/images/likeGreen.svg"
+                                : "/images/likeWhiteSolidBlack.svg"
+                            }
+                            alt="likes-icon"
+                            style={{
+                              marginRight: "4px",
+                              width: "14px",
+                              height: "14px",
+                            }}
+                          />
+                          <span
+                            style={
+                              reply.liked
+                                ? {
+                                    fontSize: "14px",
+                                    color: "green",
+                                    fontWeight: "bolder",
+                                  }
+                                : { fontSize: "14px", color: "gray" }
+                            }
+                          >
+                            추천 {reply.reply_likes}
+                          </span>
+                        </div>
+                        <div>
+                          {isMyComment(reply.reply_author) &&
+                          !isCommentUpdate ? (
+                            <span
+                              style={{
+                                marginLeft: "8px",
+                                cursor: "pointer",
+                                fontSize: "14px",
+                                color: "gray",
+                              }}
+                              onClick={() => {
+                                setIsCommentUpdate(true);
+                                setUpdateComment((prevState) => {
+                                  if (prevState == null)
+                                    return {
+                                      comment_id: reply.reply_id,
+                                      comment_content: reply.reply_content,
+                                      comment_author: reply.reply_author,
+                                      comment_likes: reply.reply_likes,
+                                      comment_time: reply.reply_time,
+                                      liked: reply.liked,
+                                      replies: [],
+                                    };
+                                  return {
+                                    comment_id: reply.reply_id,
+                                    comment_content: reply.reply_content,
+                                    comment_author: reply.reply_author,
+                                    comment_likes: reply.reply_likes,
+                                    comment_time: reply.reply_time,
+                                    liked: reply.liked,
+                                    replies: [],
+                                  };
+                                });
+                              }}
+                            >
+                              &nbsp;| &nbsp; 수정&nbsp;
+                            </span>
+                          ) : null}
+                          {isMyComment(reply.reply_author) ? (
+                            <span
+                              style={{
+                                marginLeft: "8px",
+                                cursor: "pointer",
+                                fontSize: "14px",
+                                color: "gray",
+                              }}
+                              onClick={() =>
+                                requestDeleteComment(reply.reply_id)
+                              }
+                            >
+                              &nbsp;삭제
+                            </span>
+                          ) : null}
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+                <div>
+                  {writeReplyToggle[index] ? (
+                    <div>
+                      <Form.Control
+                        className={styles.send}
+                        as="textarea"
+                        value={newReply}
+                        onChange={(e) => {
+                          if (e.target.value.length <= 200) {
+                            setNewReply(e.target.value);
+                          }
+                        }}
+                        placeholder="답글을 작성해주세요 (200자 이내)"
+                        style={{
+                          marginRight: "10px",
+                          marginTop: "15px",
+                          flexGrow: 1,
+                          height: "40px",
+                        }}
+                        required
+                      />
+                      <span
+                        style={{
+                          marginRight: "8px",
+                          cursor: "pointer",
+                          fontSize: "14px",
+                          color: "gray",
+                        }}
+                        onClick={() =>
+                          handlePostReply(comment.comment_id, newReply)
+                        }
+                      >
+                        제출
+                      </span>
+                      <span
+                        style={{
+                          marginRight: "8px",
+                          cursor: "pointer",
+                          fontSize: "14px",
+                          color: "gray",
+                        }}
+                        onClick={() => {
+                          const updatedToggles = [...writeReplyToggle];
+                          updatedToggles[index] = !updatedToggles[index];
+                          setWriteReplyToggle(updatedToggles);
+                        }}
+                      >
+                        취소
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
               </Card>
             ))}

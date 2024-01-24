@@ -12,6 +12,17 @@
   justify-content: space-between;
 }
 
+.reply-arrow {
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid black;
+  border-left: 2px solid black;
+  position: absolute;
+  left: -15px; 
+  top: 10px; 
+}
+
+
 @media(max-width:860px) {
   .comment-section {
     width: 83%;
