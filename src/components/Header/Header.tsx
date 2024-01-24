@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import { useLocation } from "react-router-dom";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import styles from "./Header.module.css";
 
 export default function Header() {
   const { user, signOut } = useAuthenticator((context) => [
@@ -27,6 +28,7 @@ export default function Header() {
         paddingLeft: "5%",
         paddingRight: "0",
       }}
+      className={styles.headerBody}
     >
       <Container fluid className="p-0">
         <Navbar.Brand
