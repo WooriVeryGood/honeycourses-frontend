@@ -394,7 +394,7 @@ export default function CommunityPostView() {
               <Card.Title className={styles.cardTitle} style={{ display: "flex" }}>
                 <Badge
                   bg="#236969"
-                  style={{ backgroundColor: "#236969", marginRight: "10px", height: "28px" }}
+                  style={{ backgroundColor: "#236969", marginRight: "10px", height: "30px" }}
                 >
                   {post.post_category}
                 </Badge>
