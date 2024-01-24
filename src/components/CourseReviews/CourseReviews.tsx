@@ -415,15 +415,14 @@ export default function CourseReviews() {
                           </>
                         )}
                       </div>
-                      <Button
-                        className="float-end"
-                        variant="success"
+                      <div
                         onClick={() => handleUpvote(review.review_id)}
-                        style={{ opacity: review.liked ? 0.7 : 1 }}
+                        className={review.liked?styles.onLikeButton:styles.likeButton}
+                        style={{cursor:"pointer"}}
                       >
                         {/* {review.liked ? "추천 취소 " : "추천 "} */}
                         <img
-                          src="/images/likeWhite.svg"
+                          src={review.liked ? "/images/likeGreen.svg" : "/images/likeWhiteSolidBlack.svg"}
                           alt="likes-icon"
                           style={{
                             marginRight: "5px",
@@ -431,8 +430,10 @@ export default function CourseReviews() {
                             height: "20px",
                           }}
                         />
+                        <span className={review.liked ? styles.likeCount : styles.none}>
                         {review.like_count}
-                      </Button>
+                        </span>
+                      </div>
                     </div>
                   </>
                 )}
