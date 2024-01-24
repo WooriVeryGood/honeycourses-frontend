@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
 .CourseListContainer{
-    width: 75%;
+    width: 1000px;
     display: flex;
     gap: 3rem;
     font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
@@ -24,7 +24,6 @@
 }
 .categories{
     list-style-type: none;
-    margin-top: 10%;
     padding-left: 5%;
 }
 .categories>li{
@@ -140,6 +139,12 @@
     text-align: left;
 }
 
+@media(max-width:1200px){
+    .CourseListContainer{
+        width: 75%;
+    }
+}
+
 @media(max-width:936px){
     .CourseListContainer{
         flex-direction: column;
@@ -173,5 +178,10 @@
     }
     .sidebarContent>div{
         margin-top: 5%;
+    }
+}
+@media(max-width:580px){
+    .CourseListContainer {
+        width: 85%;
     }
 }
