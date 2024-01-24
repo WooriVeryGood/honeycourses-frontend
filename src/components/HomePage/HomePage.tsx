@@ -10,6 +10,7 @@ import { CSSTransition } from "react-transition-group";
 import "./HomePage.css";
 import { Link } from "react-router-dom";
 import { Auth } from "aws-amplify";
+import styles from "./HomePage.module.css";
 
 interface Course {
   course_id: string;
@@ -73,7 +74,7 @@ export default function HomePage() {
         className="justify-content-center align-items-center text-center"
         style={{ paddingTop: "40px" }}
       >
-        <div>
+        <div className={styles.homePageBody}>
           <Row>
             <Col style={{ position: "relative" }}>
               <Image
