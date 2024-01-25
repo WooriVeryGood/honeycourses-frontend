@@ -151,7 +151,7 @@ export default function CommunityPostView() {
 
   const dateA = new Date('2022/06/01 08:00:00');
   const dateB = new Date('2022/06/01 00:00:00');
-  const diffMSec = dateA.getTime()-dateB.getTime();
+  const diffMSec = dateA.getTime() - dateB.getTime();
 
   const getCommentBackgroundColor = (
     commentAuthor: string,
@@ -278,10 +278,10 @@ export default function CommunityPostView() {
             const replies = comment.replies.map((reply) =>
               reply.reply_id === commentId
                 ? {
-                    ...reply,
-                    reply_likes: response.data.like_count,
-                    liked: response.data.liked,
-                  }
+                  ...reply,
+                  reply_likes: response.data.like_count,
+                  liked: response.data.liked,
+                }
                 : reply
             );
 
@@ -477,8 +477,8 @@ export default function CommunityPostView() {
                 <div style={{ display: "flex" }}>
                   <div className={styles.sharp}>#{post.post_id}</div>
                   <div className={styles.date}>
-                  {new Date(new Date(post.post_time).getTime()+diffMSec).toLocaleDateString()}{" "}
-                  {new Date(new Date(post.post_time).getTime()+diffMSec).toLocaleTimeString()}
+                    {new Date(new Date(post.post_time).getTime() + diffMSec).toLocaleDateString()}{" "}
+                    {new Date(new Date(post.post_time).getTime() + diffMSec).toLocaleTimeString()}
                   </div>
                 </div>
                 <div
@@ -658,8 +658,8 @@ export default function CommunityPostView() {
                       )}
                     </span>
                     <span className={styles.date}>
-                    {new Date(new Date(comment.comment_time).getTime()+diffMSec).toLocaleDateString()}{" "}
-                    {new Date(new Date(comment.comment_time).getTime()+diffMSec).toLocaleTimeString()}
+                      {new Date(new Date(comment.comment_time).getTime() + diffMSec).toLocaleDateString()}{" "}
+                      {new Date(new Date(comment.comment_time).getTime() + diffMSec).toLocaleTimeString()}
                     </span>
                   </div>
                 </div>
@@ -668,8 +668,8 @@ export default function CommunityPostView() {
                   style={{ paddingBottom: "5px" }}
                 >
                   {isCommentUpdate &&
-                  updateComment != null &&
-                  comment.comment_id == updateComment.comment_id ? (
+                    updateComment != null &&
+                    comment.comment_id == updateComment.comment_id ? (
                     <div>
                       <Form.Control
                         className={styles.send}
@@ -757,20 +757,20 @@ export default function CommunityPostView() {
                       style={
                         comment.liked
                           ? {
-                              fontSize: "14px",
-                              color: "green",
-                              fontWeight: "bolder",
-                              display: "inline-block",
-                              margin: 0,
-                              padding: 0,
-                            }
+                            fontSize: "14px",
+                            color: "green",
+                            fontWeight: "bolder",
+                            display: "inline-block",
+                            margin: 0,
+                            padding: 0,
+                          }
                           : {
-                              fontSize: "14px",
-                              color: "gray",
-                              display: "inline-block",
-                              margin: 0,
-                              padding: 0,
-                            }
+                            fontSize: "14px",
+                            color: "gray",
+                            display: "inline-block",
+                            margin: 0,
+                            padding: 0,
+                          }
                       }
                     >
                       추천 {comment.comment_likes}
@@ -778,8 +778,8 @@ export default function CommunityPostView() {
                   </div>
                   <div>
                     {isMyComment(comment.comment_author) &&
-                    !isCommentUpdate &&
-                    comment.comment_content !== null ? (
+                      !isCommentUpdate &&
+                      comment.comment_content !== null ? (
                       <span
                         style={{
                           marginLeft: "8px",
@@ -816,7 +816,7 @@ export default function CommunityPostView() {
                       </span>
                     ) : null}
                     {isMyComment(comment.comment_author) &&
-                    comment.comment_content !== null ? (
+                      comment.comment_content !== null ? (
                       <span
                         style={{
                           marginLeft: "8px",
@@ -883,8 +883,8 @@ export default function CommunityPostView() {
                             )}
                           </span>
                           <span className={styles.date}>
-                          {new Date(new Date(reply.reply_time).getTime()+diffMSec).toLocaleDateString()}{" "}
-                          {new Date(new Date(reply.reply_time).getTime()+diffMSec).toLocaleTimeString()}
+                            {new Date(new Date(reply.reply_time).getTime() + diffMSec).toLocaleDateString()}{" "}
+                            {new Date(new Date(reply.reply_time).getTime() + diffMSec).toLocaleTimeString()}
                           </span>
                         </div>
                       </div>
@@ -893,8 +893,8 @@ export default function CommunityPostView() {
                         style={{ paddingBottom: "5px" }}
                       >
                         {isCommentUpdate &&
-                        updateComment != null &&
-                        reply.reply_id === updateComment.comment_id ? (
+                          updateComment != null &&
+                          reply.reply_id === updateComment.comment_id ? (
                           <div>
                             <Form.Control
                               className={styles.send}
@@ -976,10 +976,10 @@ export default function CommunityPostView() {
                             style={
                               reply.liked
                                 ? {
-                                    fontSize: "14px",
-                                    color: "green",
-                                    fontWeight: "bolder",
-                                  }
+                                  fontSize: "14px",
+                                  color: "green",
+                                  fontWeight: "bolder",
+                                }
                                 : { fontSize: "14px", color: "gray" }
                             }
                           >
@@ -988,7 +988,7 @@ export default function CommunityPostView() {
                         </div>
                         <div>
                           {isMyComment(reply.reply_author) &&
-                          !isCommentUpdate ? (
+                            !isCommentUpdate ? (
                             <span
                               style={{
                                 marginLeft: "8px",

@@ -38,8 +38,12 @@ export default function CourseReviews() {
   const [isEditing, setIsEditing] = useState(false);
   const courseId = window.location.pathname.split("/").pop();
   const navigate = useNavigate();
-  const [isShowMore,setShowMore] = useState(false);
-  const [showMoreReviewId,setShowMoreReviewId]=useState<number | null>(null);
+  const [isShowMore, setShowMore] = useState(false);
+  const [showMoreReviewId, setShowMoreReviewId] = useState<number | null>(null);
+
+  const dateA = new Date('2022/06/01 08:00:00');
+  const dateB = new Date('2022/06/01 00:00:00');
+  const diffMSec = dateA.getTime() - dateB.getTime();
 
   const handleUpvote = async (reviewId: number) => {
     const jwtToken = await getCognitoToken();
@@ -146,11 +150,6 @@ export default function CourseReviews() {
       }
     }
   };
-
-  // const onClickShowMore = ()=>{
-  //   setShowMore(!isShowMore);
-  //   setEditingReviewId(review.review_id)
-  // };
 
   const getCognitoToken = async () => {
     try {
@@ -282,7 +281,7 @@ export default function CourseReviews() {
                       <Button
                         className={styles.showMoreButton}
                         style={{ backgroundColor: "transparent", border: "none" }}
-                        onClick={()=>{
+                        onClick={() => {
                           setShowMore(!isShowMore);
                           setShowMoreReviewId(review.review_id)
                         }}
@@ -292,7 +291,7 @@ export default function CourseReviews() {
                           alt="show-more-icon"
                         />
                       </Button>
-                      <div className={isShowMore&&showMoreReviewId===review.review_id? styles.reviewChangeDelete:styles.hiddenReviewChangeDelete}>
+                      <div className={isShowMore && showMoreReviewId === review.review_id ? styles.reviewChangeDelete : styles.hiddenReviewChangeDelete}>
                         <Button
                           className={styles.ReviewChange}
                           variant="success"
@@ -336,14 +335,14 @@ export default function CourseReviews() {
                       required
                     ></Form.Control>
                     <div
-                    style={{width:"65%",height:"50px"}}
+                      style={{ width: "65%", height: "50px" }}
                     >
                       {review.mine && (
-                <div
-                  style={{ position: "absolute", top: "10px", right: "10px" }}
-                >
-                </div>
-              )}
+                        <div
+                          style={{ position: "absolute", top: "10px", right: "10px" }}
+                        >
+                        </div>
+                      )}
                     </div>
                   </>
                 ) : (
@@ -354,26 +353,10 @@ export default function CourseReviews() {
                         color: "#43A680",
                         display: "flex",
                         alignItems: "center",
-                        width:"80%",
+                        width: "80%",
                       }}
                     >
                       {review.review_title}
-                      
-                      
-                      {/* 필요한가? */}
-                      {/* <span style={{ marginLeft: "5px" }}></span>{" "}
-                      {review.mine ? (
-                        <Badge
-                          className="rounded-pill"
-                          bg="#FF7BA9"
-                          style={{
-                            backgroundColor: "#489CC1",
-                            marginLeft: "10px",
-                          }} // Adjust marginLeft for spacing
-                        >
-                          내가 작성한 리뷰
-                        </Badge>
-                      ) : null} */}
                     </Card.Title>
 
                     <hr className={styles.divider}></hr>
@@ -410,17 +393,16 @@ export default function CourseReviews() {
                           "24년 1월 전에 작성된 리뷰입니다."
                         ) : (
                           <>
-                            {new Date(review.review_time).toLocaleDateString()}{" "}
+                            {new Date(new Date(review.review_time).getTime() + diffMSec).toLocaleDateString()}{" "}
                             작성
                           </>
                         )}
                       </div>
                       <div
                         onClick={() => handleUpvote(review.review_id)}
-                        className={review.liked?styles.onLikeButton:styles.likeButton}
-                        style={{cursor:"pointer"}}
+                        className={review.liked ? styles.onLikeButton : styles.likeButton}
+                        style={{ cursor: "pointer" }}
                       >
-                        {/* {review.liked ? "추천 취소 " : "추천 "} */}
                         <img
                           src={review.liked ? "/images/likeGreen.svg" : "/images/likeWhiteSolidBlack.svg"}
                           alt="likes-icon"
@@ -431,7 +413,7 @@ export default function CourseReviews() {
                           }}
                         />
                         <span className={review.liked ? styles.likeCount : styles.none}>
-                        {review.like_count}
+                          {review.like_count}
                         </span>
                       </div>
                     </div>
