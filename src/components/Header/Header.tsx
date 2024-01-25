@@ -25,7 +25,7 @@ export default function Header() {
         backgroundSize: "0",
         height: "70px",
         backgroundColor,
-        paddingLeft: "5%",
+        paddingLeft: "0",
         paddingRight: "0",
       }}
       className={styles.headerBody}
@@ -33,7 +33,7 @@ export default function Header() {
       <Container fluid className="p-0">
         <Navbar.Brand
           href="/"
-          style={{ color: "black", display: "flex", alignItems: "center" }}
+          style={{ color: "black", display: "flex", alignItems: "center",marginLeft:"2%" }}
         >
           <img
             alt=""
@@ -47,10 +47,10 @@ export default function Header() {
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
-          style={{ marginRight: "10%" }}
+          style={{marginRight:"10%" }}
         />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto" style={{ backgroundColor }}>
+        <Navbar.Collapse>
+          <Nav className="me-auto" style={{ backgroundColor,paddingRight:"20px" }}>
             <Nav.Link className="text text-center" href="/">
               Home
             </Nav.Link>
@@ -62,14 +62,14 @@ export default function Header() {
             </Nav.Link>
             <Nav.Link className="text text-center" href="/community">
               Community
-    </Nav.Link>
+            </Nav.Link>
             <Nav.Link className="text text-center" href="/support">
               Support Us!
             </Nav.Link>
           </Nav>
           <div
             className="text text-center"
-            style={{ marginRight: "5%", backgroundColor }}
+            style={{backgroundColor,paddingRight:"20px" }}
           >
             {authStatus !== "authenticated" ? (
               <>
@@ -86,9 +86,6 @@ export default function Header() {
               </>
             ) : (
               <>
-                <p className="d-inline me-3 text text-center">
-                  안녕하세요, {user?.attributes?.email}님!
-                </p>
                 <Button
                   className="text text-center"
                   variant="danger"
