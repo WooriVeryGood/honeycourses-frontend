@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PageView from "../PageView/PageView";
-import { Badge, Button, ButtonGroup, Card, Container } from "react-bootstrap";
-import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
+import { Badge, Button, Card, Container } from "react-bootstrap";
 import { Auth } from "aws-amplify";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import ListGroup from "react-bootstrap/ListGroup";
 import styles from "./Community.module.css";
+import Paging from "../Paging/Paging";
 
 interface Post {
   post_id: number;
@@ -26,8 +25,10 @@ export default function CommunityHome() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [layoutRightTitle, setTitle] = useState("All"); //오른쪽 layout 제목 설정
-  const dateA = new Date('2022/06/01 08:00:00');
-  const dateB = new Date('2022/06/01 00:00:00');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItemsCount, setTotalItemsCount] = useState(0);
+  const dateA = new Date("2022/06/01 08:00:00");
+  const dateB = new Date("2022/06/01 00:00:00");
   const diffMSec = dateA.getTime() - dateB.getTime();
 
   //분류
@@ -37,7 +38,7 @@ export default function CommunityHome() {
   };
 
   useEffect(() => {
-    const fetchDataFromApi = async () => {
+    const fetchDataFromApi = async (pageNo: number) => {
       try {
         const userSession = await Auth.currentSession();
         const jwtToken = userSession.getAccessToken().getJwtToken();
@@ -47,11 +48,13 @@ export default function CommunityHome() {
         };
 
         setIsLoading(true);
-        const response = await axios.get(`${apiUrl}/community`, { headers });
-        console.log(response.data);
+        const response = await axios.get(`${apiUrl}/community?page=${pageNo-1}`, {
+          headers,
+        });
         setPosts(
-          response.data.sort((a: Post, b: Post) => b.post_id - a.post_id)
+          response.data.posts.sort((a: Post, b: Post) => b.post_id - a.post_id)
         );
+        setTotalItemsCount(response.data.totalPostCount);
         setIsLoading(false);
         window.scrollTo(0, 0);
       } catch (error) {
@@ -61,16 +64,18 @@ export default function CommunityHome() {
       }
     };
 
-    fetchDataFromApi();
-  }, []);
+    fetchDataFromApi(currentPage);
+  }, [currentPage]);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   // 카테고리별 게시글 분류
   const filteredPosts =
     selectedCategory === "All"
       ? posts
-      : posts.filter(
-        (post) =>
-          post.post_category === selectedCategory
-      );
+      : posts.filter((post) => post.post_category === selectedCategory);
 
   return (
     <div>
@@ -83,21 +88,17 @@ export default function CommunityHome() {
           <div className={styles.communityContainer}>
             <div className={styles.comLeft}>
               <div className={styles.listLayout}>
-
-                <div
-                  className="d-flex flex-wrap align-items-left"
-                >
-                  <h2>커뮤니티 (베타)</h2>
+                <div className="d-flex flex-wrap align-items-left">
+                  <h2>커뮤니티</h2>
                 </div>
 
                 <nav>
                   <ul className={styles.categories}>
                     <li className="nav-item">
                       <button
-                        className={`navLink nav-link btn ${selectedCategory === "All"
-                          ? "btn-primary"
-                          : ""
-                          }`}
+                        className={`navLink nav-link btn ${
+                          selectedCategory === "All" ? "btn-primary" : ""
+                        }`}
                         onClick={() => handleSelectCategory("All")}
                       >
                         All
@@ -105,8 +106,9 @@ export default function CommunityHome() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`navLink nav-link btn ${selectedCategory === "자유" ? "btn-primary" : ""
-                          }`}
+                        className={`navLink nav-link btn ${
+                          selectedCategory === "자유" ? "btn-primary" : ""
+                        }`}
                         onClick={() => handleSelectCategory("자유")}
                       >
                         자유
@@ -114,8 +116,9 @@ export default function CommunityHome() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`navLink nav-link btn ${selectedCategory === "질문" ? "btn-primary" : ""
-                          }`}
+                        className={`navLink nav-link btn ${
+                          selectedCategory === "질문" ? "btn-primary" : ""
+                        }`}
                         onClick={() => handleSelectCategory("질문")}
                       >
                         질문
@@ -123,8 +126,9 @@ export default function CommunityHome() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`navLink nav-link btn ${selectedCategory === "중고거래" ? "btn-primary" : ""
-                          }`}
+                        className={`navLink nav-link btn ${
+                          selectedCategory === "중고거래" ? "btn-primary" : ""
+                        }`}
                         onClick={() => handleSelectCategory("중고거래")}
                       >
                         중고거래
@@ -132,8 +136,9 @@ export default function CommunityHome() {
                     </li>
                     <li className="nav-item">
                       <button
-                        className={`navLink nav-link btn ${selectedCategory === "구인" ? "btn-primary" : ""
-                          }`}
+                        className={`navLink nav-link btn ${
+                          selectedCategory === "구인" ? "btn-primary" : ""
+                        }`}
                         onClick={() => handleSelectCategory("구인")}
                       >
                         구인
@@ -143,7 +148,6 @@ export default function CommunityHome() {
                 </nav>
               </div>
             </div>
-
 
             <div className={styles.comRight}>
               <div className={styles.rightHeader}>
@@ -177,18 +181,25 @@ export default function CommunityHome() {
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
                     <Card className={styles.card}>
-
                       <Card.Body className="text-start">
-                        <Card.Title style={{ color: "#43A680", fontWeight: "800", display: "flex" }}>
+                        <Card.Title
+                          style={{
+                            color: "#43A680",
+                            fontWeight: "800",
+                            display: "flex",
+                          }}
+                        >
                           <Badge
                             bg="#236969"
-                            style={{ backgroundColor: "#236969", marginRight: "10px", height: "25px" }}
+                            style={{
+                              backgroundColor: "#236969",
+                              marginRight: "10px",
+                              height: "25px",
+                            }}
                           >
                             {post.post_category}
                           </Badge>
-                          <div>
-                            {post.post_title}
-                          </div>
+                          <div>{post.post_title}</div>
                         </Card.Title>
 
                         <Card.Text
@@ -201,19 +212,26 @@ export default function CommunityHome() {
                             WebkitBoxOrient: "vertical",
                             whiteSpace: "pre-line",
                             color: "#888893",
-                            fontWeight: "600"
+                            fontWeight: "600",
                           }}
-                          dangerouslySetInnerHTML={{ __html: post.post_content }}
+                          dangerouslySetInnerHTML={{
+                            __html: post.post_content,
+                          }}
                         ></Card.Text>
 
-                        <div className={styles.dateNpostID} style={{ display: "flex" }}>
+                        <div
+                          className={styles.dateNpostID}
+                          style={{ display: "flex" }}
+                        >
                           <div style={{ display: "flex" }}>
-                            <div className={styles.sharp}>
-                              #{post.post_id}
-                            </div>
+                            <div className={styles.sharp}>#{post.post_id}</div>
                             <div>
-                              {new Date(new Date(post.post_time).getTime() + diffMSec).toLocaleDateString()}{" "}
-                              {new Date(new Date(post.post_time).getTime() + diffMSec).toLocaleTimeString()}
+                              {new Date(
+                                new Date(post.post_time).getTime() + diffMSec
+                              ).toLocaleDateString()}{" "}
+                              {new Date(
+                                new Date(post.post_time).getTime() + diffMSec
+                              ).toLocaleTimeString()}
                             </div>
                           </div>
                           <div className={styles.likeComment}>
@@ -244,6 +262,20 @@ export default function CommunityHome() {
                     </Card>
                   </Link>
                 ))}
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "20px",
+                  }}
+                >
+                  <Paging
+                    page={currentPage}
+                    count={totalItemsCount}
+                    setPage={handlePageChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
