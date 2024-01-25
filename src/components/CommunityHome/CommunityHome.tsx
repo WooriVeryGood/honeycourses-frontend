@@ -26,6 +26,9 @@ export default function CommunityHome() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [layoutRightTitle, setTitle] = useState("All"); //오른쪽 layout 제목 설정
+  const dateA = new Date('2022/06/01 08:00:00');
+  const dateB = new Date('2022/06/01 00:00:00');
+  const diffMSec = dateA.getTime()-dateB.getTime();
 
   //이거는 사용 안됐음
   function renderPostContent(content: string) {
@@ -220,8 +223,8 @@ export default function CommunityHome() {
                               #{post.post_id}
                             </div>
                             <div>
-                              {new Date(post.post_time).toLocaleDateString()}{" "}
-                              {new Date(post.post_time).toLocaleTimeString()}
+                            {new Date(new Date(post.post_time).getTime()+diffMSec).toLocaleDateString()}{" "}
+                            {new Date(new Date(post.post_time).getTime()+diffMSec).toLocaleTimeString()}
                             </div>
                           </div>
                           <div className={styles.likeComment}>

@@ -149,6 +149,10 @@ export default function CommunityPostView() {
   const [isEditingPost, setIsEditingPost] = useState(false);
   const navigate = useNavigate();
 
+  const dateA = new Date('2022/06/01 08:00:00');
+  const dateB = new Date('2022/06/01 00:00:00');
+  const diffMSec = dateA.getTime()-dateB.getTime();
+
   const getCommentBackgroundColor = (
     commentAuthor: string,
     postAuthor: string
@@ -473,8 +477,8 @@ export default function CommunityPostView() {
                 <div style={{ display: "flex" }}>
                   <div className={styles.sharp}>#{post.post_id}</div>
                   <div className={styles.date}>
-                    {new Date(post.post_time).toLocaleDateString()}{" "}
-                    {new Date(post.post_time).toLocaleTimeString()}
+                  {new Date(new Date(post.post_time).getTime()+diffMSec).toLocaleDateString()}{" "}
+                  {new Date(new Date(post.post_time).getTime()+diffMSec).toLocaleTimeString()}
                   </div>
                 </div>
                 <div
@@ -654,8 +658,8 @@ export default function CommunityPostView() {
                       )}
                     </span>
                     <span className={styles.date}>
-                      {new Date(comment.comment_time).toLocaleDateString()}{" "}
-                      {new Date(comment.comment_time).toLocaleTimeString()}
+                    {new Date(new Date(comment.comment_time).getTime()+diffMSec).toLocaleDateString()}{" "}
+                    {new Date(new Date(comment.comment_time).getTime()+diffMSec).toLocaleTimeString()}
                     </span>
                   </div>
                 </div>
@@ -879,8 +883,8 @@ export default function CommunityPostView() {
                             )}
                           </span>
                           <span className={styles.date}>
-                            {new Date(reply.reply_time).toLocaleDateString()}{" "}
-                            {new Date(reply.reply_time).toLocaleTimeString()}
+                          {new Date(new Date(reply.reply_time).getTime()+diffMSec).toLocaleDateString()}{" "}
+                          {new Date(new Date(reply.reply_time).getTime()+diffMSec).toLocaleTimeString()}
                           </span>
                         </div>
                       </div>
