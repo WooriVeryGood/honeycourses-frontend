@@ -26,17 +26,9 @@ export default function CommunityHome() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [layoutRightTitle, setTitle] = useState("All"); //오른쪽 layout 제목 설정
-
-  //이거는 사용 안됐음
-  function renderPostContent(content: string) {
-    const contentWithLineBreaks = content.split(/<br\s*[/]?>/gi);
-    return contentWithLineBreaks.map((line, index) => (
-      <React.Fragment key={index}>
-        {line}
-        {index !== contentWithLineBreaks.length - 1 && <br />}
-      </React.Fragment>
-    ));
-  }
+  const dateA = new Date('2022/06/01 08:00:00');
+  const dateB = new Date('2022/06/01 00:00:00');
+  const diffMSec = dateA.getTime() - dateB.getTime();
 
   //분류
   const handleSelectCategory = (category: string) => {
@@ -187,10 +179,10 @@ export default function CommunityHome() {
                     <Card className={styles.card}>
 
                       <Card.Body className="text-start">
-                        <Card.Title style={{ color: "#43A680", fontWeight: "800",display:"flex" }}>
+                        <Card.Title style={{ color: "#43A680", fontWeight: "800", display: "flex" }}>
                           <Badge
                             bg="#236969"
-                            style={{ backgroundColor: "#236969", marginRight: "10px",height:"25px" }}
+                            style={{ backgroundColor: "#236969", marginRight: "10px", height: "25px" }}
                           >
                             {post.post_category}
                           </Badge>
@@ -220,8 +212,8 @@ export default function CommunityHome() {
                               #{post.post_id}
                             </div>
                             <div>
-                              {new Date(post.post_time).toLocaleDateString()}{" "}
-                              {new Date(post.post_time).toLocaleTimeString()}
+                              {new Date(new Date(post.post_time).getTime() + diffMSec).toLocaleDateString()}{" "}
+                              {new Date(new Date(post.post_time).getTime() + diffMSec).toLocaleTimeString()}
                             </div>
                           </div>
                           <div className={styles.likeComment}>
