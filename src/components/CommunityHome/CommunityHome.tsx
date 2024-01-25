@@ -18,12 +18,14 @@ interface Post {
   post_time: string;
 }
 
+type CategoryKey = "All" | "자유" | "질문" | "중고거래" | "구인";
+
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export default function CommunityHome() {
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState<Post[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState<CategoryKey>("All");
   const [layoutRightTitle, setTitle] = useState("All"); //오른쪽 layout 제목 설정
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItemsCount, setTotalItemsCount] = useState(0);
@@ -31,41 +33,51 @@ export default function CommunityHome() {
   const dateB = new Date("2022/06/01 00:00:00");
   const diffMSec = dateA.getTime() - dateB.getTime();
 
+  const categoryMap: { [key in CategoryKey]: string } = {
+    All: "",
+    자유: "free",
+    질문: "question",
+    중고거래: "trade",
+    구인: "offer",
+  };
+
+  const fetchDataFromApi = async (pageNo: number, category: string = "") => {
+    try {
+      const userSession = await Auth.currentSession();
+      const jwtToken = userSession.getAccessToken().getJwtToken();
+
+      const headers = {
+        Authorization: `Bearer ${jwtToken}`,
+      };
+
+      setIsLoading(true);
+      const categoryPath = category ? `/category/${category}` : "";
+      const response = await axios.get(
+        `${apiUrl}/community${categoryPath}?page=${pageNo - 1}`,
+        {
+          headers,
+        }
+      );
+      setPosts(response.data.posts);
+      setTotalItemsCount(response.data.totalPostCount);
+      setIsLoading(false);
+      window.scrollTo(0, 0);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+      window.scrollTo(0, 0);
+    }
+  };
+
   //분류
-  const handleSelectCategory = (category: string) => {
+  const handleSelectCategory = (category: CategoryKey) => {
     setSelectedCategory(category);
     setTitle(category);
+    fetchDataFromApi(1, categoryMap[category]);
   };
 
   useEffect(() => {
-    const fetchDataFromApi = async (pageNo: number) => {
-      try {
-        const userSession = await Auth.currentSession();
-        const jwtToken = userSession.getAccessToken().getJwtToken();
-
-        const headers = {
-          Authorization: `Bearer ${jwtToken}`,
-        };
-
-        setIsLoading(true);
-        const response = await axios.get(
-          `${apiUrl}/community?page=${pageNo - 1}`,
-          {
-            headers,
-          }
-        );
-        setPosts(response.data.posts);
-        setTotalItemsCount(response.data.totalPostCount);
-        setIsLoading(false);
-        window.scrollTo(0, 0);
-      } catch (error) {
-        console.error(error);
-        setIsLoading(false);
-        window.scrollTo(0, 0);
-      }
-    };
-
-    fetchDataFromApi(currentPage);
+    fetchDataFromApi(currentPage, categoryMap[selectedCategory]);
   }, [currentPage]);
 
   const handlePageChange = (pageNumber: number) => {
