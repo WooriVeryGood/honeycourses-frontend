@@ -48,12 +48,13 @@ export default function CommunityHome() {
         };
 
         setIsLoading(true);
-        const response = await axios.get(`${apiUrl}/community?page=${pageNo-1}`, {
-          headers,
-        });
-        setPosts(
-          response.data.posts.sort((a: Post, b: Post) => b.post_id - a.post_id)
+        const response = await axios.get(
+          `${apiUrl}/community?page=${pageNo - 1}`,
+          {
+            headers,
+          }
         );
+        setPosts(response.data.posts);
         setTotalItemsCount(response.data.totalPostCount);
         setIsLoading(false);
         window.scrollTo(0, 0);
