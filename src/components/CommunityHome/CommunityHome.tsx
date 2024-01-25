@@ -71,6 +71,7 @@ export default function CommunityHome() {
 
   //분류
   const handleSelectCategory = (category: CategoryKey) => {
+    setCurrentPage(1);
     setSelectedCategory(category);
     setTitle(category);
     fetchDataFromApi(1, categoryMap[category]);
