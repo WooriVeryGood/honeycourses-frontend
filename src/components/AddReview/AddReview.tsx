@@ -10,7 +10,6 @@ import Button from "react-bootstrap/Button";
 import { Auth } from "aws-amplify";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import styles from "./AddReview.module.css";
-import { headers } from "../API/Headers";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -35,6 +34,9 @@ export default function AddReview() {
       const userSession = await Auth.currentSession();
       const jwtToken = userSession.getAccessToken().getJwtToken();
 
+      const headers = {
+        Authorization: `Bearer ${jwtToken}`,
+      };
 
       const data = {
         review_title,
@@ -44,7 +46,7 @@ export default function AddReview() {
         grade,
       };
       axios
-        .post(`${apiUrl}/courses/${courseId}/reviews`, data,  headers )
+        .post(`${apiUrl}/courses/${courseId}/reviews`, data, { headers })
         .then((response) => {
           console.log(response.data);
           alert("리뷰 등록에 성공했습니다!");

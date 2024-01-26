@@ -6,7 +6,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import styles from "./Community.module.css";
 import Paging from "../Paging/Paging";
-import { headers } from "../API/Headers";
 
 interface Post {
   post_id: number;
@@ -47,11 +46,17 @@ export default function CommunityHome() {
       const userSession = await Auth.currentSession();
       const jwtToken = userSession.getAccessToken().getJwtToken();
 
+      const headers = {
+        Authorization: `Bearer ${jwtToken}`,
+      };
+
       setIsLoading(true);
       const categoryPath = category ? `/category/${category}` : "";
       const response = await axios.get(
         `${apiUrl}/community${categoryPath}?page=${pageNo - 1}`,
-        headers
+        {
+          headers,
+        }
       );
       setPosts(response.data.posts);
       setTotalItemsCount(response.data.totalPostCount);

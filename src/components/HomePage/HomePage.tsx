@@ -11,7 +11,6 @@ import "./HomePage.css";
 import { Link } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import styles from "./HomePage.module.css";
-import { headers } from "../API/Headers";
 
 interface Course {
   course_id: string;
@@ -35,8 +34,12 @@ export default function HomePage() {
       try {
         const userSession = await Auth.currentSession();
         const jwtToken = userSession.getAccessToken().getJwtToken();
-        const response = await axios.get<Course[]>(`${apiUrl}/courses`, 
-        headers);
+        const headers = {
+          Authorization: `Bearer ${jwtToken}`,
+        };
+        const response = await axios.get<Course[]>(`${apiUrl}/courses`, {
+          headers,
+        });
         setCourses(response.data);
       } catch (error) {
         console.error("Error fetching courses:", error);
