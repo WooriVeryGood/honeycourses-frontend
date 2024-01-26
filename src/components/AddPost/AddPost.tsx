@@ -10,6 +10,7 @@ import Button from "react-bootstrap/Button";
 import { Auth } from "aws-amplify";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import styles from "./AddPost.module.css";
+import { headers } from "../API/Headers";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -30,10 +31,6 @@ export default function AddPost() {
       const userSession = await Auth.currentSession();
       const jwtToken = userSession.getAccessToken().getJwtToken();
 
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
-
       const data = {
         post_title: postTitle,
         post_content: postContent,
@@ -41,7 +38,7 @@ export default function AddPost() {
       };
 
       axios
-        .post(`${apiUrl}/community`, data, { headers })
+        .post(`${apiUrl}/community`, data,  headers )
         .then((response) => {
           if (response.data.author !== null) {
             // 201 Created response에 author가 있으면 성공

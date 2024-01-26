@@ -11,6 +11,7 @@ import { Auth } from "aws-amplify";
 import styles from "./CourseList.module.css";
 import items from "./sidebar.json"; // 전공 목록
 import { Alert, Collapse, ListGroup } from "react-bootstrap";
+import { headers } from "../API/Headers";
 
 interface Course {
   course_id: string;
@@ -118,13 +119,10 @@ function CourseList() {
       try {
         const userSession = await Auth.currentSession();
         const jwtToken = userSession.getAccessToken().getJwtToken();
-
-        const headers = {
-          Authorization: `Bearer ${jwtToken}`,
-        };
+        // sessionStorage.setItem("userInformation",jwtToken);
 
         setIsLoading(true);
-        const response = await axios.get(`${apiUrl}/courses`, { headers });
+        const response = await axios.get(`${apiUrl}/courses`,  headers );
         console.log(response.data);
         setCourses(response.data);
         setIsLoading(false);
