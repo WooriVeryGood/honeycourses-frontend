@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import styles from "./CourseReviews.module.css";
 import { Badge, Form } from "react-bootstrap";
+import { headers } from "../API/Headers";
 
 // 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)
 
@@ -51,14 +52,11 @@ export default function CourseReviews() {
       console.error("Cognito token not available");
       return;
     }
-    const headers = {
-      Authorization: `Bearer ${jwtToken}`,
-    };
     try {
       const response = await axios.put(
         `${apiUrl}/courses/reviews/${reviewId}/like`,
         {},
-        { headers }
+        headers 
       );
       const updatedReviewData = response.data;
       const updatedReviews = reviews.map((review) => {
@@ -89,17 +87,13 @@ export default function CourseReviews() {
         return;
       }
 
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
-
       const response = await axios.put(
         `${apiUrl}/courses/reviews/${reviewId}`,
         {
           review_title: editedTitle,
           review_content: editedContent,
         },
-        { headers }
+         headers 
       );
 
       if (response.data) {
@@ -134,13 +128,7 @@ export default function CourseReviews() {
           return;
         }
 
-        const headers = {
-          Authorization: `Bearer ${jwtToken}`,
-        };
-
-        await axios.delete(`${apiUrl}/courses/reviews/${reviewId}`, {
-          headers,
-        });
+        await axios.delete(`${apiUrl}/courses/reviews/${reviewId}`, headers);
 
         alert("리뷰가 삭제되었습니다.");
         setReviews(reviews.filter((review) => review.review_id !== reviewId));
@@ -171,13 +159,9 @@ export default function CourseReviews() {
           return;
         }
 
-        const headers = {
-          Authorization: `Bearer ${jwtToken}`,
-        };
-
         Promise.all([
-          axios.get(`${apiUrl}/courses/${courseId}/reviews`, { headers }),
-          axios.get(`${apiUrl}/courses/${courseId}/name`, { headers }),
+          axios.get(`${apiUrl}/courses/${courseId}/reviews`,  headers ),
+          axios.get(`${apiUrl}/courses/${courseId}/name`,  headers ),
         ])
           .then(([reviewsResponse, nameResponse]) => {
             const initializedReviews = reviewsResponse.data.map(

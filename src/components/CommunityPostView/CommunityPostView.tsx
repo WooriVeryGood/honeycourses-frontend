@@ -11,6 +11,8 @@ import axios from "axios";
 import "./CommunityPostView.css";
 import styles from "./communityPostView.module.css";
 import { useNavigate } from "react-router-dom";
+import { headers } from "../API/Headers";
+
 
 interface Post {
   post_id: number;
@@ -198,13 +200,12 @@ export default function CommunityPostView() {
     if (isSubmittingComment) return;
     setIsSubmittingComment(true);
     try {
-      const headers = await apiHeader();
       const response = await axios.post(
         `${apiUrl}/community/${postId}/comments`,
         {
           content: newComment,
         },
-        { headers }
+         headers 
       );
 
       if (response.data) {
@@ -222,11 +223,10 @@ export default function CommunityPostView() {
 
   const requestLikePost = async () => {
     try {
-      const headers = await apiHeader();
       const response = await axios.put(
         `${apiUrl}/community/${postId}/like`,
         null,
-        { headers }
+        headers 
       );
 
       if (response.data) {
@@ -253,11 +253,10 @@ export default function CommunityPostView() {
 
   const requestLikeComment = async (commentId: number) => {
     try {
-      const headers = await apiHeader();
       const response = await axios.put(
         `${apiUrl}/comments/${commentId}/like`,
         null,
-        { headers }
+        headers 
       );
 
       if (response.data) {
@@ -304,14 +303,13 @@ export default function CommunityPostView() {
     if (isEditingPost) return;
     setIsEditingPost(true);
     try {
-      const headers = await apiHeader();
       const response = await axios.put(
         `${apiUrl}/community/${postId}`,
         {
           post_title: editPostTitle,
           post_content: editPostContent,
         },
-        { headers }
+        headers 
       );
 
       if (response.data) {
@@ -331,8 +329,7 @@ export default function CommunityPostView() {
     if (!isDelete) return;
 
     try {
-      const headers = await apiHeader();
-      await axios.delete(`${apiUrl}/community/${postId}`, { headers });
+      await axios.delete(`${apiUrl}/community/${postId}`, headers );
       alert("게시글을 삭제했습니다!");
       navigate(`/community`);
     } catch (error) {
@@ -357,13 +354,12 @@ export default function CommunityPostView() {
     try {
       const isUpdate = window.confirm("댓글을 수정할까요?");
       if (!isUpdate) return;
-      const headers = await apiHeader();
       const response = await axios.put(
         `${apiUrl}/comments/${commentId}`,
         {
           content: comment_content,
         },
-        { headers }
+        headers
       );
 
       if (response.data) {
@@ -381,13 +377,12 @@ export default function CommunityPostView() {
     if (isSubmittingReply) return;
     setIsSubmittingReply(true);
     try {
-      const headers = await apiHeader();
       const response = await axios.post(
         `${apiUrl}/comments/${commentId}/reply`,
         {
           content: reply_content,
         },
-        { headers }
+        headers
       );
 
       if (response.status === 201) {
@@ -409,10 +404,7 @@ export default function CommunityPostView() {
         "댓글을 삭제할까요? (답글이 있는 댓글은 내용만 삭제됩니다)"
       );
       if (!isDelete) return;
-      const headers = await apiHeader();
-      const response = await axios.delete(`${apiUrl}/comments/${commentId}`, {
-        headers,
-      });
+      const response = await axios.delete(`${apiUrl}/comments/${commentId}`, headers);
 
       if (response.data) {
         alert("댓글을 삭제했습니다!");
@@ -426,16 +418,13 @@ export default function CommunityPostView() {
   useEffect(() => {
     const fetchPostAndComments = async () => {
       try {
-        const headers = await apiHeader();
         setIsLoading(true);
-        const postData = await axios.get(`${apiUrl}/community/${postId}`, {
-          headers,
-        });
+        const postData = await axios.get(`${apiUrl}/community/${postId}`,headers);
         setPost(postData.data);
 
         const response = await axios.get(
           `${apiUrl}/community/${postId}/comments`,
-          { headers }
+           headers 
         );
         setComments(response.data);
 
