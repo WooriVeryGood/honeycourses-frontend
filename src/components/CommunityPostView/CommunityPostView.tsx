@@ -11,6 +11,7 @@ import axios from "axios";
 import "./CommunityPostView.css";
 import styles from "./communityPostView.module.css";
 import { useNavigate } from "react-router-dom";
+import { apiDelete, apiGet, apiPost, apiPut } from "../API/APIHandler";
 
 interface Post {
   post_id: number;
@@ -149,8 +150,8 @@ export default function CommunityPostView() {
   const [isEditingPost, setIsEditingPost] = useState(false);
   const navigate = useNavigate();
 
-  const dateA = new Date('2022/06/01 08:00:00');
-  const dateB = new Date('2022/06/01 00:00:00');
+  const dateA = new Date("2022/06/01 08:00:00");
+  const dateB = new Date("2022/06/01 00:00:00");
   const diffMSec = dateA.getTime() - dateB.getTime();
 
   const getCommentBackgroundColor = (
@@ -198,21 +199,17 @@ export default function CommunityPostView() {
     if (isSubmittingComment) return;
     setIsSubmittingComment(true);
     try {
-      const headers = await apiHeader();
-      const response = await axios.post(
-        `${apiUrl}/community/${postId}/comments`,
-        {
-          content: newComment,
-        },
-        { headers }
-      );
-
-      if (response.data) {
-        alert("댓글 작성에 성공했습니다!");
-        window.location.reload();
-      } else {
-        console.error("Error in response after posting comment.");
-      }
+      const data = {
+        content: newComment,
+      };
+      await apiPost(`/community/${postId}/comments`, data).then((response) => {
+        if (response.data) {
+          alert("댓글 작성에 성공했습니다!");
+          window.location.reload();
+        } else {
+          console.error("Error in response after posting comment.");
+        }
+      });
       setIsSubmittingComment(false);
     } catch (error) {
       console.error("Error posting comment:", error);
@@ -222,13 +219,7 @@ export default function CommunityPostView() {
 
   const requestLikePost = async () => {
     try {
-      const headers = await apiHeader();
-      const response = await axios.put(
-        `${apiUrl}/community/${postId}/like`,
-        null,
-        { headers }
-      );
-
+      const response = await apiPut(`/community/${postId}/like`, null);
       if (response.data) {
         const liked = response.data.liked;
         if (liked) alert("게시글을 추천했습니다!");
@@ -237,7 +228,7 @@ export default function CommunityPostView() {
           post.liked = liked;
           post.post_likes = response.data.like_count;
           setPost((prevState) => {
-            if (prevState == (undefined || null)) return prevState;
+            if (prevState === (undefined || null)) return prevState;
             return {
               ...prevState,
               liked: liked,
@@ -253,13 +244,7 @@ export default function CommunityPostView() {
 
   const requestLikeComment = async (commentId: number) => {
     try {
-      const headers = await apiHeader();
-      const response = await axios.put(
-        `${apiUrl}/comments/${commentId}/like`,
-        null,
-        { headers }
-      );
-
+      const response = await apiPut(`/comments/${commentId}/like`, null);
       if (response.data) {
         const liked = response.data.liked;
         if (liked) alert("댓글을 추천했습니다!");
@@ -278,10 +263,10 @@ export default function CommunityPostView() {
             const replies = comment.replies.map((reply) =>
               reply.reply_id === commentId
                 ? {
-                  ...reply,
-                  reply_likes: response.data.like_count,
-                  liked: response.data.liked,
-                }
+                    ...reply,
+                    reply_likes: response.data.like_count,
+                    liked: response.data.liked,
+                  }
                 : reply
             );
 
@@ -304,15 +289,10 @@ export default function CommunityPostView() {
     if (isEditingPost) return;
     setIsEditingPost(true);
     try {
-      const headers = await apiHeader();
-      const response = await axios.put(
-        `${apiUrl}/community/${postId}`,
-        {
-          post_title: editPostTitle,
-          post_content: editPostContent,
-        },
-        { headers }
-      );
+      const response = await apiPut(`/community/${postId}`, {
+        post_title: editPostTitle,
+        post_content: editPostContent,
+      });
 
       if (response.data) {
         alert("게시글을 수정했습니다!");
@@ -329,12 +309,13 @@ export default function CommunityPostView() {
   const requestDeletePost = async () => {
     const isDelete = window.confirm("게시글을 삭제할까요?");
     if (!isDelete) return;
-
     try {
-      const headers = await apiHeader();
-      await axios.delete(`${apiUrl}/community/${postId}`, { headers });
-      alert("게시글을 삭제했습니다!");
-      navigate(`/community`);
+      await apiDelete(`/community/${postId}`).then((response) => {
+        if (response.data.post_id === Number(postId)) {
+          alert("게시글을 삭제했습니다!");
+          navigate(`/community`);
+        }
+      });
     } catch (error) {
       console.error("Error deleting post:", error);
     }
@@ -357,14 +338,9 @@ export default function CommunityPostView() {
     try {
       const isUpdate = window.confirm("댓글을 수정할까요?");
       if (!isUpdate) return;
-      const headers = await apiHeader();
-      const response = await axios.put(
-        `${apiUrl}/comments/${commentId}`,
-        {
-          content: comment_content,
-        },
-        { headers }
-      );
+      const response = await apiPut(`/comments/${commentId}`, {
+        content: comment_content,
+      });
 
       if (response.data) {
         alert("댓글을 수정했습니다!");
@@ -381,14 +357,9 @@ export default function CommunityPostView() {
     if (isSubmittingReply) return;
     setIsSubmittingReply(true);
     try {
-      const headers = await apiHeader();
-      const response = await axios.post(
-        `${apiUrl}/comments/${commentId}/reply`,
-        {
-          content: reply_content,
-        },
-        { headers }
-      );
+      const response = await apiPost(`/comments/${commentId}/reply`, {
+        content: reply_content,
+      });
 
       if (response.status === 201) {
         alert("답글 작성에 성공했습니다!");
@@ -409,10 +380,7 @@ export default function CommunityPostView() {
         "댓글을 삭제할까요? (답글이 있는 댓글은 내용만 삭제됩니다)"
       );
       if (!isDelete) return;
-      const headers = await apiHeader();
-      const response = await axios.delete(`${apiUrl}/comments/${commentId}`, {
-        headers,
-      });
+      const response = await apiDelete(`/comments/${commentId}`);
 
       if (response.data) {
         alert("댓글을 삭제했습니다!");
@@ -426,18 +394,12 @@ export default function CommunityPostView() {
   useEffect(() => {
     const fetchPostAndComments = async () => {
       try {
-        const headers = await apiHeader();
         setIsLoading(true);
-        const postData = await axios.get(`${apiUrl}/community/${postId}`, {
-          headers,
-        });
+        const postData = await apiGet(`/community/${postId}`);
         setPost(postData.data);
 
-        const response = await axios.get(
-          `${apiUrl}/community/${postId}/comments`,
-          { headers }
-        );
-        setComments(response.data);
+        const commentData = await apiGet(`/community/${postId}/comments`);
+        setComments(commentData.data);
 
         const allAuthors = getAllAuthors(comments);
         setUniqueCommenters(allAuthors);
@@ -477,8 +439,12 @@ export default function CommunityPostView() {
                 <div style={{ display: "flex" }}>
                   <div className={styles.sharp}>#{post.post_id}</div>
                   <div className={styles.date}>
-                    {new Date(new Date(post.post_time).getTime() + diffMSec).toLocaleDateString()}{" "}
-                    {new Date(new Date(post.post_time).getTime() + diffMSec).toLocaleTimeString()}
+                    {new Date(
+                      new Date(post.post_time).getTime() + diffMSec
+                    ).toLocaleDateString()}{" "}
+                    {new Date(
+                      new Date(post.post_time).getTime() + diffMSec
+                    ).toLocaleTimeString()}
                   </div>
                 </div>
                 <div
@@ -658,8 +624,12 @@ export default function CommunityPostView() {
                       )}
                     </span>
                     <span className={styles.date}>
-                      {new Date(new Date(comment.comment_time).getTime() + diffMSec).toLocaleDateString()}{" "}
-                      {new Date(new Date(comment.comment_time).getTime() + diffMSec).toLocaleTimeString()}
+                      {new Date(
+                        new Date(comment.comment_time).getTime() + diffMSec
+                      ).toLocaleDateString()}{" "}
+                      {new Date(
+                        new Date(comment.comment_time).getTime() + diffMSec
+                      ).toLocaleTimeString()}
                     </span>
                   </div>
                 </div>
@@ -668,8 +638,8 @@ export default function CommunityPostView() {
                   style={{ paddingBottom: "5px" }}
                 >
                   {isCommentUpdate &&
-                    updateComment != null &&
-                    comment.comment_id == updateComment.comment_id ? (
+                  updateComment != null &&
+                  comment.comment_id == updateComment.comment_id ? (
                     <div>
                       <Form.Control
                         className={styles.send}
@@ -757,20 +727,20 @@ export default function CommunityPostView() {
                       style={
                         comment.liked
                           ? {
-                            fontSize: "14px",
-                            color: "green",
-                            fontWeight: "bolder",
-                            display: "inline-block",
-                            margin: 0,
-                            padding: 0,
-                          }
+                              fontSize: "14px",
+                              color: "green",
+                              fontWeight: "bolder",
+                              display: "inline-block",
+                              margin: 0,
+                              padding: 0,
+                            }
                           : {
-                            fontSize: "14px",
-                            color: "gray",
-                            display: "inline-block",
-                            margin: 0,
-                            padding: 0,
-                          }
+                              fontSize: "14px",
+                              color: "gray",
+                              display: "inline-block",
+                              margin: 0,
+                              padding: 0,
+                            }
                       }
                     >
                       추천 {comment.comment_likes}
@@ -778,8 +748,8 @@ export default function CommunityPostView() {
                   </div>
                   <div>
                     {isMyComment(comment.comment_author) &&
-                      !isCommentUpdate &&
-                      comment.comment_content !== null ? (
+                    !isCommentUpdate &&
+                    comment.comment_content !== null ? (
                       <span
                         style={{
                           marginLeft: "8px",
@@ -816,7 +786,7 @@ export default function CommunityPostView() {
                       </span>
                     ) : null}
                     {isMyComment(comment.comment_author) &&
-                      comment.comment_content !== null ? (
+                    comment.comment_content !== null ? (
                       <span
                         style={{
                           marginLeft: "8px",
@@ -883,8 +853,12 @@ export default function CommunityPostView() {
                             )}
                           </span>
                           <span className={styles.date}>
-                            {new Date(new Date(reply.reply_time).getTime() + diffMSec).toLocaleDateString()}{" "}
-                            {new Date(new Date(reply.reply_time).getTime() + diffMSec).toLocaleTimeString()}
+                            {new Date(
+                              new Date(reply.reply_time).getTime() + diffMSec
+                            ).toLocaleDateString()}{" "}
+                            {new Date(
+                              new Date(reply.reply_time).getTime() + diffMSec
+                            ).toLocaleTimeString()}
                           </span>
                         </div>
                       </div>
@@ -893,8 +867,8 @@ export default function CommunityPostView() {
                         style={{ paddingBottom: "5px" }}
                       >
                         {isCommentUpdate &&
-                          updateComment != null &&
-                          reply.reply_id === updateComment.comment_id ? (
+                        updateComment != null &&
+                        reply.reply_id === updateComment.comment_id ? (
                           <div>
                             <Form.Control
                               className={styles.send}
@@ -976,10 +950,10 @@ export default function CommunityPostView() {
                             style={
                               reply.liked
                                 ? {
-                                  fontSize: "14px",
-                                  color: "green",
-                                  fontWeight: "bolder",
-                                }
+                                    fontSize: "14px",
+                                    color: "green",
+                                    fontWeight: "bolder",
+                                  }
                                 : { fontSize: "14px", color: "gray" }
                             }
                           >
@@ -988,7 +962,7 @@ export default function CommunityPostView() {
                         </div>
                         <div>
                           {isMyComment(reply.reply_author) &&
-                            !isCommentUpdate ? (
+                          !isCommentUpdate ? (
                             <span
                               style={{
                                 marginLeft: "8px",

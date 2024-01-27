@@ -1,21 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
 import PageView from "../PageView/PageView";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { Auth } from "aws-amplify";
-import { useAuthenticator } from "@aws-amplify/ui-react";
 import styles from "./AddReview.module.css";
+import { apiGet, apiPost } from "../API/APIHandler";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export default function AddReview() {
   const courseId = window.location.pathname.split("/").pop();
-  const { user } = useAuthenticator((context) => [context.user]);
   const [review_title, setReviewTitle] = useState("");
   const [course_name, setCourseName] = useState("");
   const [instructor_name, setInstructorName] = useState("");
@@ -31,13 +28,6 @@ export default function AddReview() {
     event.preventDefault();
     if (!isSubmitted) {
       setSubmit(true);
-      const userSession = await Auth.currentSession();
-      const jwtToken = userSession.getAccessToken().getJwtToken();
-
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
-
       const data = {
         review_title,
         instructor_name,
@@ -45,8 +35,8 @@ export default function AddReview() {
         review_content,
         grade,
       };
-      axios
-        .post(`${apiUrl}/courses/${courseId}/reviews`, data, { headers })
+
+      await apiPost(`/courses/${courseId}/reviews`, data)
         .then((response) => {
           console.log(response.data);
           alert("리뷰 등록에 성공했습니다!");
@@ -60,12 +50,11 @@ export default function AddReview() {
     }
   };
 
-  useEffect(() => {
-    setIsLoading(true);
-    axios
-      .get(`${apiUrl}/courses/${courseId}/name`)
+  const getName = async () => {
+    await apiGet(`/courses/${courseId}/name`)
       .then((nameResponse) => {
-        setCourseName(nameResponse.data[0].course_name);
+        console.log(nameResponse.data.course_name);
+        setCourseName(nameResponse.data.course_name);
         setIsLoading(false);
         window.scrollTo(0, 0);
       })
@@ -79,6 +68,11 @@ export default function AddReview() {
         window.scrollTo(0, 0);
         return <h1>데이터베이스 오류가 발생했습니다.</h1>;
       });
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    getName();
   }, [courseId, navigate]);
 
   return (
@@ -86,22 +80,29 @@ export default function AddReview() {
       <Container fluid className={styles.addReviewBox}>
         <div>
           <div>
-            <h2 className={styles.addReviewTitle}>수강 평가 작성 {course_name}</h2>
+            <h2 className={styles.addReviewTitle}>
+              수강 평가 작성: {" " + course_name}
+            </h2>
           </div>
         </div>
         <div>
           <div>
             <p className={styles.addReviewCaution}>
-              다른 학우들에게 도움이 될 수 있도록 밑의 양식대로 평가를
-              작성해 주세요. 꼭 양식대로 작성할 필요는 없습니다. 비방, 욕설,
-              조롱, 성적인 내용이 포함되어 있거나 도배/뻘글로 판단될 경우
-              관리자가 수강 평가를 삭제할 수 있습니다
+              다른 학우들에게 도움이 될 수 있도록 밑의 양식대로 평가를 작성해
+              주세요. 꼭 양식대로 작성할 필요는 없습니다. 비방, 욕설, 조롱,
+              성적인 내용이 포함되어 있거나 도배/뻘글로 판단될 경우 관리자가
+              수강 평가를 삭제할 수 있습니다
             </p>
           </div>
         </div>
         <Form onSubmit={handleSubmit}>
-          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
-            <InputGroup.Text id="inputGroup-sizing-lg" style={{ flexWrap:"nowrap"}}>제목</InputGroup.Text>
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
+            <InputGroup.Text
+              id="inputGroup-sizing-lg"
+              style={{ flexWrap: "nowrap" }}
+            >
+              제목
+            </InputGroup.Text>
             <Form.Control
               aria-label="Large"
               aria-describedby="inputGroup-sizing-sm"
@@ -110,7 +111,7 @@ export default function AddReview() {
               required
             />
           </InputGroup>
-          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
             <InputGroup.Text id="inputGroup-sizing-lg">교수</InputGroup.Text>
             <Form.Control
               aria-label="Large"
@@ -120,7 +121,7 @@ export default function AddReview() {
               required
             />
           </InputGroup>
-          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
             <InputGroup.Text id="inputGroup-sizing-lg">
               수강 학기
             </InputGroup.Text>
@@ -165,7 +166,7 @@ export default function AddReview() {
               <option value="23-24년도 1학기">23-24년도 1학기</option>
             </Form.Select>
           </InputGroup>
-          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
             <InputGroup.Text id="inputGroup-sizing-lg">내용</InputGroup.Text>
             <Form.Control
               as="textarea"
@@ -177,7 +178,7 @@ export default function AddReview() {
               required
             />
           </InputGroup>
-          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
             <InputGroup.Text id="inputGroup-sizing-lg">성적</InputGroup.Text>
             <Form.Control
               aria-label="Large"

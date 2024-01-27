@@ -1,5 +1,4 @@
 import PageView from "../PageView/PageView";
-import axios from "axios";
 import { useState, useEffect, ChangeEvent } from "react";
 import { Container, Row, Col, ListGroup, Badge } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
@@ -9,8 +8,8 @@ import Typewriter from "typewriter-effect";
 import { CSSTransition } from "react-transition-group";
 import "./HomePage.css";
 import { Link } from "react-router-dom";
-import { Auth } from "aws-amplify";
 import styles from "./HomePage.module.css";
+import { apiGet } from "../API/APIHandler";
 
 interface Course {
   course_id: string;
@@ -22,7 +21,6 @@ interface Course {
 }
 
 export default function HomePage() {
-  const apiUrl = process.env.REACT_APP_API_URL;
   const [open, setOpen] = useState(false);
   const [showComponents, setShowComponents] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -32,14 +30,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const userSession = await Auth.currentSession();
-        const jwtToken = userSession.getAccessToken().getJwtToken();
-        const headers = {
-          Authorization: `Bearer ${jwtToken}`,
-        };
-        const response = await axios.get<Course[]>(`${apiUrl}/courses`, {
-          headers,
-        });
+        const response = await apiGet('/courses')
         setCourses(response.data);
       } catch (error) {
         console.error("Error fetching courses:", error);

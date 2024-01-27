@@ -1,16 +1,12 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
 import PageView from "../PageView/PageView";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { Auth } from "aws-amplify";
 import styles from "./AddCourse.module.css";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { apiPost } from "../API/APIHandler";
 
 export default function AddCourse() {
   const [course_name, setCourseName] = useState("");
@@ -26,12 +22,6 @@ export default function AddCourse() {
 
     if (!isSubmitted) {
       setSubmit(true);
-      const userSession = await Auth.currentSession();
-      const jwtToken = userSession.getAccessToken().getJwtToken();
-
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
       const data = {
         course_name,
         course_credit,
@@ -39,16 +29,14 @@ export default function AddCourse() {
         kaikeYuanxi,
         isYouguan,
       };
-      axios
-        .post(`${apiUrl}/courses`, data, { headers })
-        .then((response) => {
-          console.log(response.data);
-          alert("수업 등록에 성공했습니다!");
-          navigate(`/courses`);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      await apiPost('/courses', data).then((response) => {
+        console.log(response.data);
+        alert("수업 등록에 성공했습니다!");
+        navigate(`/courses`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     }
   };
   return (

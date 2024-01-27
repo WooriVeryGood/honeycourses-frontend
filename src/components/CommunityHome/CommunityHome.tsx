@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PageView from "../PageView/PageView";
 import { Badge, Button, Card, Container } from "react-bootstrap";
-import { Auth } from "aws-amplify";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import styles from "./Community.module.css";
 import Paging from "../Paging/Paging";
+import { apiGet } from "../API/APIHandler";
 
 interface Post {
   post_id: number;
@@ -19,8 +18,6 @@ interface Post {
 }
 
 type CategoryKey = "All" | "자유" | "질문" | "중고거래" | "구인";
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 export default function CommunityHome() {
   const [isLoading, setIsLoading] = useState(true);
@@ -43,21 +40,9 @@ export default function CommunityHome() {
 
   const fetchDataFromApi = async (pageNo: number, category: string = "") => {
     try {
-      const userSession = await Auth.currentSession();
-      const jwtToken = userSession.getAccessToken().getJwtToken();
-
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
-
       setIsLoading(true);
       const categoryPath = category ? `/category/${category}` : "";
-      const response = await axios.get(
-        `${apiUrl}/community${categoryPath}?page=${pageNo - 1}`,
-        {
-          headers,
-        }
-      );
+      const response = await apiGet(`/community${categoryPath}?page=${pageNo - 1}`);
       setPosts(response.data.posts);
       setTotalItemsCount(response.data.totalPostCount);
       setIsLoading(false);
