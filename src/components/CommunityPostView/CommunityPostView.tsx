@@ -4,10 +4,8 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Auth } from "aws-amplify";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import Badge from "react-bootstrap/Badge";
-import axios from "axios";
 import "./CommunityPostView.css";
 import styles from "./communityPostView.module.css";
 import { useNavigate } from "react-router-dom";
@@ -105,27 +103,6 @@ const commentBackgroundColors = [
   "#4DD0E1",
   "#4DB6AC",
 ];
-
-const getCognitoToken = async () => {
-  try {
-    const userSession = await Auth.currentSession();
-    return userSession.getAccessToken().getJwtToken();
-  } catch (error) {
-    console.error("Error getting Cognito token:", error);
-    return null;
-  }
-};
-
-const apiHeader = async () => {
-  const jwtToken = await getCognitoToken();
-  if (!jwtToken) {
-    console.error("Cognito token not available");
-    return;
-  }
-  return {
-    Authorization: `Bearer ${jwtToken}`,
-  };
-};
 
 export default function CommunityPostView() {
   const { user } = useAuthenticator((context) => [context.user, context.route]);
