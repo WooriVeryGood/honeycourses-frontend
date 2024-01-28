@@ -7,7 +7,7 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import styles from "./Header.module.css";
 
 export default function Header() {
-  const { user, signOut } = useAuthenticator((context) => [
+  const { signOut } = useAuthenticator((context) => [
     context.user,
     context.route,
   ]);

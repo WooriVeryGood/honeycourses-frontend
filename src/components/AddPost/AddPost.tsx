@@ -1,17 +1,12 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
 import PageView from "../PageView/PageView";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { Auth } from "aws-amplify";
-import { useAuthenticator } from "@aws-amplify/ui-react";
 import styles from "./AddPost.module.css";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { apiPost } from "../API/APIHandler";
 
 export default function AddPost() {
   const [postTitle, setPostTitle] = useState("");
@@ -27,12 +22,6 @@ export default function AddPost() {
 
     if (!isSubmitted) {
       setSubmit(true);
-      const userSession = await Auth.currentSession();
-      const jwtToken = userSession.getAccessToken().getJwtToken();
-
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
 
       const data = {
         post_title: postTitle,
@@ -40,8 +29,7 @@ export default function AddPost() {
         post_category: category,
       };
 
-      axios
-        .post(`${apiUrl}/community`, data, { headers })
+      await apiPost(`/community`, data)
         .then((response) => {
           if (response.data.author !== null) {
             // 201 Created response에 author가 있으면 성공

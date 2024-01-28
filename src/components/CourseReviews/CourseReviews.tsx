@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import PageView from "../PageView/PageView";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import { useNavigate } from "react-router-dom";
-import { Auth } from "aws-amplify";
 import styles from "./CourseReviews.module.css";
-import { Badge, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
+import { apiDelete, apiGet, apiPut } from "../API/APIHandler";
 
 // 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)
 
@@ -25,8 +24,6 @@ interface Review {
   review_time: string;
   mine: boolean;
 }
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 export default function CourseReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -46,20 +43,8 @@ export default function CourseReviews() {
   const diffMSec = dateA.getTime() - dateB.getTime();
 
   const handleUpvote = async (reviewId: number) => {
-    const jwtToken = await getCognitoToken();
-    if (!jwtToken) {
-      console.error("Cognito token not available");
-      return;
-    }
-    const headers = {
-      Authorization: `Bearer ${jwtToken}`,
-    };
     try {
-      const response = await axios.put(
-        `${apiUrl}/courses/reviews/${reviewId}/like`,
-        {},
-        { headers }
-      );
+      const response = await apiPut(`/courses/reviews/${reviewId}/like`, null)
       const updatedReviewData = response.data;
       const updatedReviews = reviews.map((review) => {
         if (review.review_id === reviewId) {
@@ -83,25 +68,11 @@ export default function CourseReviews() {
 
     setIsEditing(true);
     try {
-      const jwtToken = await getCognitoToken();
-      if (!jwtToken) {
-        console.error("Cognito token not available");
-        return;
-      }
-
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
-
-      const response = await axios.put(
-        `${apiUrl}/courses/reviews/${reviewId}`,
-        {
-          review_title: editedTitle,
-          review_content: editedContent,
-        },
-        { headers }
-      );
-
+      const response = await apiPut(`/courses/reviews/${reviewId}`,  {
+        review_title: editedTitle,
+        review_content: editedContent,
+      });
+      
       if (response.data) {
         alert("리뷰가 수정되었습니다.");
         setEditingReviewId(null);
@@ -128,20 +99,7 @@ export default function CourseReviews() {
   const handleDeleteReview = async (reviewId: number) => {
     if (window.confirm("리뷰를 삭제하시겠습니까?")) {
       try {
-        const jwtToken = await getCognitoToken();
-        if (!jwtToken) {
-          console.error("Cognito token not available");
-          return;
-        }
-
-        const headers = {
-          Authorization: `Bearer ${jwtToken}`,
-        };
-
-        await axios.delete(`${apiUrl}/courses/reviews/${reviewId}`, {
-          headers,
-        });
-
+        await apiDelete(`/courses/reviews/${reviewId}`);
         alert("리뷰가 삭제되었습니다.");
         setReviews(reviews.filter((review) => review.review_id !== reviewId));
       } catch (error) {
@@ -151,33 +109,13 @@ export default function CourseReviews() {
     }
   };
 
-  const getCognitoToken = async () => {
-    try {
-      const userSession = await Auth.currentSession();
-      return userSession.getAccessToken().getJwtToken();
-    } catch (error) {
-      console.error("Error getting Cognito token:", error);
-      return null;
-    }
-  };
-
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
-        const jwtToken = await getCognitoToken();
-        if (!jwtToken) {
-          console.error("Cognito token not available");
-          setIsLoading(false);
-          return;
-        }
-
-        const headers = {
-          Authorization: `Bearer ${jwtToken}`,
-        };
 
         Promise.all([
-          axios.get(`${apiUrl}/courses/${courseId}/reviews`, { headers }),
-          axios.get(`${apiUrl}/courses/${courseId}/name`, { headers }),
+          apiGet(`/courses/${courseId}/reviews`),
+          apiGet(`/courses/${courseId}/name`),
         ])
           .then(([reviewsResponse, nameResponse]) => {
             const initializedReviews = reviewsResponse.data.map(

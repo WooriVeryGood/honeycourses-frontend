@@ -4,13 +4,11 @@ import Container from "react-bootstrap/Container";
 import PageView from "../PageView/PageView";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
-import axios from "axios";
 import "./CourseList.css";
-import { useAuthenticator } from "@aws-amplify/ui-react";
-import { Auth } from "aws-amplify";
 import styles from "./CourseList.module.css";
 import items from "./sidebar.json"; // 전공 목록
 import { Alert, Collapse, ListGroup } from "react-bootstrap";
+import { apiGet } from "../API/APIHandler";
 
 interface Course {
   course_id: string;
@@ -21,7 +19,6 @@ interface Course {
   kaikeYuanxi: string;
 }
 
-const apiUrl = process.env.REACT_APP_API_URL;
 function CourseList() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [courses, setCourses] = useState<Course[]>([]);
@@ -116,15 +113,8 @@ function CourseList() {
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
-        const userSession = await Auth.currentSession();
-        const jwtToken = userSession.getAccessToken().getJwtToken();
-
-        const headers = {
-          Authorization: `Bearer ${jwtToken}`,
-        };
-
         setIsLoading(true);
-        const response = await axios.get(`${apiUrl}/courses`, { headers });
+        const response = await apiGet(`/courses`);
         console.log(response.data);
         setCourses(response.data);
         setIsLoading(false);

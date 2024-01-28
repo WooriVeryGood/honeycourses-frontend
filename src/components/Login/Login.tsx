@@ -1,10 +1,8 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Authenticator,
   useAuthenticator,
   View,
-  TextField,
-  CheckboxField,
 } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { useNavigate, useLocation } from "react-router";

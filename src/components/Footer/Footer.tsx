@@ -6,10 +6,10 @@ export default function Footer() {
       <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-1 border-top">
         <div className="col-md-10 d-flex align-items-center">
           <span className="text-muted">
-            &copy; 2023 답변 받았습니다! by 우리잘했조. <br></br>
-            honeycourses-frontend-amplify <strong>v.1.1.0b_20230907</strong>
+            &copy; 2024 답변 받았습니다! by 우리잘했조. <br></br>
+            honeycourses-frontend-amplify <strong>v.1.1.0_2024Winter</strong>
             <br></br>
-            honeycourses-backend-express-amplify <strong>v.1.1.0b_20230907</strong>
+            honeycourses-backend-spring <strong>v.1.0.0_2024Winter</strong>
           </span>
         </div>
         <ul className="nav col-md-1 justify-content-end list-unstyled d-flex">
