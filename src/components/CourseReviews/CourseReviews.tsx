@@ -32,19 +32,22 @@ export default function CourseReviews() {
   const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
   const [editedTitle, setEditedTitle] = useState("");
   const [editedContent, setEditedContent] = useState("");
+  const [editedInstructor, setEditedInstructor] = useState("");
+  const [editedSemyr, setEditedSemyr] = useState("");
+  const [editedGrade, setEditedGrade] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const courseId = window.location.pathname.split("/").pop();
   const navigate = useNavigate();
   const [isShowMore, setShowMore] = useState(false);
   const [showMoreReviewId, setShowMoreReviewId] = useState<number | null>(null);
 
-  const dateA = new Date('2022/06/01 08:00:00');
-  const dateB = new Date('2022/06/01 00:00:00');
+  const dateA = new Date("2022/06/01 08:00:00");
+  const dateB = new Date("2022/06/01 00:00:00");
   const diffMSec = dateA.getTime() - dateB.getTime();
 
   const handleUpvote = async (reviewId: number) => {
     try {
-      const response = await apiPut(`/courses/reviews/${reviewId}/like`, null)
+      const response = await apiPut(`/courses/reviews/${reviewId}/like`, null);
       const updatedReviewData = response.data;
       const updatedReviews = reviews.map((review) => {
         if (review.review_id === reviewId) {
@@ -68,11 +71,14 @@ export default function CourseReviews() {
 
     setIsEditing(true);
     try {
-      const response = await apiPut(`/courses/reviews/${reviewId}`,  {
+      const response = await apiPut(`/courses/reviews/${reviewId}`, {
         review_title: editedTitle,
         review_content: editedContent,
+        instructor_name: editedInstructor,
+        taken_semyr: editedSemyr,
+        grade: editedGrade,
       });
-      
+
       if (response.data) {
         alert("리뷰가 수정되었습니다.");
         setEditingReviewId(null);
@@ -80,15 +86,20 @@ export default function CourseReviews() {
           reviews.map((review) =>
             review.review_id === reviewId
               ? {
-                ...review,
-                review_title: editedTitle,
-                review_content: editedContent,
-              }
+                  ...review,
+                  review_title: editedTitle,
+                  review_content: editedContent,
+                  instructor_name: editedInstructor,
+                  taken_semyr: editedSemyr,
+                  grade: editedGrade,
+                }
               : review
           )
         );
       }
       setIsEditing(false);
+      setShowMore(!isShowMore);
+      setShowMoreReviewId(reviewId); // 리뷰 수정 후 리뷰 더보기 버튼 수납
     } catch (error) {
       console.error("Error updating review:", error);
       alert("리뷰 수정에 실패했습니다.");
@@ -112,7 +123,6 @@ export default function CourseReviews() {
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
-
         Promise.all([
           apiGet(`/courses/${courseId}/reviews`),
           apiGet(`/courses/${courseId}/name`),
@@ -215,13 +225,23 @@ export default function CourseReviews() {
                       </Button>
                     </div>
                   ) : (
-                    <div className={styles.reviewButtons} style={{ position: "absolute", top: "10px", right: "10px" }}>
+                    <div
+                      className={styles.reviewButtons}
+                      style={{
+                        position: "absolute",
+                        top: "10px",
+                        right: "10px",
+                      }}
+                    >
                       <Button
                         className={styles.showMoreButton}
-                        style={{ backgroundColor: "transparent", border: "none" }}
+                        style={{
+                          backgroundColor: "transparent",
+                          border: "none",
+                        }}
                         onClick={() => {
                           setShowMore(!isShowMore);
-                          setShowMoreReviewId(review.review_id)
+                          setShowMoreReviewId(review.review_id);
                         }}
                       >
                         <img
@@ -229,7 +249,13 @@ export default function CourseReviews() {
                           alt="show-more-icon"
                         />
                       </Button>
-                      <div className={isShowMore && showMoreReviewId === review.review_id ? styles.reviewChangeDelete : styles.hiddenReviewChangeDelete}>
+                      <div
+                        className={
+                          isShowMore && showMoreReviewId === review.review_id
+                            ? styles.reviewChangeDelete
+                            : styles.hiddenReviewChangeDelete
+                        }
+                      >
                         <Button
                           className={styles.ReviewChange}
                           variant="success"
@@ -237,6 +263,9 @@ export default function CourseReviews() {
                             setEditingReviewId(review.review_id);
                             setEditedTitle(review.review_title);
                             setEditedContent(review.review_content);
+                            setEditedSemyr(review.taken_semyr);
+                            setEditedInstructor(review.instructor_name);
+                            setEditedGrade(review.grade);
                           }}
                         >
                           수정
@@ -265,6 +294,56 @@ export default function CourseReviews() {
                       required
                     />
                     <Form.Control
+                      type="text"
+                      value={editedInstructor}
+                      onChange={(e) => setEditedInstructor(e.target.value)}
+                      placeholder="교수"
+                      className="mb-2"
+                      required
+                    />
+                    <Form.Select
+                      value={editedSemyr}
+                      as="textarea"
+                      rows={10}
+                      onChange={(e) => setEditedSemyr(e.target.value)}
+                      placeholder="수강 학기"
+                      required
+                    >
+                      <option value="">수강 학기 선택</option>
+                      <option value="17-18년도 1학기">17-18년도 1학기</option>
+                      <option value="17-18년도 2학기">17-18년도 2학기</option>
+                      <option value="17-18년도 3학기/계절학기">
+                        17-18년도 3학기/계절학기
+                      </option>
+                      <option value="18-19년도 1학기">18-19년도 1학기</option>
+                      <option value="18-19년도 2학기">18-19년도 2학기</option>
+                      <option value="18-19년도 3학기/계절학기">
+                        18-19년도 3학기/계절학기
+                      </option>
+                      <option value="19-20년도 1학기">19-20년도 1학기</option>
+                      <option value="19-20년도 2학기">19-20년도 2학기</option>
+                      <option value="19-20년도 3학기/계절학기">
+                        19-20년도 3학기/계절학기
+                      </option>
+                      <option value="20-21년도 1학기">20-21년도 1학기</option>
+                      <option value="20-21년도 2학기">20-21년도 2학기</option>
+                      <option value="20-21년도 3학기/계절학기">
+                        20-21년도 3학기/계절학기
+                      </option>
+                      <option value="21-22년도 1학기">21-22년도 1학기</option>
+                      <option value="21-22년도 2학기">21-22년도 2학기</option>
+                      <option value="21-22년도 3학기/계절학기">
+                        21-22년도 3학기/계절학기
+                      </option>
+                      <option value="22-23년도 1학기">22-23년도 1학기</option>
+                      <option value="22-23년도 2학기">22-23년도 2학기</option>
+                      <option value="22-23년도 3학기/계절학기">
+                        22-23년도 3학기/계절학기
+                      </option>
+                      <option value="23-24년도 1학기">23-24년도 1학기</option>
+                    </Form.Select>
+                    <br />
+                    <Form.Control
                       value={editedContent}
                       as="textarea"
                       rows={10}
@@ -272,14 +351,24 @@ export default function CourseReviews() {
                       placeholder="내용"
                       required
                     ></Form.Control>
-                    <div
-                      style={{ width: "65%", height: "50px" }}
-                    >
+                    <Form.Control
+                      value={editedGrade}
+                      as="textarea"
+                      rows={1}
+                      onChange={(e) => setEditedGrade(e.target.value)}
+                      placeholder="성적"
+                      required
+                    ></Form.Control>
+                    <br />
+                    <div style={{ width: "65%", height: "50px" }}>
                       {review.mine && (
                         <div
-                          style={{ position: "absolute", top: "10px", right: "10px" }}
-                        >
-                        </div>
+                          style={{
+                            position: "absolute",
+                            top: "10px",
+                            right: "10px",
+                          }}
+                        ></div>
                       )}
                     </div>
                   </>
@@ -331,18 +420,26 @@ export default function CourseReviews() {
                           "24년 1월 전에 작성된 리뷰입니다."
                         ) : (
                           <>
-                            {new Date(new Date(review.review_time).getTime() + diffMSec).toLocaleDateString()}{" "}
+                            {new Date(
+                              new Date(review.review_time).getTime() + diffMSec
+                            ).toLocaleDateString()}{" "}
                             작성
                           </>
                         )}
                       </div>
                       <div
                         onClick={() => handleUpvote(review.review_id)}
-                        className={review.liked ? styles.onLikeButton : styles.likeButton}
+                        className={
+                          review.liked ? styles.onLikeButton : styles.likeButton
+                        }
                         style={{ cursor: "pointer" }}
                       >
                         <img
-                          src={review.liked ? "/images/likeGreen.svg" : "/images/likeWhiteSolidBlack.svg"}
+                          src={
+                            review.liked
+                              ? "/images/likeGreen.svg"
+                              : "/images/likeWhiteSolidBlack.svg"
+                          }
                           alt="likes-icon"
                           style={{
                             marginRight: "5px",
@@ -350,7 +447,11 @@ export default function CourseReviews() {
                             height: "20px",
                           }}
                         />
-                        <span className={review.liked ? styles.likeCount : styles.none}>
+                        <span
+                          className={
+                            review.liked ? styles.likeCount : styles.none
+                          }
+                        >
                           {review.like_count}
                         </span>
                       </div>
