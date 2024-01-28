@@ -17,6 +17,7 @@ interface Course {
   course_credit: number;
   isYouguan: boolean;
   kaikeYuanxi: string;
+  reviewCount: number;
 }
 
 function CourseList() {
@@ -404,7 +405,13 @@ function CourseList() {
                               >
                                 중국유관
                               </Badge>
-                            ) : null}
+                            ) : null}{" "}
+                            <Badge
+                              bg="#65C18C"
+                              style={{ backgroundColor: "#279EFF" }}
+                            >
+                              리뷰 {course.reviewCount}개
+                            </Badge>{" "}
                           </div>
                           <div className={styles.courseName}>
                             {course.course_name}{" "}
