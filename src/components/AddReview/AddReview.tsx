@@ -9,8 +9,6 @@ import Button from "react-bootstrap/Button";
 import styles from "./AddReview.module.css";
 import { apiGet, apiPost } from "../API/APIHandler";
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
 export default function AddReview() {
   const courseId = window.location.pathname.split("/").pop();
   const [review_title, setReviewTitle] = useState("");
