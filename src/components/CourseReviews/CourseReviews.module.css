@@ -66,6 +66,17 @@
     color: black;
 }
 
+.sharp {
+    padding-left: 5px;
+    padding-right: 10px;
+    color: grey;
+    font-size: 15px;
+}
+
+.date {
+    color: grey;
+    font-size: 15px;
+}
 
 @media(max-width:1120px){
     .reviewCard{

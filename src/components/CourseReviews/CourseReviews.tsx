@@ -123,6 +123,7 @@ export default function CourseReviews() {
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
+        setIsLoading(true);
         Promise.all([
           apiGet(`/courses/${courseId}/reviews`),
           apiGet(`/courses/${courseId}/name`),
@@ -139,14 +140,11 @@ export default function CourseReviews() {
             window.scrollTo(0, 0);
           })
           .catch((error) => {
-            if (error.response && error.response.status === 404) {
+            if (error.response.data.message === "강의를 찾을 수 없습니다." && error.response.status === 404) {
               navigate("/courses");
               alert("존재하지 않는 수업입니다.");
             }
-            console.error("API error:", error);
             setIsLoading(false);
-            window.scrollTo(0, 0);
-            return <h1>데이터베이스 오류가 발생했습니다.</h1>;
           });
       } catch (error) {
         console.error("Error in fetching data:", error);
@@ -416,16 +414,18 @@ export default function CourseReviews() {
                           marginRight: "auto",
                         }}
                       >
-                        {review.review_time === null ? (
-                          "24년 1월 전에 작성된 리뷰입니다."
+                        <span className={styles.sharp}>#{review.review_id} {"  "}</span>
+                        <span className={styles.date}>{review.review_time === null ? (
+                          ""
                         ) : (
                           <>
                             {new Date(
                               new Date(review.review_time).getTime() + diffMSec
                             ).toLocaleDateString()}{" "}
-                            작성
+                            작성 
                           </>
                         )}
+                        </span>
                       </div>
                       <div
                         onClick={() => handleUpvote(review.review_id)}

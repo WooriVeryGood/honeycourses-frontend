@@ -372,19 +372,32 @@ export default function CommunityPostView() {
     const fetchPostAndComments = async () => {
       try {
         setIsLoading(true);
-        const postData = await apiGet(`/community/${postId}`);
-        setPost(postData.data);
+        Promise.all([
+          apiGet(`/community/${postId}`),
+          apiGet(`/community/${postId}/comments`),
+        ])
+          .then(([postData, commentData]) => {
+            setPost(postData.data);
+            setComments(commentData.data);
+            const allAuthors = getAllAuthors(comments);
+            setUniqueCommenters(allAuthors);
 
-        const commentData = await apiGet(`/community/${postId}/comments`);
-        setComments(commentData.data);
-
-        const allAuthors = getAllAuthors(comments);
-        setUniqueCommenters(allAuthors);
-
-        setIsLoading(false);
-        window.scrollTo(0, 0);
+            setIsLoading(false);
+            window.scrollTo(0, 0);
+          })
+          .catch((error) => {
+            if (
+              error.response.data.message === "게시물을 찾을 수 없습니다." &&
+              error.response.status === 404
+            ) {
+              navigate("/community");
+              alert("존재하지 않는 게시글입니다.");
+            }
+            console.error("Error fetching post and comments:", error);
+          });
       } catch (error) {
-        console.error("Error fetching post and comments:", error);
+        console.error("Error in fetching data:", error);
+        setIsLoading(false);
       }
     };
     fetchPostAndComments();
