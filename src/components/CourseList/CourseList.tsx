@@ -301,6 +301,7 @@ function CourseList() {
                             to={`/courses/view/${course.course_id}`}
                             key={course.course_id}
                             className="list-group-item"
+                            target="_blank"
                           >
                             <div className="d-flex justify-content-between align-items-center">
                               <h5>
@@ -381,6 +382,7 @@ function CourseList() {
                       to={`/courses/view/${course.course_id}`}
                       key={course.course_id}
                       className="list-group-item list-group-item-action"
+                      target="_blank"
                     >
                       <div className="d-flex justify-content-between align-items-center">
                         <h5 className={styles.courseSet}>
