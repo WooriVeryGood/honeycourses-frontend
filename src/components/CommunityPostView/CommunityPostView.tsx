@@ -21,6 +21,7 @@ interface Post {
   post_author: string;
   post_time: string;
   liked: boolean;
+  updated: boolean;
 }
 
 interface Reply {
@@ -30,6 +31,7 @@ interface Reply {
   reply_likes: number;
   reply_time: string;
   liked: boolean;
+  updated: boolean;
 }
 
 interface Comment {
@@ -40,6 +42,7 @@ interface Comment {
   comment_time: string;
   liked: boolean;
   replies: Reply[];
+  updated: boolean;
 }
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -435,6 +438,7 @@ export default function CommunityPostView() {
                     {new Date(
                       new Date(post.post_time).getTime() + diffMSec
                     ).toLocaleTimeString()}
+                    {post.updated?" (수정됨)":""}
                   </div>
                 </div>
                 <div
@@ -620,6 +624,7 @@ export default function CommunityPostView() {
                       {new Date(
                         new Date(comment.comment_time).getTime() + diffMSec
                       ).toLocaleTimeString()}
+                      {comment.updated?" (수정됨)":""}
                     </span>
                   </div>
                 </div>
@@ -759,6 +764,7 @@ export default function CommunityPostView() {
                                 comment_time: comment.comment_time,
                                 liked: comment.liked,
                                 replies: comment.replies,
+                                updated: comment.updated,
                               };
                             return {
                               comment_id: comment.comment_id,
@@ -768,6 +774,7 @@ export default function CommunityPostView() {
                               comment_time: comment.comment_time,
                               liked: comment.liked,
                               replies: comment.replies,
+                              updated: comment.updated,
                             };
                           });
                         }}
@@ -849,6 +856,7 @@ export default function CommunityPostView() {
                             {new Date(
                               new Date(reply.reply_time).getTime() + diffMSec
                             ).toLocaleTimeString()}
+                            {reply.updated?" (수정됨)":""}
                           </span>
                         </div>
                       </div>
@@ -972,6 +980,7 @@ export default function CommunityPostView() {
                                       comment_time: reply.reply_time,
                                       liked: reply.liked,
                                       replies: [],
+                                      updated: reply.updated,
                                     };
                                   return {
                                     comment_id: reply.reply_id,
@@ -981,6 +990,7 @@ export default function CommunityPostView() {
                                     comment_time: reply.reply_time,
                                     liked: reply.liked,
                                     replies: [],
+                                    updated: reply.updated,
                                   };
                                 });
                               }}

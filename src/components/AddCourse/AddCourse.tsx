@@ -20,24 +20,25 @@ export default function AddCourse() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!isSubmitted) {
-      setSubmit(true);
-      const data = {
-        course_name,
-        course_credit,
-        course_category,
-        kaikeYuanxi,
-        isYouguan,
-      };
-      await apiPost('/courses', data).then((response) => {
-        console.log(response.data);
-        alert("수업 등록에 성공했습니다!");
-        navigate(`/courses`);
-      })
+    if (isSubmitted) return;
+
+    setSubmit(true);
+    const data = {
+      course_name,
+      course_credit,
+      course_category,
+      kaikeYuanxi,
+      isYouguan,
+    };
+    await apiPost('/courses', data).then((response) => {
+      console.log(response.data);
+      alert("수업 등록에 성공했습니다!");
+      navigate(`/courses`);
+    })
       .catch((error) => {
         console.log(error);
       });
-    }
+
   };
   return (
     <PageView>
@@ -66,8 +67,8 @@ export default function AddCourse() {
           </div>
         </div>
         <Form className={styles.addCourseSubmit} onSubmit={handleSubmit}>
-          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
-            <InputGroup.Text id="inputGroup-sizing-lg" style={{ flexWrap:"nowrap"}}>강의명</InputGroup.Text>
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
+            <InputGroup.Text id="inputGroup-sizing-lg" style={{ flexWrap: "nowrap" }}>강의명</InputGroup.Text>
             <Form.Control
               aria-label="Large"
               aria-describedby="inputGroup-sizing-sm"
@@ -76,7 +77,7 @@ export default function AddCourse() {
               required
             />
           </InputGroup>
-          <InputGroup className="mb-3 mx-auto" style={{ flexWrap:"nowrap"}}>
+          <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
             <InputGroup.Text id="inputGroup-sizing-lg">학점</InputGroup.Text>
             <Form.Control
               as="textarea"
