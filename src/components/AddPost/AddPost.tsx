@@ -20,31 +20,32 @@ export default function AddPost() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!isSubmitted) {
-      setSubmit(true);
+    if (isSubmitted) return;
 
-      const data = {
-        post_title: postTitle,
-        post_content: postContent,
-        post_category: category,
-      };
+    setSubmit(true);
 
-      await apiPost(`/community`, data)
-        .then((response) => {
-          if (response.data.author !== null) {
-            // 201 Created response에 author가 있으면 성공
-            alert("게시글 등록에 성공했습니다!");
-            setSubmit(false);
-            navigate(`/community`);
-          } else {
-            alert("게시글 등록에 실패했습니다. 다시 시도해주세요.");
-            setSubmit(false);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    const data = {
+      post_title: postTitle,
+      post_content: postContent,
+      post_category: category,
+    };
+
+    await apiPost(`/community`, data)
+      .then((response) => {
+        if (response.data.author !== null) {
+          // 201 Created response에 author가 있으면 성공
+          alert("게시글 등록에 성공했습니다!");
+          setSubmit(false);
+          navigate(`/community`);
+        } else {
+          alert("게시글 등록에 실패했습니다. 다시 시도해주세요.");
+          setSubmit(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
   };
 
   return (

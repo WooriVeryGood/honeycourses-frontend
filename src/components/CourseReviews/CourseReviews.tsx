@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./CourseReviews.module.css";
 import { Form } from "react-bootstrap";
 import { apiDelete, apiGet, apiPut } from "../API/APIHandler";
+import { reverse } from "dns";
 
 // 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)
 
@@ -23,6 +24,7 @@ interface Review {
   liked: boolean;
   review_time: string;
   mine: boolean;
+  updated: boolean;
 }
 
 export default function CourseReviews() {
@@ -86,13 +88,13 @@ export default function CourseReviews() {
           reviews.map((review) =>
             review.review_id === reviewId
               ? {
-                  ...review,
-                  review_title: editedTitle,
-                  review_content: editedContent,
-                  instructor_name: editedInstructor,
-                  taken_semyr: editedSemyr,
-                  grade: editedGrade,
-                }
+                ...review,
+                review_title: editedTitle,
+                review_content: editedContent,
+                instructor_name: editedInstructor,
+                taken_semyr: editedSemyr,
+                grade: editedGrade,
+              }
               : review
           )
         );
@@ -422,7 +424,8 @@ export default function CourseReviews() {
                             {new Date(
                               new Date(review.review_time).getTime() + diffMSec
                             ).toLocaleDateString()}{" "}
-                            작성 
+                            작성
+                            {review.updated ? " (수정됨)" : ""}
                           </>
                         )}
                         </span>

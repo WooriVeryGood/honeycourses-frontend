@@ -24,28 +24,28 @@ export default function AddReview() {
   const navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!isSubmitted) {
-      setSubmit(true);
-      const data = {
-        review_title,
-        instructor_name,
-        taken_semyr,
-        review_content,
-        grade,
-      };
+    if (isSubmitted) return;
+    setSubmit(true);
+    const data = {
+      review_title,
+      instructor_name,
+      taken_semyr,
+      review_content,
+      grade,
+    };
 
-      await apiPost(`/courses/${courseId}/reviews`, data)
-        .then((response) => {
-          console.log(response.data);
-          alert("리뷰 등록에 성공했습니다!");
-          setSubmit(false);
-          navigate(`/courses/view/${courseId}`);
-        })
-        .catch((error) => {
-          console.log(error);
-          setSubmit(false);
-        });
-    }
+    await apiPost(`/courses/${courseId}/reviews`, data)
+      .then((response) => {
+        console.log(response.data);
+        alert("리뷰 등록에 성공했습니다!");
+        setSubmit(false);
+        navigate(`/courses/view/${courseId}`);
+      })
+      .catch((error) => {
+        console.log(error);
+        setSubmit(false);
+      });
+
   };
 
   const getName = async () => {
