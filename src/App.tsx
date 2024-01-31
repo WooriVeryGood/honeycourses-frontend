@@ -21,6 +21,7 @@ import { RequireAuth } from "./RequireAuth";
 import { Login } from "./components/Login/Login";
 import CommunityPostView from "./components/CommunityPostView/CommunityPostView";
 import AddPost from "./components/AddPost/AddPost";
+import MyInfo from "./components/MyInfo/MyInfo";
 I18n.putVocabularies(translations);
 I18n.setLanguage('ko');
 Amplify.configure(awsExports);
@@ -37,6 +38,9 @@ I18n.putVocabularies({
     'Your passwords must match': '비밀번호가 일치하지 않습니다',
     'An account with the given email already exists.': '이미 존재하는 이메일입니다',
     'Incorrect username or password.': '이메일 혹은 비밀번호가 일치하지 않습니다',
+    'Current Password': '현재 비밀번호',
+    'New Password': '새 비밀번호',
+    'Update password': '비밀번호 변경',
   },
   
 });
@@ -51,6 +55,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/myinfo" element={<RequireAuth><MyInfo /></RequireAuth>} />
             <Route path="/courses" element={<RequireAuth><CourseList /></RequireAuth>} />
             <Route path="/courses/view/:classID" element={<RequireAuth><CourseReviews /></RequireAuth>} />
             <Route path="/courses/addReview/:classID" element={<RequireAuth><AddReview /></RequireAuth>} />
