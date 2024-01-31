@@ -33,7 +33,12 @@ export default function Header() {
       <Container fluid className="p-0">
         <Navbar.Brand
           href="/"
-          style={{ color: "black", display: "flex", alignItems: "center",marginLeft:"2%" }}
+          style={{
+            color: "black",
+            display: "flex",
+            alignItems: "center",
+            marginLeft: "2%",
+          }}
         >
           <img
             alt=""
@@ -47,10 +52,13 @@ export default function Header() {
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
-          style={{marginRight:"10%" }}
+          style={{ marginRight: "10%" }}
         />
         <Navbar.Collapse>
-          <Nav className="me-auto" style={{ backgroundColor,paddingRight:"20px" }}>
+          <Nav
+            className="me-auto"
+            style={{ backgroundColor, paddingRight: "20px" }}
+          >
             <Nav.Link className="text text-center" href="/">
               Home
             </Nav.Link>
@@ -63,7 +71,10 @@ export default function Header() {
             <Nav.Link className="text text-center" href="/community">
               Community
             </Nav.Link>
-            <Nav.Link className="text text-center" href="https://scores.honeycourses.com">
+            <Nav.Link
+              className="text text-center"
+              href="https://scores.honeycourses.com"
+            >
               Scores
             </Nav.Link>
             <Nav.Link className="text text-center" href="/support">
@@ -72,7 +83,7 @@ export default function Header() {
           </Nav>
           <div
             className="text text-center"
-            style={{backgroundColor,paddingRight:"20px" }}
+            style={{ backgroundColor, paddingRight: "20px" }}
           >
             {authStatus !== "authenticated" ? (
               <>
@@ -89,6 +100,14 @@ export default function Header() {
               </>
             ) : (
               <>
+                <Button
+                  className="text text-center"
+                  variant="primary"
+                  href="/myinfo"
+                  style={{ marginRight: "10px" }}
+                >
+                  내 정보
+                </Button>
                 <Button
                   className="text text-center"
                   variant="danger"
