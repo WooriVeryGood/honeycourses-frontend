@@ -239,11 +239,13 @@ export default function HomePage() {
                         <br />
                         2. 강의평가 수정/삭제 기능 추가
                         <br />
-                        3. 커뮤니티 기능 정식 오픈
+                        3. 강의 목록에서 리뷰 수 열람 가능, 강의 클릭 시 새 탭에서 열리도록 변경
                         <br />
-                        4. 내 정보 페이지 추가
+                        4. 커뮤니티 기능 정식 오픈
                         <br />
-                        5. 성적 조회 페이지 추가
+                        5. 내 정보 페이지 추가
+                        <br />
+                        6. 성적 조회 페이지 추가
                         <br />
                         <a href="https://velog.io/@railgunofpku/honeycourses2024winter">여기</a>에서 1.1.0 버전 개발 회고록을 읽어보세요!
                       </div>
