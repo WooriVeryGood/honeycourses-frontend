@@ -86,8 +86,8 @@ export default function Support() {
                 </strong>
                 <ul>
                   <li>
-                    현재 본 웹사이트는 AWS의 Amplify 서비스 + API Gateway+ Lambda를 서버로,
-                    AWS의 RDS를 데이터베이스 서비스로 이용하고 있습니다.
+                    현재 본 웹사이트는 AWS의 서울 리전 EC2 인스턴스를 서버로,
+                    RDS를 데이터베이스 서비스로 이용하고 있습니다.
                   </li>
                   <li>
                     현 시점에서는 AWS가 1년간 제공하는 프리 티어를 사용해 약 월

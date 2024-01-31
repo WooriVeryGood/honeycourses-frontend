@@ -189,7 +189,7 @@ export default function HomePage() {
 
                 <Alert key="update" variant="info">
                   <Alert.Link href="#" onClick={() => setOpen(!open)}>
-                    &gt; 업데이트 내역 확인 (최신 업데이트: 2024.01.20)
+                    &gt; 업데이트 내역 확인 (최신 업데이트: 2024.02.01)
                   </Alert.Link>
                   <Collapse in={open}>
                     <div id="update-log">
@@ -231,6 +231,21 @@ export default function HomePage() {
                         2. 제출버튼 반복 클릭시 신규 수업/강의평가가 반복적으로
                         올라가는 문제 해결.
                         <br />
+                      </div>
+                      <br />
+                      <div>
+                        <strong>Release@2024.02.01:</strong> <br></br>
+                        1. 1.1.0 버전 정식 릴리즈
+                        <br />
+                        2. 강의평가 수정/삭제 기능 추가
+                        <br />
+                        3. 커뮤니티 기능 정식 오픈
+                        <br />
+                        4. 내 정보 페이지 추가
+                        <br />
+                        5. 성적 조회 페이지 추가
+                        <br />
+                        <a href="https://velog.io/@railgunofpku/honeycourses2024winter">여기</a>에서 1.1.0 버전 개발 회고록을 읽어보세요!
                       </div>
                     </div>
                   </Collapse>
