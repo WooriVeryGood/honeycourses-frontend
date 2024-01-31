@@ -228,7 +228,7 @@ function MyInfo() {
                             style={{ display: "flex" }}
                           >
                             <div style={{ display: "flex" }}>
-                              <div className={styles.sharp}>
+                              <div className={styles.sharpCommunity}>
                                 #{post.post_id}
                               </div>
                               <div>
