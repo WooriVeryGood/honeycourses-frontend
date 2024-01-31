@@ -15,6 +15,7 @@ interface Post {
   post_likes: number;
   post_author: string;
   post_time: string;
+  reported: boolean;
 }
 
 type CategoryKey = "All" | "공지" | "자유" | "질문" | "중고거래" | "구인";
@@ -204,7 +205,8 @@ export default function CommunityHome() {
                           >
                             {post.post_category}
                           </Badge>
-                          <div>{post.post_title}</div>
+                          
+                          <div>{post.reported ? "신고 누적으로 삭제된 게시물입니다." : post.post_title}</div>
                         </Card.Title>
                         <div
                           className={styles.dateNpostID}
@@ -254,7 +256,7 @@ export default function CommunityHome() {
                           >
                             {post.post_category}
                           </Badge>
-                          <div>{post.post_title}</div>
+                          <div>{post.reported ? "신고 누적으로 삭제된 게시물입니다." : post.post_title}</div>
                         </Card.Title>
 
                         <Card.Text
@@ -270,7 +272,7 @@ export default function CommunityHome() {
                             fontWeight: "600",
                           }}
                           dangerouslySetInnerHTML={{
-                            __html: post.post_content,
+                            __html: post.reported ? "신고 누적으로 삭제된 게시물입니다." : post.post_content,
                           }}
                         ></Card.Text>
 
