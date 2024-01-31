@@ -11,6 +11,7 @@ import PostList from "./PostList";
 
 import koreaTimeFormatter from "../../utils/koreaTimeFormatter";
 import Sidebar from "./Sidebar";
+import PostContainer from "./PostContainer";
 
 export default function CommunityHome() {
   const [isLoading, setIsLoading] = useState(true);
@@ -102,7 +103,16 @@ export default function CommunityHome() {
               onCategoryChange={handleSelectCategory}
             />
 
-            <div className={styles.comRight}>
+            <PostContainer
+              currentPostCategory={selectedCategory}
+              posts={posts}
+              noticePosts={noticePosts}
+              linkToPostView={linkToPostView}
+              currentPage={currentPage}
+              totalPostsCount={totalItemsCount}
+              setPage={handlePageChange}
+            />
+            {/* <div className={styles.comRight}>
               <div className={styles.rightHeader}>
                 {layoutRightTitle}
                 <Button
@@ -155,7 +165,7 @@ export default function CommunityHome() {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </Container>
       </PageView>

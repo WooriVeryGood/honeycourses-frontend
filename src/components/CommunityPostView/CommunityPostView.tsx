@@ -16,7 +16,10 @@ import { Reply } from "./types/reply";
 import { commentBackgroundColors } from "./constants/colors";
 import { pseudonyms } from "./constants/nicknames";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+interface SystemError {
+  code: string;
+  message: string;
+}
 
 
 export default function CommunityPostView() {
@@ -106,6 +109,50 @@ export default function CommunityPostView() {
     } catch (error) {
       console.error("Error posting comment:", error);
       setIsSubmittingComment(false);
+    }
+  };
+
+  const handlePostReport = async (postId: number) => {
+    const reportMessage = window.prompt("신고 내용을 입력하세요:");
+    if (reportMessage === null || reportMessage.trim() === "") {
+      alert("신고가 취소되었습니다.");
+      return;
+    }
+    try {
+      const response = await apiPost(`/posts/${postId}/report`, {
+        message: reportMessage,
+      });
+      if (response.status === 201) {
+        alert("신고가 접수되었습니다.");
+      }
+    } catch (error) {
+      const err = error as SystemError;
+      if (err.code === "ERR_BAD_REQUEST") {
+        alert("이미 신고한 게시글입니다.");
+      }
+      console.error("Error reporting post:", error);
+    }
+  };
+
+  const handleCommentReport = async (commentId: number) => {
+    const reportMessage = window.prompt("신고 내용을 입력하세요:");
+    if (reportMessage === null || reportMessage.trim() === "") {
+      alert("신고가 취소되었습니다.");
+      return;
+    }
+    try {
+      const response = await apiPost(`/comments/${commentId}/report`, {
+        message: reportMessage,
+      });
+      if (response.status === 201) {
+        alert("신고가 접수되었습니다.");
+      }
+    } catch (error) {
+      const err = error as SystemError;
+      if (err.code === "ERR_BAD_REQUEST") {
+        alert("이미 신고한 댓글입니다.");
+      }
+      console.error("Error reporting post:", error);
     }
   };
 
@@ -338,7 +385,11 @@ export default function CommunityPostView() {
                 >
                   {post.post_category}
                 </Badge>
-                <div>{post.post_title}</div>
+                <div>
+                  {post.reported
+                    ? "신고 누적으로 삭제된 게시물입니다."
+                    : post.post_title}
+                </div>
               </Card.Title>
               <div className={styles.mainBottom}>
                 <div style={{ display: "flex" }}>
@@ -350,7 +401,16 @@ export default function CommunityPostView() {
                     {new Date(
                       new Date(post.post_time).getTime() + diffMSec
                     ).toLocaleTimeString()}
-                    {post.updated?" (수정됨)":""}
+                    {post.updated ? " (수정됨)" : ""}
+                    <span
+                      style={{
+                        marginLeft: "8px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handlePostReport(post.post_id)}
+                    >
+                      | &nbsp;신고하기
+                    </span>
                   </div>
                 </div>
                 <div
@@ -420,7 +480,7 @@ export default function CommunityPostView() {
                 </>
               ) : (
                 <>
-                  {isMyPost(post.post_author) && (
+                  {!post.reported && isMyPost(post.post_author) && (
                     <div style={{ textAlign: "right" }}>
                       <Button
                         variant="outline-primary"
@@ -439,7 +499,9 @@ export default function CommunityPostView() {
                     </div>
                   )}
                   <Card.Text className={styles.cardText}>
-                    {post.post_content.replace(/<br\s*[/]?>/gi, "\n")}
+                    {post.reported
+                      ? "신고 누적으로 삭제된 게시물입니다."
+                      : post.post_content.replace(/<br\s*[/]?>/gi, "\n")}
                   </Card.Text>
                 </>
               )}
@@ -536,7 +598,7 @@ export default function CommunityPostView() {
                       {new Date(
                         new Date(comment.comment_time).getTime() + diffMSec
                       ).toLocaleTimeString()}
-                      {comment.updated?" (수정됨)":""}
+                      {comment.updated ? " (수정됨)" : ""}
                     </span>
                   </div>
                 </div>
@@ -600,7 +662,11 @@ export default function CommunityPostView() {
                     </div>
                   ) : (
                     <Card.Text>
-                      {comment.comment_content === null ? (
+                      {comment.reported ? (
+                        <em style={{ opacity: 0.7 }}>
+                          [신고 누적으로 삭제된 댓글입니다.]
+                        </em>
+                      ) : comment.comment_content === null ? (
                         <em style={{ opacity: 0.7 }}>[삭제된 댓글입니다.]</em>
                       ) : (
                         comment.comment_content
@@ -677,6 +743,7 @@ export default function CommunityPostView() {
                                 liked: comment.liked,
                                 replies: comment.replies,
                                 updated: comment.updated,
+                                reported: comment.reported,
                               };
                             return {
                               comment_id: comment.comment_id,
@@ -687,6 +754,7 @@ export default function CommunityPostView() {
                               liked: comment.liked,
                               replies: comment.replies,
                               updated: comment.updated,
+                              reported: comment.reported,
                             };
                           });
                         }}
@@ -723,6 +791,17 @@ export default function CommunityPostView() {
                       }}
                     >
                       &nbsp;| &nbsp; 답글작성
+                    </span>
+                    <span
+                      style={{
+                        marginLeft: "8px",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        color: "gray",
+                      }}
+                      onClick={() => handleCommentReport(comment.comment_id)}
+                    >
+                      | &nbsp;신고하기
                     </span>
                   </div>
                 </div>
@@ -768,7 +847,7 @@ export default function CommunityPostView() {
                             {new Date(
                               new Date(reply.reply_time).getTime() + diffMSec
                             ).toLocaleTimeString()}
-                            {reply.updated?" (수정됨)":""}
+                            {reply.updated ? " (수정됨)" : ""}
                           </span>
                         </div>
                       </div>
@@ -831,7 +910,15 @@ export default function CommunityPostView() {
                             </span>
                           </div>
                         ) : (
-                          <Card.Text>{reply.reply_content}</Card.Text>
+                          <Card.Text>
+                            {reply.reported ? (
+                              <em style={{ opacity: 0.7 }}>
+                                [신고 누적으로 삭제된 답글입니다.]
+                              </em>
+                            ) : (
+                              reply.reply_content
+                            )}
+                          </Card.Text>
                         )}
                       </Card.Body>
                       <div style={{ display: "flex" }}>
@@ -871,7 +958,8 @@ export default function CommunityPostView() {
                           </span>
                         </div>
                         <div>
-                          {isMyComment(reply.reply_author) &&
+                          {!reply.reported &&
+                          isMyComment(reply.reply_author) &&
                           !isCommentUpdate ? (
                             <span
                               style={{
@@ -893,6 +981,7 @@ export default function CommunityPostView() {
                                       liked: reply.liked,
                                       replies: [],
                                       updated: reply.updated,
+                                      reported: reply.reported,
                                     };
                                   return {
                                     comment_id: reply.reply_id,
@@ -903,6 +992,7 @@ export default function CommunityPostView() {
                                     liked: reply.liked,
                                     replies: [],
                                     updated: reply.updated,
+                                    reported: reply.reported,
                                   };
                                 });
                               }}
@@ -910,7 +1000,8 @@ export default function CommunityPostView() {
                               &nbsp;| &nbsp; 수정&nbsp;
                             </span>
                           ) : null}
-                          {isMyComment(reply.reply_author) ? (
+                          {!reply.reported &&
+                          isMyComment(reply.reply_author) ? (
                             <span
                               style={{
                                 marginLeft: "8px",
@@ -925,6 +1016,17 @@ export default function CommunityPostView() {
                               &nbsp;삭제
                             </span>
                           ) : null}
+                          <span
+                            style={{
+                              marginLeft: "8px",
+                              cursor: "pointer",
+                              fontSize: "14px",
+                              color: "gray",
+                            }}
+                            onClick={() => handleCommentReport(reply.reply_id)}
+                          >
+                            | &nbsp;신고하기
+                          </span>
                         </div>
                       </div>
                     </Card>
