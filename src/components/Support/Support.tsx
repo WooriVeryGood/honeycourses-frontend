@@ -2,108 +2,68 @@ import PageView from "../PageView/PageView";
 import { Container } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import styles from "./Support.module.css";
-import { gsap } from "gsap";
-import { useEffect, useRef } from "react";
-import { ScrollTrigger } from "gsap/all";
-gsap.registerPlugin(ScrollTrigger);
+import { useState } from "react";
 
 export default function Support() {
+  const [cardBtnNum, setCardBtnNum] = useState(1);
 
-  // box들 애니메이션 ref 설정
-  const contentsRef = useRef(null);
-  const box1Ref = useRef(null);
-  const box2Ref = useRef(null);
-  const box3Ref = useRef(null);
-
-  // 애니메이션 실행
-  useEffect(() => {
-    let ctx = gsap.context(() => {
-      let timeln = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".contents",
-          scrub: 1,
-          start:"400vh 450vh",
-          end: "800vh 700vh"
-        }
-      });
-
-      timeln.addLabel('card1');
-      timeln.to(box1Ref.current, {
-        yPercent: 0,
-        opacity: 1
-      });
-
-      timeln.from(box2Ref.current, {
-        yPercent: 5,
-        opacity: 0
-      });
-      timeln.addLabel('card2');
-
-      timeln.to(box1Ref.current, {
-
-        scale: 0.85,
-        opacity: 0.5
-      }, "-=0.3")
-        .to(box2Ref.current, {
-          yPercent: 0,
-          opacity: 1
-        });
-
-      timeln.from(box3Ref.current, {
-        yPercent: 5,
-        opacity: 0
-      });
-      timeln.addLabel('card3');
-
-      timeln.to(box2Ref.current, {
-        scale: 0.92,
-        opacity: 0.6
-      }, "-=0.3");
-
-      timeln.to(box3Ref.current, {
-        yPercent: 0,
-        opacity: 1
-      });
-    }, contentsRef);
-    return () => ctx.revert();
-  }, []);
 
   return (
     <PageView>
-      <Container>
-
+      <Container className={styles.supportContainer}>
         {/* 페이지 헤더부분 */}
-        <div className={styles.supportHeader}>
-          <p className={styles.lead}>
-            저희 웹사이트,<br></br> 만족스럽게 사용하고 계신가요?
-          </p>
-          <div>
-            사이트가 마음에 드셨고, 앞으로의 운영을 <span className={styles.hl}>지원해주고 싶으신가요?</span><br></br><br></br>
-            밤샘 개발로 고생한 저희 팀 개발자 학우들에게 <span className={styles.hl}>나이챠라도
-              한잔 </span>사주시고 싶으신가요?<br></br><br></br><br></br>
+        <div className={styles.supportTop}>
+          <div className={styles.supportHeader}>
+            <p className={styles.lead}>
+              저희 웹사이트,<br></br> 만족스럽게 사용하고 계신가요?
+            </p>
+
+            <div className={styles.subTitle} style={{ marginTop: "20px" }}>
+              사이트가 마음에 드셨고, 앞으로의 운영을 <span className={styles.hl}>지원해주고 싶으신가요?</span><br></br><br></br>
+              밤샘 개발로 고생한 저희 팀 개발자 학우들에게 <span className={styles.hl}>나이챠라도
+                한잔 </span>사주시고 싶으신가요?<br></br><br></br><br></br>
+            </div>
           </div>
-        </div>
-        <div style={{ display: "flex", position: "relative", top: "-20px" }}>
-          <Image
-            src="/images/free-icon-send-message-3682321.png"
-            alt="message"
-            width={30}
-            style={{ marginTop: "20px" }}
-            fluid
-          />
-          <hr style={{ border: "none", borderTop: "3px dotted blue", color: "#fff", backgroundColor: "#fff", height: "1px", width: "100%", marginTop: "37px" }}></hr>
+          <div className={styles.hr}>
+            <Image
+              src="/images/free-icon-send-message-3682321.png"
+              alt="message"
+              width={30}
+              fluid
+            />
+            <div style={{ width: "100%", height: "30px" }}>
+              <hr style={{ border: "none", borderTop: "3px dotted blue", color: "#fff", backgroundColor: "#fff", height: "1px", width: "100%", margin: "14px auto" }}></hr>
+            </div>
+          </div>
         </div>
 
         {/* 본문 */}
-        <div className={styles.mainBox}>
-
+        <div className={styles.mainBox} >
           {/* 카드 내용 */}
-          <div className={styles.contents} ref={contentsRef}>
-            <div className={styles.firstBox} ref={box1Ref}>
+          <div className={styles.buttons}>
+            <button className={cardBtnNum === 0 ? styles.clickedSupportBtn : styles.supportBtn}
+              onClick={() => setCardBtnNum(0)}>💓Support</button>
+            <button className={cardBtnNum === 1 ? styles.clickedCardBtn : styles.cardBtn}
+              onClick={() => setCardBtnNum(1)}>1</button>
+            <button className={cardBtnNum === 2 ? styles.clickedCardBtn : styles.cardBtn}
+              onClick={() => setCardBtnNum(2)}>2</button>
+            <button className={cardBtnNum === 3 ? styles.clickedCardBtn : styles.cardBtn}
+              onClick={() => setCardBtnNum(3)}>3</button>
+          </div>
+          <div className={styles.cards}>
+            <div className={styles.qr} style={{ display: cardBtnNum === 0 ? "" : "none" }}>
+              <Image
+                src="/images/donateCode.png"
+                alt="왜 너만 답받냐고"
+                fluid
+              />
+            </div>
+
+            <div className={styles.firstBox} style={{ display: cardBtnNum === 1 ? "flex" : "none" }}>
               <div>
                 <div className={styles.myCircle2}></div>
                 <div className={styles.myCircle1}></div>
-                
+
                 <strong>
                   지속적으로 서비스를 이어나갈 수 있도록, 학우 여러분의 도움이
                   필요해요!
@@ -118,10 +78,10 @@ export default function Support() {
               </div>
             </div>
 
-            <div className={styles.secondBox} ref={box2Ref}>
+            <div className={styles.secondBox} style={{ display: cardBtnNum === 2 ? "flex" : "none" }}>
               <div>
                 <strong>
-                  북경대학교 한국인 학우분들을 위해 약 2달간 열심히 개발된 본
+                  북경대학교 한국인 학우분들을 위해 열심히 개발되고 있는 본
                   웹사이트는, 현재 <span className={styles.bottomDotted}> 개발팀장의 사비로 </span>전적 운영되고 있습니다.
                 </strong>
                 <ul>
@@ -144,7 +104,7 @@ export default function Support() {
               </div>
             </div>
 
-            <div className={styles.thirdBox} ref={box3Ref}>
+            <div className={styles.thirdBox} style={{ display: cardBtnNum === 3 ? "flex" : "none" }}>
               <div>
                 <strong>
                   다시 한번, 기부 여부와 상관 없이 이 페이지를 찾아와주시고,
@@ -164,39 +124,6 @@ export default function Support() {
                     :&gt;
                   </li>
                 </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* 티켓모양 */}
-          <div className={styles.rightLong}>
-            <div>
-              <div className={styles.qrCode}>
-                <Image
-                  className={styles.codeImg}
-                  src="/images/donateCode.png"
-                  alt="왜 너만 답받냐고"
-                  fluid
-                />
-              </div>
-              <div className={styles.check}>
-                <div>
-                  <div className={styles.flight}>
-                    <div>
-                      <p className={styles.t1}><strong>PKU</strong><br></br>Peking University</p>
-                      <hr className={styles.g2} style={{ border: "none", borderTop: "2px dotted blue", color: "#fff", backgroundColor: "#fff", height: "1px", width: "90%", marginRight: "5%", marginLeft: "5%", marginTop: "45%" }}></hr>
-                      <p className={styles.sA}><strong>WVG</strong><br></br>WooriVery Good</p>
-                    </div>
-                  </div>
-                  <div className={styles.seat}>
-                    <div>
-                      <p className={styles.t1}><strong>01</strong>Terminal</p>
-                      <p className={styles.g2}><strong>23</strong>Gate</p>
-                      <p className={styles.sA}><strong>D5</strong>Seat</p>
-                    </div>
-                  </div>
-                  <div className={styles.qrPay}>위쪽의 위챗페이 QR코드를 통해 감사한 마음으로 기부를 받고 있습니다!</div>
-                </div>
               </div>
             </div>
           </div>
