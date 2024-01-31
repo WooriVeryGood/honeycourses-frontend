@@ -21,7 +21,6 @@ interface SystemError {
   message: string;
 }
 
-
 export default function CommunityPostView() {
   const { user } = useAuthenticator((context) => [context.user, context.route]);
   const [post, setPost] = useState<Post | null>(null);
