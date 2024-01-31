@@ -1,4 +1,10 @@
 {
+  "analytics": {
+    "honeycoursesfrontend": {
+      "providerPlugin": "awscloudformation",
+      "service": "Pinpoint"
+    }
+  },
   "api": {
     "honeyApi": {
       "dependsOn": [

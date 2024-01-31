@@ -1,0 +1,21 @@
+{
+    "appName": "honeycoursesfrontend",
+    "roleName": "pinpointLambdaRole44933966",
+    "cloudformationPolicyName": "cloudformationPolicy44933966",
+    "cloudWatchPolicyName": "cloudWatchPolicy44933966",
+    "pinpointPolicyName": "pinpointPolicy44933966",
+    "authPolicyName": "pinpoint_amplify_44933966",
+    "unauthPolicyName": "pinpoint_amplify_44933966",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}
