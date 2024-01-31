@@ -17,11 +17,12 @@ interface Post {
   post_time: string;
 }
 
-type CategoryKey = "All" | "자유" | "질문" | "중고거래" | "구인";
+type CategoryKey = "All" | "공지" | "자유" | "질문" | "중고거래" | "구인";
 
 export default function CommunityHome() {
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState<Post[]>([]);
+  const [noticePosts, setNoticePosts] = useState<Post[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<CategoryKey>("All");
   const [layoutRightTitle, setTitle] = useState("All"); //오른쪽 layout 제목 설정
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,6 +33,7 @@ export default function CommunityHome() {
 
   const categoryMap: { [key in CategoryKey]: string } = {
     All: "",
+    공지: "notice",
     자유: "free",
     질문: "question",
     중고거래: "trade",
@@ -42,7 +44,11 @@ export default function CommunityHome() {
     try {
       setIsLoading(true);
       const categoryPath = category ? `/category/${category}` : "";
-      const response = await apiGet(`/community${categoryPath}?page=${pageNo - 1}`);
+      const noticeResponse = await apiGet(`/community/category/notice`);
+      const response = await apiGet(
+        `/community${categoryPath}?page=${pageNo - 1}`
+      );
+      setNoticePosts(noticeResponse.data.posts);
       setPosts(response.data.posts);
       setTotalItemsCount(response.data.totalPostCount);
       setIsLoading(false);
@@ -172,6 +178,56 @@ export default function CommunityHome() {
                   글 작성
                 </Button>
               </div>
+              <div className={styles.groupReviews}>
+                {noticePosts.map((post) => (
+                  <Link
+                    to={`/community/view/${post.post_id}`}
+                    key={post.post_id}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <Card className={styles.cardNotice}>
+                      <Card.Body className="text-start">
+                        <Card.Title
+                          style={{
+                            color: "#43A680",
+                            fontWeight: "800",
+                            display: "flex",
+                          }}
+                        >
+                          <Badge
+                            bg="#236969"
+                            style={{
+                              backgroundColor: "#489CC1",
+                              marginRight: "10px",
+                              height: "25px",
+                            }}
+                          >
+                            {post.post_category}
+                          </Badge>
+                          <div>{post.post_title}</div>
+                        </Card.Title>
+                        <div
+                          className={styles.dateNpostID}
+                          style={{ display: "flex" }}
+                        >
+                          <div style={{ display: "flex" }}>
+                            <div className={styles.sharp}>#{post.post_id}</div>
+                            <div>
+                              {new Date(
+                                new Date(post.post_time).getTime() + diffMSec
+                              ).toLocaleDateString()}{" "}
+                              {new Date(
+                                new Date(post.post_time).getTime() + diffMSec
+                              ).toLocaleTimeString()}
+                            </div>
+                          </div>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+
               <div className={styles.groupReviews}>
                 {filteredPosts.map((post) => (
                   <Link
