@@ -34,6 +34,7 @@ interface Post {
   post_likes: number;
   post_author: string;
   post_time: string;
+  reported: boolean;
 }
 
 function MyInfo() {
@@ -203,7 +204,7 @@ function MyInfo() {
                             >
                               {post.post_category}
                             </Badge>
-                            <div>{post.post_title}</div>
+                            <div>{post.reported ? "신고 누적으로 삭제된 게시물입니다." : post.post_title}</div>
                           </Card.Title>
 
                           <Card.Text
@@ -219,7 +220,7 @@ function MyInfo() {
                               fontWeight: "600",
                             }}
                             dangerouslySetInnerHTML={{
-                              __html: post.post_content,
+                              __html: post.reported ? "신고 누적으로 삭제된 게시물입니다." : post.post_content,
                             }}
                           ></Card.Text>
 
