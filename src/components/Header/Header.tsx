@@ -63,6 +63,9 @@ export default function Header() {
             <Nav.Link className="text text-center" href="/community">
               Community
             </Nav.Link>
+            <Nav.Link className="text text-center" href="https://scores.honeycourses.com">
+              Scores
+            </Nav.Link>
             <Nav.Link className="text text-center" href="/support">
               Support Us!
             </Nav.Link>
