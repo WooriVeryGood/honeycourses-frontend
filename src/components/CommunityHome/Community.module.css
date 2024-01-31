@@ -54,9 +54,18 @@
 
 .card {
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     border-width: 0;
     border-radius: 0;
+    border-bottom: 1px solid #a9aab0;
+}
+
+.cardNotice {
+    width: 100%;
+    background-color:azure;
+    border-width: 0;
+    border-radius: 0;
+    border-top: 1px solid #a9aab0;
     border-bottom: 1px solid #a9aab0;
 }
 
