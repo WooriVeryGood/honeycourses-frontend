@@ -1,0 +1,39 @@
+.comLeft {
+  width: 20%;
+  font-size: 1rem;
+  margin-top: 2%;
+}
+
+.listLayout{
+  display: flex;
+  flex-direction: column;
+}
+
+.listLayout>div>h2 {
+  font-size: 1.5em;
+  font-weight: bolder;
+}
+
+.categories {
+  list-style-type: none;
+  font-size: 1em;
+}
+
+.categories>li {
+  margin-top: 4%;
+  font-size: 1.2em;
+}
+
+@media(max-width:936px) {
+  .comLeft {
+    width: 100%;
+  }
+
+  .categories {
+    padding-left: 0;
+    display: flex;
+    column-gap: 0.8rem;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+  }
+}

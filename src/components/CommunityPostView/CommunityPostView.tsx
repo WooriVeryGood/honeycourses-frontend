@@ -10,102 +10,14 @@ import "./CommunityPostView.css";
 import styles from "./communityPostView.module.css";
 import { useNavigate } from "react-router-dom";
 import { apiDelete, apiGet, apiPost, apiPut } from "../API/APIHandler";
-
-interface Post {
-  post_id: number;
-  post_category: string;
-  post_title: string;
-  post_content: string;
-  post_comments: number;
-  post_likes: number;
-  post_author: string;
-  post_time: string;
-  liked: boolean;
-  updated: boolean;
-}
-
-interface Reply {
-  reply_id: number;
-  reply_content: string;
-  reply_author: string;
-  reply_likes: number;
-  reply_time: string;
-  liked: boolean;
-  updated: boolean;
-}
-
-interface Comment {
-  comment_id: number;
-  comment_content: string;
-  comment_author: string;
-  comment_likes: number;
-  comment_time: string;
-  liked: boolean;
-  replies: Reply[];
-  updated: boolean;
-}
+import { Post } from "./types/post";
+import { Comment } from "./types/comment";
+import { Reply } from "./types/reply";
+import { commentBackgroundColors } from "./constants/colors";
+import { pseudonyms } from "./constants/nicknames";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const pseudonyms = [
-  "Alice",
-  "Bob",
-  "Carol",
-  "Dave",
-  "Eve",
-  "Francis",
-  "Grace",
-  "Hans",
-  "Isabella",
-  "Jason",
-  "Kate",
-  "Louis",
-  "Margaret",
-  "Nathan",
-  "Olivia",
-  "Paul",
-  "Queen",
-  "Richard",
-  "Susan",
-  "Thomas",
-  "Uma",
-  "Vivian",
-  "Winnie",
-  "Xander",
-  "Yasmine",
-  "Zach",
-];
-
-const commentBackgroundColors = [
-  "#91C8E4", //파
-  "#EAC696", //갈
-  "#C8E4B2", //초
-  "#D8D9DA", //회
-  "#FFE17B", //노
-  "#DFCCFB", //보
-  "#E19898", //핑
-  "#33BBC5", //파
-  "#A8DF8E", //초
-  "#EBE76C", //겨
-  "#5C5470", //짙회
-  "#A6E3E9", //하
-  "#E3FDFD", //연하
-  "#A6B1E1", //연남
-  "#d9e1fc",
-  "#edd9f2",
-  "#d9f2e5",
-  "#FFD54F",
-  "#A1887F",
-  "#FFAB91",
-  "#FFCC80",
-  "#FFF176",
-  "#DCE775",
-  "#AED581",
-  "#81C784",
-  "#4FC3F7",
-  "#4DD0E1",
-  "#4DB6AC",
-];
 
 export default function CommunityPostView() {
   const { user } = useAuthenticator((context) => [context.user, context.route]);

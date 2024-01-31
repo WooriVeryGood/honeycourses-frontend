@@ -30,16 +30,6 @@
     font-weight: bolder;
 }
 
-.categories {
-    list-style-type: none;
-    font-size: 1em;
-}
-
-.categories>li {
-    margin-top: 4%;
-    font-size: 1.2em;
-}
-
 .rightHeader {
     margin-top: 20px;
     margin-left: 3%;
@@ -105,14 +95,6 @@
 
     .comRight {
         font-size: .9rem;
-    }
-
-    .categories {
-        padding-left: 0;
-        display: flex;
-        column-gap: 0.8rem;
-        flex-wrap: nowrap;
-        overflow-x: scroll;
     }
 
     .rightHeader {

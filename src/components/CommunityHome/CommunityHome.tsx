@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from "react";
 import PageView from "../PageView/PageView";
 import { Badge, Button, Card, Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Community.module.css";
 import Paging from "../Paging/Paging";
 import { apiGet } from "../API/APIHandler";
+import { Post } from "./types/post";
+import { CategoryKey, CategoryMap } from "./types/postCategory";
+import PostList from "./PostList";
 
-interface Post {
-  post_id: number;
-  post_category: string;
-  post_title: string;
-  post_content: string;
-  post_comments: number;
-  post_likes: number;
-  post_author: string;
-  post_time: string;
-}
-
-type CategoryKey = "All" | "공지" | "자유" | "질문" | "중고거래" | "구인";
+import koreaTimeFormatter from "../../utils/koreaTimeFormatter";
+import Sidebar from "./Sidebar";
 
 export default function CommunityHome() {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,27 +20,16 @@ export default function CommunityHome() {
   const [layoutRightTitle, setTitle] = useState("All"); //오른쪽 layout 제목 설정
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItemsCount, setTotalItemsCount] = useState(0);
-  const dateA = new Date("2022/06/01 08:00:00");
-  const dateB = new Date("2022/06/01 00:00:00");
-  const diffMSec = dateA.getTime() - dateB.getTime();
 
-  const categoryMap: { [key in CategoryKey]: string } = {
-    All: "",
-    공지: "notice",
-    자유: "free",
-    질문: "question",
-    중고거래: "trade",
-    구인: "offer",
-  };
+  const navigate = useNavigate();
+  var firstLoad = true;
 
   const fetchDataFromApi = async (pageNo: number, category: string = "") => {
     try {
       setIsLoading(true);
       const categoryPath = category ? `/category/${category}` : "";
       const noticeResponse = await apiGet(`/community/category/notice`);
-      const response = await apiGet(
-        `/community${categoryPath}?page=${pageNo - 1}`
-      );
+      const response = await apiGet(`/community${categoryPath}?page=${pageNo - 1}`);
       setNoticePosts(noticeResponse.data.posts);
       setPosts(response.data.posts);
       setTotalItemsCount(response.data.totalPostCount);
@@ -60,20 +42,44 @@ export default function CommunityHome() {
     }
   };
 
-  //분류
   const handleSelectCategory = (category: CategoryKey) => {
     setCurrentPage(1);
     setSelectedCategory(category);
     setTitle(category);
-    fetchDataFromApi(1, categoryMap[category]);
+    fetchDataFromApi(1, CategoryMap[category]);
   };
 
   useEffect(() => {
-    fetchDataFromApi(currentPage, categoryMap[selectedCategory]);
+    fetchDataFromApi(currentPage, CategoryMap[selectedCategory]);
   }, [currentPage]);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
+  };
+
+  useEffect(() => {
+    const tempPage = localStorage.getItem("currentPage");
+    const tempCategory = localStorage.getItem("currentCategory");
+    if (tempPage === null || tempCategory === null)
+      return;
+    const pageNum = tempPage === null ? 1 : Number(tempPage);
+    const category = (tempCategory === null ? "All" : tempCategory) as CategoryKey;
+    if (firstLoad) {
+      firstLoad = false;
+      setCurrentPage(pageNum);
+      setSelectedCategory(category);
+      return;
+    }
+    localStorage.removeItem("currentPage");
+    localStorage.removeItem("currentCategory");
+    setCurrentPage(pageNum);
+    setSelectedCategory(category);
+  }, []);
+
+  const linkToPostView = (postId: number) => {
+    localStorage.setItem("currentPage", String(currentPage));
+    localStorage.setItem("currentCategory", selectedCategory);
+    navigate(`/community/view/${postId}`);
   };
 
   // 카테고리별 게시글 분류
@@ -91,68 +97,10 @@ export default function CommunityHome() {
           style={{ justifyContent: "center", display: "flex" }}
         >
           <div className={styles.communityContainer}>
-            <div className={styles.comLeft}>
-              <div className={styles.listLayout}>
-                <div className="d-flex flex-wrap align-items-left">
-                  <h2>커뮤니티</h2>
-                </div>
-
-                <nav>
-                  <ul className={styles.categories}>
-                    <li className="nav-item">
-                      <button
-                        className={`navLink nav-link btn ${
-                          selectedCategory === "All" ? "btn-primary" : ""
-                        }`}
-                        onClick={() => handleSelectCategory("All")}
-                      >
-                        All
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className={`navLink nav-link btn ${
-                          selectedCategory === "자유" ? "btn-primary" : ""
-                        }`}
-                        onClick={() => handleSelectCategory("자유")}
-                      >
-                        자유
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className={`navLink nav-link btn ${
-                          selectedCategory === "질문" ? "btn-primary" : ""
-                        }`}
-                        onClick={() => handleSelectCategory("질문")}
-                      >
-                        질문
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className={`navLink nav-link btn ${
-                          selectedCategory === "중고거래" ? "btn-primary" : ""
-                        }`}
-                        onClick={() => handleSelectCategory("중고거래")}
-                      >
-                        중고거래
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className={`navLink nav-link btn ${
-                          selectedCategory === "구인" ? "btn-primary" : ""
-                        }`}
-                        onClick={() => handleSelectCategory("구인")}
-                      >
-                        구인
-                      </button>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-            </div>
+            <Sidebar
+              selectedCategory={selectedCategory}
+              onCategoryChange={handleSelectCategory}
+            />
 
             <div className={styles.comRight}>
               <div className={styles.rightHeader}>
@@ -179,144 +127,19 @@ export default function CommunityHome() {
                 </Button>
               </div>
               <div className={styles.groupReviews}>
-                {noticePosts.map((post) => (
-                  <Link
-                    to={`/community/view/${post.post_id}`}
-                    key={post.post_id}
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    <Card className={styles.cardNotice}>
-                      <Card.Body className="text-start">
-                        <Card.Title
-                          style={{
-                            color: "#43A680",
-                            fontWeight: "800",
-                            display: "flex",
-                          }}
-                        >
-                          <Badge
-                            bg="#236969"
-                            style={{
-                              backgroundColor: "#489CC1",
-                              marginRight: "10px",
-                              height: "25px",
-                            }}
-                          >
-                            {post.post_category}
-                          </Badge>
-                          <div>{post.post_title}</div>
-                        </Card.Title>
-                        <div
-                          className={styles.dateNpostID}
-                          style={{ display: "flex" }}
-                        >
-                          <div style={{ display: "flex" }}>
-                            <div className={styles.sharp}>#{post.post_id}</div>
-                            <div>
-                              {new Date(
-                                new Date(post.post_time).getTime() + diffMSec
-                              ).toLocaleDateString()}{" "}
-                              {new Date(
-                                new Date(post.post_time).getTime() + diffMSec
-                              ).toLocaleTimeString()}
-                            </div>
-                          </div>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Link>
-                ))}
+                <PostList
+                  isNotNotice={false}
+                  posts={noticePosts}
+                  linkToPostView={linkToPostView}
+                />
               </div>
 
               <div className={styles.groupReviews}>
-                {filteredPosts.map((post) => (
-                  <Link
-                    to={`/community/view/${post.post_id}`}
-                    key={post.post_id}
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    <Card className={styles.card}>
-                      <Card.Body className="text-start">
-                        <Card.Title
-                          style={{
-                            color: "#43A680",
-                            fontWeight: "800",
-                            display: "flex",
-                          }}
-                        >
-                          <Badge
-                            bg="#236969"
-                            style={{
-                              backgroundColor: "#236969",
-                              marginRight: "10px",
-                              height: "25px",
-                            }}
-                          >
-                            {post.post_category}
-                          </Badge>
-                          <div>{post.post_title}</div>
-                        </Card.Title>
-
-                        <Card.Text
-                          style={{
-                            height: "4.8em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            display: "-webkit-box",
-                            WebkitLineClamp: "3",
-                            WebkitBoxOrient: "vertical",
-                            whiteSpace: "pre-line",
-                            color: "#888893",
-                            fontWeight: "600",
-                          }}
-                          dangerouslySetInnerHTML={{
-                            __html: post.post_content,
-                          }}
-                        ></Card.Text>
-
-                        <div
-                          className={styles.dateNpostID}
-                          style={{ display: "flex" }}
-                        >
-                          <div style={{ display: "flex" }}>
-                            <div className={styles.sharp}>#{post.post_id}</div>
-                            <div>
-                              {new Date(
-                                new Date(post.post_time).getTime() + diffMSec
-                              ).toLocaleDateString()}{" "}
-                              {new Date(
-                                new Date(post.post_time).getTime() + diffMSec
-                              ).toLocaleTimeString()}
-                            </div>
-                          </div>
-                          <div className={styles.likeComment}>
-                            <img
-                              src="../images/like.svg"
-                              alt="likes-icon"
-                              style={{
-                                marginRight: "5px",
-                                width: "20px",
-                                height: "20px",
-                              }}
-                            />
-                            <span>{post.post_likes}</span>{" "}
-                            <img
-                              src="../images/comments.svg"
-                              alt="comments-icon"
-                              style={{
-                                marginLeft: "10px",
-                                marginRight: "5px",
-                                width: "15px",
-                                height: "15px",
-                              }}
-                            />
-                            <span>{post.post_comments}</span>{" "}
-                          </div>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Link>
-                ))}
+                <PostList
+                  isNotNotice={true}
+                  posts={filteredPosts}
+                  linkToPostView={linkToPostView}
+                />
                 <div
                   style={{
                     width: "100%",
