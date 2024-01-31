@@ -6,85 +6,188 @@
     font-style: normal;
 }
 
-/* 헤더 */
-.supportHeader{
-    width: 100%;
-    height: 30%;
-    text-align: center;
+.supportContainer {
+    display: flex;
+    flex-direction: column;
 }
-.lead{
+
+.supportTop {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 헤더 */
+.lead {
     font-family: 'Gowun Dodum', sans-serif;
     font-size: 60px;
     line-height: 120%;
-    margin-bottom: 2%;
+    margin-bottom: 5px;
+    text-align: center;
+    color: black;
 }
-.supportHeader>div{
+.subTitle {
+    text-align: center;
+}
+
+.supportHeader>div {
     font-family: 'Gowun Dodum', sans-serif;
     color: #807e87;
     font-size: 20px;
     line-height: 90%;
 }
-.hl{
+
+.hl {
     background: linear-gradient(to top, #FFE400 50%, transparent 50%);
 }
 
-/* 본문 */
-.mainBox{
-    width: 100%;
-    height: 80%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto;
-}
-.contents{
-    grid-column: 1/3;
-    width: 100%;
-    height: 70%;
-    margin: auto;
-    position: relative;
+.hr {
     display: flex;
-    top: -10%;
+    position: relative;
+    top: -30px;
+    height: 30px;
 }
-.rightLong{
-    grid-column: 3/4;
+
+/* 본문 */
+.mainBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 카드버튼 */
+
+.qr {
+    text-align: center;
+    margin: 150px 0;
+}
+
+.supportBtn {
+    background-color: transparent;
+    cursor: pointer;
+    width: 180px;
+    height: 60px;
+    border-radius: 30px;
+    margin: 20px 20px;
+    font-size: 25px;
+    font-weight: bold;
+    box-shadow:
+        0px 1.7px 2.2px rgba(0, 0, 0, 0.02),
+        0px 4px 5.3px rgba(0, 0, 0, 0.028),
+        0px 7.5px 10px rgba(0, 0, 0, 0.035),
+        0px 13.4px 17.9px rgba(0, 0, 0, 0.042),
+        0px 25.1px 33.4px rgba(0, 0, 0, 0.05),
+        0px 60px 80px rgba(0, 0, 0, 0.07);
+}
+
+.supportBtn:hover {
+    background-color: #73c897;
+    transition: 0.3s;
+}
+
+.clickedSupportBtn {
+    background-color: #73c897;
+    cursor: pointer;
+    width: 180px;
+    height: 60px;
+    border-radius: 30px;
+    margin: 20px 20px;
+    font-size: 25px;
+    font-weight: bold;
+    box-shadow:
+        0px 1.7px 2.2px rgba(0, 0, 0, 0.02),
+        0px 4px 5.3px rgba(0, 0, 0, 0.028),
+        0px 7.5px 10px rgba(0, 0, 0, 0.035),
+        0px 13.4px 17.9px rgba(0, 0, 0, 0.042),
+        0px 25.1px 33.4px rgba(0, 0, 0, 0.05),
+        0px 60px 80px rgba(0, 0, 0, 0.07);
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-right: 20px;
+    align-items: center;
+}
+
+.cardBtn {
+    font-size: 30px;
+    cursor: pointer;
+    background-color: #1a2e46;
+    color: white;
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
+    margin: 15px;
+    border-radius: 30px;
+}
+
+.cardBtn:hover {
+    background-color: #73c897;
+    border: #73c897;
+    color: #1a2e46;
+    font-weight: bold;
+}
+
+.clickedCardBtn {
+    font-size: 30px;
+    cursor: pointer;
+    background-color: #73c897;
+    border: #73c897;
+    color: #1a2e46;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    margin: 15px;
+    border-radius: 30px;
 }
 
 /* contents 소속 */
-.firstBox{
+.cards {
+    width: 900px;
+    height: 440px;
+}
+
+.firstBox {
+    width: 100%;
+    height: 100%;
     align-items: center;
     font-family: 'NanumSquareNeo-Variable';
-    position: absolute;
-    left: 15%;
-    width: 80%;
-    height: 90%;
     background-color: #122f48;
+    position: relative;
     display: flex;
     border: .15vw solid black;
     border-radius: 25px;
     font-size: 1rem;
 }
-.firstBox>div{
+
+.firstBox>div {
     margin: 5%;
     align-items: center;
 }
-.firstBox>div>p{
+
+.firstBox>div>p {
     margin-top: 7%;
     font-size: 1.1em;
     color: #cccccc;
 }
-.firstBox>div>strong{
+
+.firstBox>div>strong {
     font-size: 2.2em;
     color: #ffffff;
-    
+
 }
-.firstBox>div>strong>div{
+
+.firstBox>div>strong>div {
     position: relative;
 }
-.circle{
+
+.circle {
     width: 100%;
     height: 10%;
 }
-.myCircle1{
+
+.myCircle1 {
     position: absolute;
     top: 12%;
     left: 6%;
@@ -93,7 +196,8 @@
     border: .08em solid black;
     border-radius: 50%;
 }
-.myCircle2{
+
+.myCircle2 {
     position: absolute;
     left: 8%;
     top: 8%;
@@ -101,314 +205,264 @@
     height: 2.8em;
     border: .07 solid black;
     border-radius: 50%;
-    background-color:  #ff9900;
+    background-color: #ff9900;
 }
 
-.secondBox{
+.secondBox {
+    width: 100%;
+    height: 100%;
     align-items: center;
     font-family: 'NanumSquareNeo-Variable';
-    position: absolute;
-    top: 10%;
-    left: 15%;
-    width: 80%;
-    height: 90%;
     background-color: #122f48;
     display: flex;
     border: 2.5px solid black;
     border-radius: 25px;
     font-size: 1rem;
 }
-.secondBox>div{
+
+.secondBox>div {
     margin: 5%;
     align-items: center;
 }
-.secondBox>div>ul{
+
+.secondBox>div>ul {
     margin-top: 7%;
     font-size: 1em;
     color: #cccccc;
 }
-.secondBox>div>strong{
+
+.secondBox>div>strong {
     font-size: 2.2em;
-    color: #ffffff; 
+    color: #ffffff;
 }
-.secondBox>div>strong>div{
+
+.secondBox>div>strong>div {
     position: relative;
 }
-.bottomDotted{
+
+.bottomDotted {
     border-bottom-width: 1;
     border-bottom-color: #ff9900;
     border-bottom-style: dotted;
 }
 
-.thirdBox{
+.thirdBox {
+    width: 100%;
+    height: 100%;
     align-items: center;
     font-family: 'NanumSquareNeo-Variable';
-    position: absolute;
-    top: 20%;
-    left: 15%;
-    width: 80%;
-    height: 90%;
     background-color: #122f48;
     display: flex;
     border: 2.5px solid black;
     border-radius: 25px;
     font-size: 1rem;
 }
-.thirdBox>div{
+
+.thirdBox>div {
     margin: 5%;
     align-items: center;
 }
-.thirdBox>div>ul{
+
+.thirdBox>div>ul {
     margin-top: 7%;
     font-size: .85vw;
     color: #cccccc;
     font-size: 1.1em;
 }
-.thirdBox>div>strong{
+
+.thirdBox>div>strong {
     font-size: 2.2em;
     color: #ffffff;
     font-size: 2.2em;
 }
-.thirdBox>div>strong>div{
+
+.thirdBox>div>strong>div {
     position: relative;
 }
-.hl2{
+
+.hl2 {
     background: linear-gradient(to top, #0066CC 50%, transparent 50%);
 }
-li{
+
+li {
     margin-bottom: 2%;
 }
 
-/* 티켓모양 */
-.rightLong>div{
-    width: 60%;
-    height: 100%;
-}
-.flight{
-    box-shadow: 0px 2px  4px #b7b8bb;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-}
-.flight>div>p{
-    margin: 15%;
-    font-size: 12px;
-    color: #74707d;
-    text-align: center;
-}
-.flight>div>p>strong{
-    font-size: 25px;
-    color: black;
-}
-.flight>div{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto;
-}
-
-.seat{
-    box-shadow: 0px 2px  4px #b7b8bb;
-}
-.seat>div>p{
-    margin: 15%;
-    font-size: 12px;
-    color: #74707d;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-}
-.seat>div>p>strong{
-    font-size: 35px;
-    color: black;
-    
-}
-.seat>div{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto;
-}
-.t1{
-    grid-column: 1/2;
-}
-.g2{
-    grid-column: 2/3;
-}
-.sA{
-    grid-column: 3/4;
-}
-
-.check{
-    font-family: 'NanumSquareNeo-Variable';
-    font-size: 20px;
-    font-weight: bolder;
-    border: 2.5px solid black;
-    border-top: 1px dashed black;
-    border-radius: 25px;
-    background-color: #f7f9fb;
-    
-}
-.qrCode{
-    border: 2.5px solid black;
-    border-radius: 25px;
-    text-align: center;
-    border-bottom: 1px dashed black;
-    background-color: #f7f9fb;
-}
-.codeImg{
-    margin: 7% 0;
-}
-.qrPay{
-    margin: 10%;
-}
-
 /* 반응형 */
-@media (max-width:1368px){
-    .firstBox{
-        font-size: .8rem;
-    }
-    .secondBox{
-        font-size: .8rem;
-    }
-    .thirdBox{
-        font-size: .8rem;
-    }
-}
-@media(max-width:990px){
-    .secondBox{
-        font-size: .75rem;
-    }
-    .thirdBox{
-        font-size: .75rem;
-    }
-
-    .supportHeader{
-        height: 25vw;
-    }
-    .lead{
-        font-size: 5.5vw;
-    }
+@media (max-width:1120px) {
     .supportHeader>div{
-        font-size: 2.5vw;
+        font-size: 18px;
     }
-    
-    .mainBox{
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr;
-        position: relative;
-        top: -5px;
+    .cardBtn {
+        font-size: 20px;
+        width: 40px;
+        height: 40px;
+        margin: 15px;
+        border-radius: 20px;
     }
-    .contents{
-        grid-column: 1/2;
-        grid-row: 1/2;
-    }
-    .rightLong{
-        grid-column: 1/2;
-        grid-row: 2/3;
-    }
-    
-    .firstBox{
-        left: 10%;
+    .clickedCardBtn {
+        font-size: 20px;
+        width: 40px;
+        height: 40px;
+        margin: 15px;
+        border-radius: 20px;
     }
 
-    .secondBox{
-        left: 10%;
+    .cards {
+        width: 70%;
+        height: 350px;
     }
-    .thirdBox{
-        left: 10%;
+
+    .firstBox {
+        font-size: .8rem;
+    }
+
+    .secondBox {
+        font-size: 12px;
+    }
+
+    .thirdBox {
+        font-size: 12px;
+    }
+}
+
+@media (max-width:950px) {
+
+    .lead {
+        font-size: 40px;
+    }
+
+    .buttons{
+        margin-right: 0;
+    }
+    .supportBtn {
+        width: 135px;
+        height: 50px;
+        border-radius: 30px;
+        font-size: 20px;
+        margin: 10px 10px;
     }
     
-    .rightLong>div{
-        margin: 0 20%;
+    .clickedSupportBtn {
+        width: 135px;
+        height: 50px;
+        border-radius: 30px;
+        font-size: 20px;
+        margin: 10px 10px;
     }
+
+    .qr{
+        margin: 95px 0;
+    }
+    .cards {
+        width: 70%;
+        height: 350px;
+        margin: 0 auto;
+    }
+
+    .firstBox {
+        font-size: 12px;
+    }
+
+    .secondBox {
+        font-size: 11px;
+    }
+
+    .thirdBox {
+        font-size: 11px;
+    }
+}
+@media (max-width:760px) {
+    .supportHeader>div{
+        font-size: 14px;
+    }
+
     
-}
-@media(max-width:725px){
+    .lead {
+        font-size: 30px;
+    }
     .mainBox{
-        height: 200vw;
+        flex-direction: column;
+    }
+    .buttons{
+        flex-direction: row;
+    }
+
+    .supportBtn {
+        width: 120px;
+        height: 40px;
+        border-radius: 30px;
+        font-size: 17px;
+    }
+    .clickedSupportBtn {
+        width: 120px;
+        height: 40px;
+        border-radius: 30px;
+        font-size: 17px;
+    }
+    .cardBtn {
+        font-size: 15px;
+        width: 30px;
+        height: 30px;
+        margin: 10px;
+        border-radius: 20px;
+    }
+    .clickedCardBtn {
+        font-size: 15px;
+        width: 30px;
+        height: 30px;
+        margin: 10px;
+        border-radius: 20px;
+    }
+
+    .qr{
+        margin: 50px 0;
+    }
+    .cards {
+        width: 100%;
+    }
+
+    .firstBox {
+        font-size: 12px;
+    }
+
+    .secondBox {
+        font-size: 11px;
+    }
+
+    .thirdBox {
+        font-size: 11px;
     }
 }
-@media(max-width:625px){
-    .mainBox{
-        height: 250vw;
+@media (max-width:760px){
+    .cards {
+        width: 85%;
     }
-    .firstBox>div>strong{
-        font-size: 2em;
-        font-weight: lighter;
+    .firstBox {
+        font-size: 11px;
     }
-    .secondBox>div>strong{
-        font-size: 2em;
-        font-weight: lighter;
+
+    .secondBox {
+        font-size: 10px;
     }
-    .thirdBox>div>strong{
-        font-size: 2em;
-        font-weight: lighter;
+
+    .thirdBox {
+        font-size: 10px;
     }
 }
-@media(max-width:495px){
-    .mainBox{
-        height: 300vw;
-    }
-    .secondBox{
-        height: 110%;
-    }
-    .thirdBox{
-        height: 110%;
-    }
-    .firstBox>div>strong{
-        font-size: 1.9em;
-    }
-    .secondBox>div>strong{
-        font-size: 1.9em;
-    }
-    .thirdBox>div>strong{
-        font-size: 1.9em;
-    }
-    .rightLong>div{
-        width: 80%;
+@media (max-width:430px){
+    .supportHeader{
         margin: 0 10%;
     }
-    .flight>div>p{
+    .firstBox {
         font-size: 10px;
     }
-    .flight>div>p>strong{
-        font-size: 20px;
+
+    .secondBox {
+        font-size: 8.5px;
     }
-    
-    .seat>div>p{
-        font-size: 10px;
-    }
-    .seat>div>p>strong{
-        font-size: 25px;
-    }
-    .qrPay{
-        font-size: 15px;
-    }
-}
-@media(max-width:415px){
-    .mainBox{
-        height: 300vw;
-    }
-    .firstBox{
-        font-size: .7rem;
-    }
-    .firstBox>div>strong{
-        font-size: 1.8em;
-        font-weight: lighter;
-    }
-    .secondBox{
-        height: 110%;
-        font-size: .7rem;
-    }
-    .secondBox>div>strong{
-        font-weight: lighter;
-        font-size: 1.5em;
-    }
-    .thirdBox{
-        height: 110%;
-        font-size: .7rem;
-    }
-    .thirdBox>div>strong{
-        font-weight: lighter;
-        font-size: 1.5em;
+
+    .thirdBox {
+        font-size: 9px;
     }
 }
