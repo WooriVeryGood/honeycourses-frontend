@@ -22,7 +22,7 @@ export default function AboutPage() {
             자세한 사항은 Support Us! 페이지를 참고해주세요 :)
           </p>
           <button className={styles.supportButton} onClick={navigateToSupport}>
-            Support Us
+            Support
           </button>
         </div>
 

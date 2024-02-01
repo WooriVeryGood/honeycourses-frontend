@@ -42,7 +42,7 @@ export default function Support() {
           {/* 카드 내용 */}
           <div className={styles.buttons}>
             <button className={cardBtnNum === 0 ? styles.clickedSupportBtn : styles.supportBtn}
-              onClick={() => setCardBtnNum(0)}>💓Support</button>
+              onClick={() => setCardBtnNum(0)} style={{color:"black"}}>Support</button>
             <button className={cardBtnNum === 1 ? styles.clickedCardBtn : styles.cardBtn}
               onClick={() => setCardBtnNum(1)}>1</button>
             <button className={cardBtnNum === 2 ? styles.clickedCardBtn : styles.cardBtn}

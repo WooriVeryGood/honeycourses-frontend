@@ -14,7 +14,7 @@
 .detailedCardTitle {
   color: #43A680; 
   font-weight: 800;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   display: "flex";
 }
 
@@ -44,6 +44,7 @@
   border-radius: 15px;
   padding: 2px 15px;
   cursor: pointer;
+  width: 80px;
 }
 
 .onLikeButton{
