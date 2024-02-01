@@ -21,9 +21,6 @@
           "s3Key": "amplify-builds/honeyCoursesApi-67654d44457667555a71-build.zip"
         }
       },
-      "api": {
-        "honeyApi": {}
-      },
       "analytics": {
         "honeycoursesfrontend": {}
       }
