@@ -5,22 +5,7 @@
       "service": "Pinpoint"
     }
   },
-  "api": {
-    "honeyApi": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "honeyCoursesApi"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "API Gateway"
-    }
-  },
+  "api": {},
   "auth": {
     "honeycoursesfrontend": {
       "customAuth": false,
@@ -54,29 +39,5 @@
       "service": "Cognito"
     }
   },
-  "function": {
-    "honeyCoursesApi": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    }
-  },
-  "parameters": {
-    "AMPLIFY_function_honeyCoursesApi_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "honeyCoursesApi"
-        }
-      ]
-    },
-    "AMPLIFY_function_honeyCoursesApi_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "honeyCoursesApi"
-        }
-      ]
-    }
-  }
+  "function": {}
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PageView from "../PageView/PageView";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +21,7 @@ export default function CommunityHome() {
   const [currentCategory, setcurrentCategory] = useState<CategoryKey>((savedCategory === null) ? "All" : savedCategory as CategoryKey);
   const [currentPage, setCurrentPage] = useState<number>((savedPage === null) ? 1 : Number(savedPage));
   const [totalItemsCount, setTotalItemsCount] = useState(0);
+  const isFirstMount = useRef(true);
 
   const navigate = useNavigate();
 
@@ -49,16 +50,23 @@ export default function CommunityHome() {
   };
 
   useEffect(() => {
-    const savedPage = localStorage.getItem("lastPage");
-    if (savedPage !== null) {
+    if (isFirstMount.current) {
+      isFirstMount.current = false; 
+  
+      const savedPage = localStorage.getItem("lastPage");
       const savedCategory = localStorage.getItem("lastCategory");
-      localStorage.removeItem("lastPage");
-      localStorage.removeItem("lastCategory");
-      setCurrentPage(Number(savedPage));
-      setcurrentCategory(savedCategory as CategoryKey);  
-      return;
+      if (savedPage !== null && savedCategory !== null) {
+        setCurrentPage(Number(savedPage));
+        setcurrentCategory(savedCategory as CategoryKey);
+
+        localStorage.removeItem("lastPage");
+        localStorage.removeItem("lastCategory");
+
+      }
     }
-    fetchDataFromApi(currentPage, POST_CATEGORY_LABELS[currentCategory]);
+    if (!isFirstMount.current || (savedPage === null && savedCategory === null)) {
+      fetchDataFromApi(currentPage, POST_CATEGORY_LABELS[currentCategory]);
+    }
   }, [currentPage]);
 
   const linkToPostView = (postId: number) => {
