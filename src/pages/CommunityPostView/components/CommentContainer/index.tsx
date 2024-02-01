@@ -7,11 +7,14 @@ import "./styles.css";
 interface CommentContainerProps {
   postId: string | undefined;
   comments: Comment[];
-  commentCounts: number;
 }
 
 const CommentContainer = (props: CommentContainerProps) => {
-
+  var count = 0;
+  props.comments.forEach((comment) => {
+    count++
+    comment.replies.forEach((reply) => count++);
+  });
   return <>
     <div className="commentCount">
       <img
@@ -24,7 +27,7 @@ const CommentContainer = (props: CommentContainerProps) => {
           height: "15px",
         }}
       />
-      <span> 댓글 {props.commentCounts} 개</span>
+      <span> 댓글 {count} 개</span>
     </div>
 
     <CommentInput
