@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
+.communityPostViewContainer{
+    width: 1200px;
+    /* width: 70%; */
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+}
+.card {
+    margin-bottom: 30px;
+    border-width: 0;
+    border-radius: 0;
+    width: 55%;
+    margin: 3% 23%;
+}
+
+.mainTop{
+    display: flex;
+    flex-direction: column;
+}
+.mainBottom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    border-bottom: 1px solid #a9aab0;
+}
+.likeButton{
+    border: 1px solid #a9aab0;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    padding: 2px 15px;
+}
+.onLikeButton{
+    border: 1px solid #588769;
+    background-color: #edf7f2;
+    border-radius: 15px;
+    padding: 2px 15px;
+}
+.likeCount{
+    color: #588769;
+}
+.sharp {
+    padding-left: 5px;
+    padding-right: 10px;
+    color: grey;
+    font-size: 12px;
+}
+
+
+.cardText{
+    margin: 20px 0;
+    white-space: pre-wrap;
+    font-weight:600;
+}
+.cardTitle{
+    color: #43A680; 
+    font-weight: 800;
+    font-size: 1.7rem;
+}
+
+
+
+.commentBottom{
+    display: flex;
+}
+
+@media(max-width:860px){
+    .card {
+        width: 83%;
+        margin: 3% 10%;
+    }
+}
+@media(max-width:480px){
+    .card {
+        width: 92%;
+        margin: 3% 5%;
+    }
+    .cardTitle{
+        font-size: 1.5rem;
+    }
+}

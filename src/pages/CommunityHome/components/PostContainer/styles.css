@@ -1,0 +1,28 @@
+.comRight {
+  display: flex;
+  flex-direction: column;
+  gap: 10%;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.rightHeader {
+  margin-top: 20px;
+  margin-left: 3%;
+  font-size: 2.1em;
+  font-weight: bold;
+}
+
+.groupReviews {
+  margin-top: 3%;
+}
+
+@media(max-width:936px) {
+  .comRight {
+      font-size: .9rem;
+  }
+
+  .rightHeader {
+    text-align: center;
+}
+}

@@ -1,0 +1,47 @@
+.postCard {
+  width: 100%;
+  margin-bottom: 10px;
+  border-width: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #a9aab0;
+}
+
+.postCardNotice {
+  width: 100%;
+  background-color:azure;
+  border-width: 0;
+  border-radius: 0;
+  margin-bottom: 0px;
+  border-top: 1px solid #a9aab0;
+  border-bottom: 1px solid #a9aab0;
+}
+
+.sharp {
+  padding-right: 10px;
+  color: grey;
+}
+
+.dateNpostID {
+  display: flex;
+  color: grey;
+  font-size: 12px;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.postContent {
+  height: 4.8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: pre-line;
+  color: #888893;
+  font-weight: 600;
+}
+
+.likeComment {
+  display: flex;
+  align-items: center;
+}
