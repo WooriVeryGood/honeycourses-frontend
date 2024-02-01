@@ -1,7 +1,6 @@
 import { Card, Form } from "react-bootstrap";
 import { Comment } from "../../../../types/comment";
 import CommentHeader from "./components/CommentHeader";
-
 import CommentContent from "./components/CommentContent";
 import CommentBottom from "./components/CommentBottom";
 import { useState } from "react";

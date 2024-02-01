@@ -65,14 +65,14 @@
 }
 
 @media(max-width:860px) {
-  .card {
+  .detailedPostCard {
       width: 83%;
       margin: 3% 10%;
   }
 }
 
 @media(max-width:480px) {
-  .card {
+  .detailedPostCard {
       width: 92%;
       margin: 3% 5%;
   }

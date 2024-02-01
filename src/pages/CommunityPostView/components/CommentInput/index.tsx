@@ -1,9 +1,8 @@
-import Form from "react-bootstrap/Form";
-
-import "./styles.css";
 import { useState } from "react";
 import { apiPost } from "../../../API/APIHandler";
 import WGTextInput from "../../../../components/WGTextInput/WGTextInput";
+
+import "./styles.css";
 
 interface CommentInputProps {
   postId: string | undefined;
@@ -35,7 +34,6 @@ const CommentInput = (props: CommentInputProps) => {
   };
 
   return <div className="comment-input-group">
-
     <WGTextInput
       textarea="textarea"
       text={newComment}
@@ -43,39 +41,21 @@ const CommentInput = (props: CommentInputProps) => {
       placeholder="댓글을 작성해주세요 (200자 이내)"
       className="send"
     />
-  {/* <Form.Control
-    className="send"
-    as="textarea"
-    value={props.inputComment}
-    onChange={(e) => {
-      if (e.target.value.length <= 200) {
-        props.setInputComment(e.target.value);
-      }
-    }}
-    placeholder="댓글을 작성해주세요 (200자 이내)"
-    style={{
-      marginRight: "10px",
-      flexGrow: 1,
-      height: "40px",
-      borderRadius: "20px",
-      paddingBottom: "5px",
-      paddingTop: "8px",
-    }}
-  /> */}
-  <div
-    onClick={requestCommentPost}
-    style={{ margin: "5px 5px", cursor: "pointer" }}
-  >
-    <img
-      src="/images/send.png"
-      alt="send-icon"
-      style={{
-        width: "30px",
-        height: "30px",
-      }}
-    />
+
+    <div
+      onClick={requestCommentPost}
+      style={{ margin: "5px 5px", cursor: "pointer" }}
+    >
+      <img
+        src="/images/send.png"
+        alt="send-icon"
+        style={{
+          width: "30px",
+          height: "30px",
+        }}
+      />
+    </div>
   </div>
-</div>
 };
 
 export default CommentInput;

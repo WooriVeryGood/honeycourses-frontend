@@ -12,7 +12,7 @@ interface CommentContainerProps {
 
 const CommentContainer = (props: CommentContainerProps) => {
 
-  return <div className="comment-section">
+  return <>
     <div className="commentCount">
       <img
         src="/images/comments.svg"
@@ -30,7 +30,7 @@ const CommentContainer = (props: CommentContainerProps) => {
     <CommentInput
       postId={props.postId}
     />
-  </div>
+  </>
 };
 
 export default CommentContainer;

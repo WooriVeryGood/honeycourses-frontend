@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
+
+.communityPostViewContainer{
+    width: 1200px;
+    /* width: 70%; */
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+}
+
+.comment-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 55%;
+    margin: 3% 23%;
+}
+
+@media(max-width:860px) {
+    .comment-section {
+        width: 83%;
+        margin: 3% 10%;
+    }
+}
+@media(max-width:480px){
+    .comment-section {
+        width: 92%;
+        margin: 3% 5%;
+    }
+}

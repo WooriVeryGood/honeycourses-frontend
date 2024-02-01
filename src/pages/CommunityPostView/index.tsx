@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PageView from "../PageView/PageView";
 import Container from "react-bootstrap/Container";
-import styles from "./communityPostView.module.css";
 import { useNavigate } from "react-router-dom";
 import { apiGet } from "../API/APIHandler";
 import { Post } from "../../types/post";
@@ -10,6 +9,7 @@ import PostContainer from "./components/PostContainer";
 import CommentContainer from "./components/CommentContainer";
 import CommentList from "./components/CommentList";
 
+import "./styles.css";
 
 export default function CommunityPostView() {
   const [post, setPost] = useState<Post | null>(null);
@@ -52,7 +52,7 @@ export default function CommunityPostView() {
 
   return (
     <PageView isLoading={isLoading}>
-      <Container fluid className={styles.communityPostViewContainer}>
+      <Container fluid className="communityPostViewContainer">
         {post && (
           <PostContainer
             post={post}
@@ -62,20 +62,22 @@ export default function CommunityPostView() {
           />
         )}
 
-        <CommentContainer
-          postId={postId}
-          comments={comments}
-          commentCounts={comments.length}
-        />
-
-        {post && (
-          <CommentList
-            postAuthor={post.post_author}
+        <div className="comment-section">
+          <CommentContainer
+            postId={postId}
             comments={comments}
-            setComments={setComments}
+            commentCounts={comments.length}
           />
-        )}
 
+          {post && (
+            <CommentList
+              postAuthor={post.post_author}
+              comments={comments}
+              setComments={setComments}
+            />
+          )}
+
+        </div>
       </Container>
     </PageView>
   );

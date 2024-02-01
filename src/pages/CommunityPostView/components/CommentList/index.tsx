@@ -1,14 +1,13 @@
 import { Card } from "react-bootstrap";
 import { Comment } from "../../../../types/comment";
-
 import WGTextInput from "../../../../components/WGTextInput/WGTextInput";
 import { useState } from "react";
 import { COMMENT_BACK_COLORS } from "../../../../constants/colors";
 import { RANDOM_NICKNAMES } from "../../../../constants/nicknames";
 import CommentListItem from "../CommentListItem";
+import { apiPost, apiPut } from "../../../API/APIHandler";
 
 import "./styles.css";
-import { apiPost, apiPut } from "../../../API/APIHandler";
 
 interface CommentListProps {
   postAuthor: string;
@@ -127,75 +126,73 @@ const CommentList = (props: CommentListProps) => {
     }
   };
 
-  return <div className="comment-section">
-    <div className="comments-list" style={{ width: "100%" }}>
-      {props.comments.map((comment, index) => (
-        <Card key={comment.comment_id} className="comment">
-          <CommentListItem
-            comment={comment}
-            commentAuthor={getAuthorName(comment.comment_author)}
-            backgroundColor={getCommentBackgroundColor(
-              comment.comment_author,
-              props.postAuthor
-            )}
-            isCommentUpdate={isCommentUpdate}
-            setIsCommentUpdate={setIsCommentUpdate}
-            updateComment={updateComment}
-            setUpdateComment={setUpdateComment}
-            postAuthor={props.postAuthor}
-            commentAuthors={allCommentAuthors}
-            onClickWriteReplyButton={() => {
-              setIsWritingReply(true);
-              const updatedToggles = [...writeReplyToggle];
-              updatedToggles[index] = !updatedToggles[index];
-              setWriteReplyToggle(updatedToggles);
-            }}
-            isWritingReply={isWritingReply}
-            requestLikeComment={requestLikeComment}
-          />
-          <div>
-            {writeReplyToggle[index] ? (
-              <div style={{ marginTop: "8px" }}>
-                <WGTextInput
-                  textarea="textarea"
-                  className="send"
-                  text={newReply}
-                  onTextChange={setNewReply}
-                  placeholder="답글을 작성해주세요 (200자 이내)"
-                />
-                <span
-                  style={{
-                    marginRight: "8px",
-                    cursor: "pointer",
-                    fontSize: "14px",
-                    color: "gray",
-                  }}
-                  onClick={() => handlePostReply(comment.comment_id)}
-                >
-                  제출
-                </span>
-                <span
-                  style={{
-                    marginRight: "8px",
-                    cursor: "pointer",
-                    fontSize: "14px",
-                    color: "gray",
-                  }}
-                  onClick={() => {
-                    const updatedToggles = [...writeReplyToggle];
-                    updatedToggles[index] = !updatedToggles[index];
-                    setWriteReplyToggle(updatedToggles);
-                    setIsWritingReply(false);
-                  }}
-                >
-                  취소
-                </span>
-              </div>
-            ) : null}
-          </div>
-        </Card>
-      ))}
-    </div>
+  return <div className="comments-list" style={{ width: "100%", alignItems: "start" }}>
+    {props.comments.map((comment, index) => (
+      <Card key={comment.comment_id} className="comment">
+        <CommentListItem
+          comment={comment}
+          commentAuthor={getAuthorName(comment.comment_author)}
+          backgroundColor={getCommentBackgroundColor(
+            comment.comment_author,
+            props.postAuthor
+          )}
+          isCommentUpdate={isCommentUpdate}
+          setIsCommentUpdate={setIsCommentUpdate}
+          updateComment={updateComment}
+          setUpdateComment={setUpdateComment}
+          postAuthor={props.postAuthor}
+          commentAuthors={allCommentAuthors}
+          onClickWriteReplyButton={() => {
+            setIsWritingReply(true);
+            const updatedToggles = [...writeReplyToggle];
+            updatedToggles[index] = !updatedToggles[index];
+            setWriteReplyToggle(updatedToggles);
+          }}
+          isWritingReply={isWritingReply}
+          requestLikeComment={requestLikeComment}
+        />
+        <div>
+          {writeReplyToggle[index] ? (
+            <div style={{ marginTop: "8px" }}>
+              <WGTextInput
+                textarea="textarea"
+                className="send"
+                text={newReply}
+                onTextChange={setNewReply}
+                placeholder="답글을 작성해주세요 (200자 이내)"
+              />
+              <span
+                style={{
+                  marginRight: "8px",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  color: "gray",
+                }}
+                onClick={() => handlePostReply(comment.comment_id)}
+              >
+                제출
+              </span>
+              <span
+                style={{
+                  marginRight: "8px",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  color: "gray",
+                }}
+                onClick={() => {
+                  const updatedToggles = [...writeReplyToggle];
+                  updatedToggles[index] = !updatedToggles[index];
+                  setWriteReplyToggle(updatedToggles);
+                  setIsWritingReply(false);
+                }}
+              >
+                취소
+              </span>
+            </div>
+          ) : null}
+        </div>
+      </Card>
+    ))}
   </div>
 };
 
