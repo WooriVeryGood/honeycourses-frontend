@@ -128,7 +128,7 @@ const PostContainer = (props: PostContainerProps) => {
         >
           {props.post.post_category}
         </Badge>
-        <div>{props.post.reported ? "신고 누적으로 삭제된 게시물입니다." : props.post.post_title}</div>
+        <span>{props.post.reported ? "신고 누적으로 삭제된 게시물입니다." : props.post.post_title}</span>
       </Card.Title>
       <div className="detailedMainBottom">
         <div style={{ display: "flex" }}>
