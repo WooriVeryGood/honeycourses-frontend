@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
+.CourseListContainer{
+    width: 1000px;
+    display: flex;
+    gap: 3rem;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+}
+.CourseListLeft{
+    width: 20%;
+    font-size: 1rem;
+    margin-top: 2%;
+}
+.CourseListRight{
+    width: 100%;
+    font-size: 1rem;
+}
+.listLayout>div>h2{
+    
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+.listLayout>div>h2>a{
+    float: right;
+}
+.categories{
+    list-style-type: none;
+    padding-left: 5%;
+}
+.categories>li{
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+    margin-top: 4%;
+    font-size: 1.2em;
+}
+.rightHeader{
+    display: flex;
+    justify-content: space-between;
+    margin: 2% 2%;
+    align-items: center;
+}
+.rightTitle{
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+    font-size: 2.1em;
+    font-weight: bold;
+}
+.openRightTitle{
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+    font-size: 2.1em;
+    font-weight: bold;
+    padding-bottom: 200px;
+}
+.majorGroupReviews{
+    margin-top: 3%;
+}
+.majorGroupReviews>a>div{
+    margin-top: 2%;
+    border-bottom: 1px solid #a9aab0;
+}
+.groupReviews{
+    margin-top: 3%;
+}
+.groupReviews>a>div{
+    margin-top: 2%;
+    border-bottom: 1px solid #a9aab0;
+}
+.courseSet{
+    display: flex;
+    flex-direction: column;
+}
+.courseName{
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+    font-size: 1.2em;
+    font-weight: 550;
+    margin: 3% 0;
+}
+
+.sidebarItem,.open{
+    font-size: 1.3em;
+}
+.sidebarTitle{
+    width: 250px;
+    padding: .3em 1em;
+    border-bottom: 1px solid #a9aab0;
+    
+    display: grid;
+    grid-template-columns: 100% 0;
+    grid-template-rows: auto;
+}
+.sidebarTitle span{
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+    text-align: center;
+}
+.sidebarTitle i{
+    cursor: pointer;
+}
+.open .sidebarTitle i{
+    margin-left: 20px;
+    transform: rotate(180deg);
+}
+.sidebarContent{
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+    width: 250px;
+    height: 0;
+    overflow: hidden;
+}
+.open .sidebarContent{
+   width: 250px;
+    height: 200px;
+    overflow: auto;
+}
+
+/* 카테고리별 리뷰 */
+.groupReviews{
+    height: 0;
+    overflow: hidden;
+}
+/* 전공별 리뷰 */
+.majorGroupReviews{
+    height: 0;
+    overflow: hidden;
+}
+.myReviews>.groupReviews{
+    height: 0;
+    overflow: hidden;
+}
+.myReviews>.majorGroupReviews{
+    height: auto;
+}
+.myMajorReviews>.groupReviews{
+    height: auto;
+}
+.myMajorReviews>.majorGroupReviews{
+    height: 0;
+    overflow: hidden;
+}
+.myMajorBtn{
+    border: none;
+    background-color: white;
+    width: 100%;
+    text-align: left;
+}
+
+@media(max-width:1200px){
+    .CourseListContainer{
+        width: 75%;
+    }
+}
+
+@media(max-width:936px){
+    .CourseListContainer{
+        flex-direction: column;
+        gap: 0;
+    }
+    .CourseListLeft{
+        width: 100%;
+    }
+    .CourseListRight{
+        font-size: .9rem;
+    }
+    .courseSet{
+        font-size: 1rem;
+    }
+    .categories{
+        padding-left: 0;
+        display: flex;
+        column-gap: 0.8rem;
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+    }
+    .rightHeader{
+        flex-direction: column;
+        margin-bottom: 10%;
+    }
+    .openRightTitle{
+        padding-bottom: 0;
+    }
+    .sidebarTitle{
+        padding-top: 10%;
+    }
+    .sidebarContent>div{
+        margin-top: 5%;
+    }
+}
+@media(max-width:580px){
+    .CourseListContainer {
+        width: 85%;
+    }
+}

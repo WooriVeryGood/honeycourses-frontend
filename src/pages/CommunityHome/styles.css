@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
+
+.pageViewContainer {
+    justify-content: center;
+    display: flex;
+}
+
+.communityContainer {
+    width: 1000px;
+    display: flex;
+    gap: 3rem;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+}
+
+@media(max-width:1200px){
+    .communityContainer{
+        width: 75%;
+    }
+}
+
+@media(max-width:936px) {
+    .communityContainer {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+@media(max-width:580px){
+    .communityContainer {
+        width: 85%;
+        /* padding: 0 5%; */
+    }
+}

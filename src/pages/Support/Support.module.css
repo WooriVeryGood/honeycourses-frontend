@@ -1,0 +1,468 @@
+/* 폰트 추가 */
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.supportContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.supportTop {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 헤더 */
+.lead {
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 60px;
+    line-height: 120%;
+    margin-bottom: 5px;
+    text-align: center;
+    color: black;
+}
+.subTitle {
+    text-align: center;
+}
+
+.supportHeader>div {
+    font-family: 'Gowun Dodum', sans-serif;
+    color: #807e87;
+    font-size: 20px;
+    line-height: 90%;
+}
+
+.hl {
+    background: linear-gradient(to top, #FFE400 50%, transparent 50%);
+}
+
+.hr {
+    display: flex;
+    position: relative;
+    top: -30px;
+    height: 30px;
+}
+
+/* 본문 */
+.mainBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 카드버튼 */
+
+.qr {
+    text-align: center;
+    margin: 150px 0;
+}
+
+.supportBtn {
+    background-color: transparent;
+    cursor: pointer;
+    width: 180px;
+    height: 60px;
+    border-radius: 30px;
+    margin: 20px 20px;
+    font-size: 25px;
+    font-weight: bold;
+    box-shadow:
+        0px 1.7px 2.2px rgba(0, 0, 0, 0.02),
+        0px 4px 5.3px rgba(0, 0, 0, 0.028),
+        0px 7.5px 10px rgba(0, 0, 0, 0.035),
+        0px 13.4px 17.9px rgba(0, 0, 0, 0.042),
+        0px 25.1px 33.4px rgba(0, 0, 0, 0.05),
+        0px 60px 80px rgba(0, 0, 0, 0.07);
+}
+
+.supportBtn:hover {
+    background-color: #73c897;
+    transition: 0.3s;
+}
+
+.clickedSupportBtn {
+    background-color: #73c897;
+    cursor: pointer;
+    width: 180px;
+    height: 60px;
+    border-radius: 30px;
+    margin: 20px 20px;
+    font-size: 25px;
+    font-weight: bold;
+    box-shadow:
+        0px 1.7px 2.2px rgba(0, 0, 0, 0.02),
+        0px 4px 5.3px rgba(0, 0, 0, 0.028),
+        0px 7.5px 10px rgba(0, 0, 0, 0.035),
+        0px 13.4px 17.9px rgba(0, 0, 0, 0.042),
+        0px 25.1px 33.4px rgba(0, 0, 0, 0.05),
+        0px 60px 80px rgba(0, 0, 0, 0.07);
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-right: 20px;
+    align-items: center;
+}
+
+.cardBtn {
+    font-size: 30px;
+    cursor: pointer;
+    background-color: #1a2e46;
+    color: white;
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
+    margin: 15px;
+    border-radius: 30px;
+}
+
+.cardBtn:hover {
+    background-color: #73c897;
+    border: #73c897;
+    color: #1a2e46;
+    font-weight: bold;
+}
+
+.clickedCardBtn {
+    font-size: 30px;
+    cursor: pointer;
+    background-color: #73c897;
+    border: #73c897;
+    color: #1a2e46;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    margin: 15px;
+    border-radius: 30px;
+}
+
+/* contents 소속 */
+.cards {
+    width: 900px;
+    height: 440px;
+}
+
+.firstBox {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    font-family: 'NanumSquareNeo-Variable';
+    background-color: #122f48;
+    position: relative;
+    display: flex;
+    border: .15vw solid black;
+    border-radius: 25px;
+    font-size: 1rem;
+}
+
+.firstBox>div {
+    margin: 5%;
+    align-items: center;
+}
+
+.firstBox>div>p {
+    margin-top: 7%;
+    font-size: 1.1em;
+    color: #cccccc;
+}
+
+.firstBox>div>strong {
+    font-size: 2.2em;
+    color: #ffffff;
+
+}
+
+.firstBox>div>strong>div {
+    position: relative;
+}
+
+.circle {
+    width: 100%;
+    height: 10%;
+}
+
+.myCircle1 {
+    position: absolute;
+    top: 12%;
+    left: 6%;
+    width: 2em;
+    height: 2em;
+    border: .08em solid black;
+    border-radius: 50%;
+}
+
+.myCircle2 {
+    position: absolute;
+    left: 8%;
+    top: 8%;
+    width: 2.8em;
+    height: 2.8em;
+    border: .07 solid black;
+    border-radius: 50%;
+    background-color: #ff9900;
+}
+
+.secondBox {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    font-family: 'NanumSquareNeo-Variable';
+    background-color: #122f48;
+    display: flex;
+    border: 2.5px solid black;
+    border-radius: 25px;
+    font-size: 1rem;
+}
+
+.secondBox>div {
+    margin: 5%;
+    align-items: center;
+}
+
+.secondBox>div>ul {
+    margin-top: 7%;
+    font-size: 1em;
+    color: #cccccc;
+}
+
+.secondBox>div>strong {
+    font-size: 2.2em;
+    color: #ffffff;
+}
+
+.secondBox>div>strong>div {
+    position: relative;
+}
+
+.bottomDotted {
+    border-bottom-width: 1;
+    border-bottom-color: #ff9900;
+    border-bottom-style: dotted;
+}
+
+.thirdBox {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    font-family: 'NanumSquareNeo-Variable';
+    background-color: #122f48;
+    display: flex;
+    border: 2.5px solid black;
+    border-radius: 25px;
+    font-size: 1rem;
+}
+
+.thirdBox>div {
+    margin: 5%;
+    align-items: center;
+}
+
+.thirdBox>div>ul {
+    margin-top: 7%;
+    font-size: .85vw;
+    color: #cccccc;
+    font-size: 1.1em;
+}
+
+.thirdBox>div>strong {
+    font-size: 2.2em;
+    color: #ffffff;
+    font-size: 2.2em;
+}
+
+.thirdBox>div>strong>div {
+    position: relative;
+}
+
+.hl2 {
+    background: linear-gradient(to top, #0066CC 50%, transparent 50%);
+}
+
+li {
+    margin-bottom: 2%;
+}
+
+/* 반응형 */
+@media (max-width:1120px) {
+    .supportHeader>div{
+        font-size: 18px;
+    }
+    .cardBtn {
+        font-size: 20px;
+        width: 40px;
+        height: 40px;
+        margin: 15px;
+        border-radius: 20px;
+    }
+    .clickedCardBtn {
+        font-size: 20px;
+        width: 40px;
+        height: 40px;
+        margin: 15px;
+        border-radius: 20px;
+    }
+
+    .cards {
+        width: 70%;
+        height: 350px;
+    }
+
+    .firstBox {
+        font-size: .8rem;
+    }
+
+    .secondBox {
+        font-size: 12px;
+    }
+
+    .thirdBox {
+        font-size: 12px;
+    }
+}
+
+@media (max-width:950px) {
+
+    .lead {
+        font-size: 40px;
+    }
+
+    .buttons{
+        margin-right: 0;
+    }
+    .supportBtn {
+        width: 135px;
+        height: 50px;
+        border-radius: 30px;
+        font-size: 20px;
+        margin: 10px 10px;
+    }
+    
+    .clickedSupportBtn {
+        width: 135px;
+        height: 50px;
+        border-radius: 30px;
+        font-size: 20px;
+        margin: 10px 10px;
+    }
+
+    .qr{
+        margin: 95px 0;
+    }
+    .cards {
+        width: 70%;
+        height: 350px;
+        margin: 0 auto;
+    }
+
+    .firstBox {
+        font-size: 12px;
+    }
+
+    .secondBox {
+        font-size: 11px;
+    }
+
+    .thirdBox {
+        font-size: 11px;
+    }
+}
+@media (max-width:760px) {
+    .supportHeader>div{
+        font-size: 14px;
+    }
+
+    
+    .lead {
+        font-size: 30px;
+    }
+    .mainBox{
+        flex-direction: column;
+    }
+    .buttons{
+        flex-direction: row;
+    }
+
+    .supportBtn {
+        width: 120px;
+        height: 40px;
+        border-radius: 30px;
+        font-size: 17px;
+    }
+    .clickedSupportBtn {
+        width: 120px;
+        height: 40px;
+        border-radius: 30px;
+        font-size: 17px;
+    }
+    .cardBtn {
+        font-size: 15px;
+        width: 30px;
+        height: 30px;
+        margin: 10px;
+        border-radius: 20px;
+    }
+    .clickedCardBtn {
+        font-size: 15px;
+        width: 30px;
+        height: 30px;
+        margin: 10px;
+        border-radius: 20px;
+    }
+
+    .qr{
+        margin: 50px 0;
+    }
+    .cards {
+        width: 100%;
+    }
+
+    .firstBox {
+        font-size: 12px;
+    }
+
+    .secondBox {
+        font-size: 11px;
+    }
+
+    .thirdBox {
+        font-size: 11px;
+    }
+}
+@media (max-width:760px){
+    .cards {
+        width: 85%;
+    }
+    .firstBox {
+        font-size: 11px;
+    }
+
+    .secondBox {
+        font-size: 10px;
+    }
+
+    .thirdBox {
+        font-size: 10px;
+    }
+}
+@media (max-width:430px){
+    .supportHeader{
+        margin: 0 10%;
+    }
+    .firstBox {
+        font-size: 10px;
+    }
+
+    .secondBox {
+        font-size: 8.5px;
+    }
+
+    .thirdBox {
+        font-size: 9px;
+    }
+}

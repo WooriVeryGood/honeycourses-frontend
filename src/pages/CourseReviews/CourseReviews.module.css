@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
+
+.Card.Text {
+    white-space: pre-line;
+}
+.courseReviewHeader{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.reviewCard{
+    margin: 35px auto;
+    width: 1000px;
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+}
+.courseName{
+    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+}
+
+.showMoreButton{
+    background-color: transparent;
+}
+.showMoreButton>img{
+    width: 20px;
+    height: 20px;
+}
+.reviewButtons{
+    display: flex;
+    flex-direction: column;
+}
+.reviewChangeDelete{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.hiddenReviewChangeDelete{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+}
+.editButtons{
+    position: absolute;
+    top: 86%;
+    right: 15px;
+}
+.divider{
+    position: relative;
+}
+.likeButton{
+    border: 1px solid #a9aab0;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    padding: 2px 15px;
+}
+.onLikeButton{
+    border: 1px solid #588769;
+    background-color: #edf7f2;
+    border-radius: 15px;
+    padding: 2px 15px;
+}
+.likeCount{
+    color: #588769;
+}
+.likeBasic{
+    color: black;
+}
+
+.sharp {
+    padding-left: 5px;
+    padding-right: 10px;
+    color: grey;
+    font-size: 15px;
+}
+
+.date {
+    color: grey;
+    font-size: 15px;
+}
+
+@media(max-width:1120px){
+    .reviewCard{
+        margin: 0 auto;
+        margin-top: 35px;
+        margin-bottom: 30px;
+        width: 90%;
+    }
+}
+
+@media(max-width:700px){
+    .courseReviewHeader{
+        flex-direction: column;
+        align-items: center;
+    }
+}

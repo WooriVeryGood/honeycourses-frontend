@@ -1,0 +1,83 @@
+.detailedPostCard {
+  margin-bottom: 30px;
+  border-width: 0;
+  border-radius: 0;
+  width: 55%;
+  margin: 3% 23%;
+}
+
+.detailedMainTop {
+  display: flex;
+  flex-direction: column;
+}
+
+.detailedCardTitle {
+  color: #43A680; 
+  font-weight: 800;
+  font-size: 1.7rem;
+  display: "flex";
+}
+
+.detailedMainBottom{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  border-bottom: 1px solid #a9aab0;
+}
+
+.detailedSharp {
+  padding-left: 5px;
+  padding-right: 10px;
+  color: grey;
+  font-size: 12px;
+}
+
+.detailedDate {
+  color: grey;
+  font-size: 12px;
+}
+
+.likeButton{
+  border: 1px solid #a9aab0;
+  background-color: #f8f9fa;
+  border-radius: 15px;
+  padding: 2px 15px;
+  cursor: pointer;
+}
+
+.onLikeButton{
+  border: 1px solid #588769;
+  background-color: #edf7f2;
+  border-radius: 15px;
+  padding: 2px 15px;
+  cursor: pointer;
+}
+
+.likeCount{
+  color: #588769;
+}
+
+.cardText{
+  margin: 20px 0;
+  white-space: pre-wrap;
+  font-weight:600;
+}
+
+@media(max-width:860px) {
+  .detailedPostCard {
+      width: 83%;
+      margin: 3% 10%;
+  }
+}
+
+@media(max-width:480px) {
+  .detailedPostCard {
+      width: 92%;
+      margin: 3% 5%;
+  }
+
+  .cardTitle {
+    font-size: 1.5rem;
+}
+}
