@@ -59,6 +59,19 @@ export default function CommunityHome() {
       return;
     }
     fetchDataFromApi(currentPage, POST_CATEGORY_LABELS[currentCategory]);
+  }, []);
+
+  useEffect(() => {
+    const savedPage = localStorage.getItem("lastPage");
+    if (savedPage !== null) {
+      const savedCategory = localStorage.getItem("lastCategory");
+      localStorage.removeItem("lastPage");
+      localStorage.removeItem("lastCategory");
+      setCurrentPage(Number(savedPage));
+      setcurrentCategory(savedCategory as CategoryKey);  
+      return;
+    }
+    fetchDataFromApi(currentPage, POST_CATEGORY_LABELS[currentCategory]);
   }, [currentPage]);
 
   const linkToPostView = (postId: number) => {
