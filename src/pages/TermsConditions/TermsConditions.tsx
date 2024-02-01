@@ -56,7 +56,7 @@ export default function TermsConditions() {
             <strong>5. 개인정보의 제공 및 공유</strong>
             <ul>
               <li>
-                본 웹사이트는 수집된 개인정보를 제3자에게 제공하거나 공유하지 않습니다.
+                본 웹사이트는 산하 서비스 약관에 명시되지 않은 한 수집된 개인정보를 제3자에게 제공하거나 공유하지 않습니다.
               </li>
             </ul>
           </li>
@@ -89,7 +89,7 @@ export default function TermsConditions() {
                 개인정보보호에 관한 문의사항이 있으신 경우, 다음 연락처로 문의해주시기 바랍니다.
               </li>
               <li>
-                이메일: railgunOfPku@pku.edu.cn
+                이메일: percyjang.dev@outlook.com
               </li>
             </ul>
           </li>
