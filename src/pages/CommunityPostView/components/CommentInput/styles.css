@@ -7,10 +7,6 @@
 .send {
   margin-right: 10px;
   flex-grow: 1;
-  height: "40px";
-  border-radius: "20px";
-  padding-bottom: "5px";
-  padding-top: "8px";
 }
 
 @media(max-width:480px) {

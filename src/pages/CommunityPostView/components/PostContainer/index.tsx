@@ -117,18 +117,19 @@ const PostContainer = (props: PostContainerProps) => {
 
   return <Card className="detailedPostCard">
     <div className="detailedMainTop">
-      <Card.Title className="detailedCardTitle">
+      <Card.Title className="detailedCardTitle" style={{display:"flex"}}>
         <Badge
           bg="#236969"
           style={{
             backgroundColor: "#236969",
             marginRight: "10px",
             height: "30px",
+            fontSize:".8em"
           }}
         >
           {props.post.post_category}
         </Badge>
-        <span>{props.post.reported ? "신고 누적으로 삭제된 게시물입니다." : props.post.post_title}</span>
+        <span style={{fontSize:".9em"}}>{props.post.reported ? "신고 누적으로 삭제된 게시물입니다." : props.post.post_title}</span>
       </Card.Title>
       <div className="detailedMainBottom">
         <div style={{ display: "flex" }}>
@@ -148,7 +149,7 @@ const PostContainer = (props: PostContainerProps) => {
           </div>
         </div>
         <div className={props.post.liked ? "onLikeButton" : "likeButton"}>
-          <span onClick={requestLikePost}>
+          <span onClick={requestLikePost} style={{display:"flex",alignItems:"center"}}>
             <img
               src={
                 props.post.liked ?

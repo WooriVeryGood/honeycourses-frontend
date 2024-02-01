@@ -22,7 +22,10 @@ const WGTextInput = (props: WGTextInputProps) => {
     }}
     placeholder={props.placeholder}
     required
-    style={{ marginBottom: "0.5rem" }}
+    style={{  height: "40px",
+    borderRadius: "20px",
+    paddingBottom: "5px",
+    paddingTop: "8px" }}
     className={props?.className}
   />
 };
