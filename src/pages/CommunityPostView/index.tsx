@@ -66,7 +66,6 @@ export default function CommunityPostView() {
           <CommentContainer
             postId={postId}
             comments={comments}
-            commentCounts={comments.length}
           />
 
           {post && (
