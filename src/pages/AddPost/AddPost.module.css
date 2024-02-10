@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
+
 .addPostBox{
     width: 800px;
     margin: 0 auto;
-    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
 }
 .addPostTitle{
     font-weight: bolder;

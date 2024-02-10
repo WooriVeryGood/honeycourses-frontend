@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
+
 
 .Card.Text {
     white-space: pre-line;
@@ -11,10 +11,10 @@
 .reviewCard{
     margin: 35px auto;
     width: 1000px;
-    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+    
 }
 .courseName{
-    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+    
 }
 
 .showMoreButton{
