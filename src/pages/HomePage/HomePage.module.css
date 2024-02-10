@@ -1,4 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
-.homePageBody{
-    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+.bubbleImg {
+  margin-top: 20px;
+  margin-right: 40px;
+  margin-bottom: 15px;
+  max-width: 85vw;
+  height: auto;
+  object-fit: fill;
+}
+
+.bubbleText {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
