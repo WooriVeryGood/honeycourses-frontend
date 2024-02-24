@@ -75,9 +75,6 @@
     flex-direction: column;
     gap: 0;
   }
-  .CourseListLeft {
-    width: 100%;
-  }
   .CourseListRight {
     font-size: 0.9rem;
   }
