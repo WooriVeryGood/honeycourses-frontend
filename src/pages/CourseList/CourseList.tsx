@@ -27,9 +27,10 @@ export default function CourseList() {
 
   //전공별 분류
   const filterdMajors = courses.filter(
-    (course: any) => course.kaikeYuanxi === selectedMajor
+    (course: Course) => course.kaikeYuanxi === selectedMajor
   );
 
+  // 전공 선택 기능
   const handleSelectMajor = (major: string) => {
     setMajorOpen(true); // 전공별 버튼 누르면 강의목록 카테고리별 분류 숨김
     setSelectedMajor(major);
@@ -47,6 +48,7 @@ export default function CourseList() {
     setSearchCourses(filtered);
   };
 
+  // 카테고리 선택 기능
   const handleSelectCategory = (category: string) => {
     //rightTitle 입력받기
     setTitle(category);
@@ -59,7 +61,7 @@ export default function CourseList() {
     setMajorOpen(false); // 강의 목록 버튼 누르면 전공별 분류 숨김
     setSelectedMajor("专业");
     setSelectedCategory(category);
-    setShowYouguan(false); // Reset the showYouguan state when selecting a new category
+    setShowYouguan(false); 
   };
 
   const handleShowYouguan = () => {
