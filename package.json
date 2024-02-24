@@ -8,7 +8,6 @@
     "@fortawesome/fontawesome-free": "^6.4.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@jeffersonl-surge/react-chat-ui": "^0.0.9",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -33,7 +32,6 @@
     "react-ga": "^3.3.1",
     "react-js-pagination": "^3.0.3",
     "react-router-dom": "^6.11.1",
-    "react-scripts": "5.0.1",
     "react-search-box": "^3.0.0",
     "react-transition-group": "^4.4.5",
     "react-typewriter-effect": "^1.1.0",
@@ -42,10 +40,9 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
   },
   "eslintConfig": {
     "extends": [
@@ -66,6 +63,9 @@
     ]
   },
   "devDependencies": {
-    "@types/crypto-js": "^4.1.1"
+    "@types/crypto-js": "^4.1.1",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.1.1",
+    "vite-plugin-svgr": "^4.2.0"
   }
 }

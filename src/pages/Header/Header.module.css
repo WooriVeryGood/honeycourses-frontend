@@ -1,4 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
-.headerBody{
-    font-family: 'NanumSquareNeo-Variable','Noto Serif SC', serif;
+.navBar {
+  background-size: 0;
+  height: 70px;
+  width: 100vw;
+}
+
+.navBarBrand {
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2%;
+}
+
+.buttonArea {
+  text-align: center;
+}
+
+@media (min-width: 991px) {
+  .buttonArea {
+    margin-right: 5%;
+  }
 }

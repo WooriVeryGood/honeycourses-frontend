@@ -1,0 +1,48 @@
+.sidebarItem,
+.open {
+  font-size: 1.3em;
+}
+.open .sidebarTitle i {
+  margin-left: 20px;
+  transform: rotate(180deg);
+}
+.open .sidebarContent {
+  width: 250px;
+  height: 200px;
+  overflow: auto;
+}
+.sidebarTitle {
+  width: 250px;
+  padding: 0.3em 1em;
+  border-bottom: 1px solid #a9aab0;
+
+  display: grid;
+  grid-template-columns: 100% 0;
+  grid-template-rows: auto;
+}
+.sidebarTitle span {
+  text-align: center;
+}
+.sidebarTitle i {
+  cursor: pointer;
+}
+.sidebarContent {
+  width: 250px;
+  height: 0;
+  overflow: hidden;
+}
+.myMajorBtn {
+  border: none;
+  background-color: white;
+  width: 100%;
+  text-align: left;
+}
+
+@media (max-width: 936px) {
+  .sidebarTitle {
+    padding-top: 10%;
+  }
+  .sidebarContent > div {
+    margin-top: 5%;
+  }
+}

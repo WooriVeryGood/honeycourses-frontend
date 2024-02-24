@@ -1,13 +1,32 @@
+@font-face {
+  font-family: "NanumSquareNeo-Variable";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2")
+    format("woff2");
+}
+html,
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "NanumSquareNeo-Variable", "Noto Serif SC", serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100% !important;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.nav-link {
+  color: black !important;
+}
+
+.navLink {
+  color: black !important;
+  width: 80px !important;
+}
+
+.nav-link:enabled {
+  color: black !important;
+}
+
+.btn-primary:enabled {
+  background-color: #43a680 !important;
+  border-color: #43a680 !important;
+  color: white !important;
 }
