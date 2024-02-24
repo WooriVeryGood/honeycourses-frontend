@@ -1,10 +1,9 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import PageView from "../PageView/PageView";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
-import "./CourseList.css";
 import styles from "./CourseList.module.css";
 import items from "./sidebar.json"; // 전공 목록
 import { Alert, Collapse, ListGroup } from "react-bootstrap";

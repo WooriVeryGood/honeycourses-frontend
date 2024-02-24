@@ -12,3 +12,21 @@ body {
   width: 100% !important;
 }
 
+.nav-link {
+  color: black !important;
+}
+
+.navLink {
+  color: black !important;
+  width: 80px !important;
+}
+
+.nav-link:enabled {
+  color: black !important;
+}
+
+.btn-primary:enabled {
+  background-color: #43a680 !important;
+  border-color: #43a680 !important;
+  color: white !important;
+}
