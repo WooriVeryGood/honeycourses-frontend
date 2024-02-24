@@ -3,13 +3,14 @@ import Container from "react-bootstrap/Container";
 import PageView from "../PageView/PageView";
 import Button from "react-bootstrap/Button";
 import styles from "./CourseList.module.css";
-import items from "./sidebar.json"; // 전공 목록
+import majors from "./majors.json"; // 전공 목록
 import { Alert } from "react-bootstrap";
 import { apiGet } from "../API/APIHandler";
 import CourseSidebar from "./components/CourseSidebar/CourseSidebar";
 import { Course } from "../../types/course";
 import CourseSearchbar from "./components/CourseSearchbar/CourseSearchbar";
 import CourseCard from "./components/CourseCard/CourseCard";
+import MajorSelector from "./components/MajorSelector/MajorSelector";
 
 export default function CourseList() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -45,39 +46,6 @@ export default function CourseList() {
     );
     setSearchCourses(filtered);
   };
-
-  // 전공 선택 기능
-  function MyMajor(props: any) {
-    if (props.Selectmajor === "전공") {
-      if (props.item.childrens) {
-        return (
-          <div className={open ? styles.open : styles.sidebarItem}>
-            <div className={styles.sidebarTitle}>
-              <span>{selectedMajor}</span>
-              <i className="bi-chevron-down" onClick={() => setOpen(!open)}></i>
-            </div>
-            <div className={styles.sidebarContent}>
-              {props.item.childrens.map((child: any, index: Number) => (
-                <MyMajor key={index} Selectmajor={"전공"} item={child} />
-              ))}
-            </div>
-          </div>
-        );
-      } else {
-        return (
-          <div>
-            <button
-              className={styles.myMajorBtn}
-              onClick={() => handleSelectMajor(props.item.title)}
-            >
-              {props.item.title}
-            </button>
-          </div>
-        );
-      }
-    }
-    return null;
-  }
 
   const handleSelectCategory = (category: string) => {
     //rightTitle 입력받기
@@ -181,8 +149,16 @@ export default function CourseList() {
                   </Button>
                 </div>
                 <div className={styles.sidebar}>
-                  {items.map((item, index) => (
-                    <MyMajor key={index} Selectmajor={majorBtn} item={item} />
+                  {majors.map((major, index) => (
+                    <MajorSelector
+                      key={index}
+                      Selectmajor={majorBtn}
+                      item={major}
+                      open={open}
+                      handleSelectMajor={handleSelectMajor}
+                      setOpen={setOpen}
+                      selectedMajor={selectedMajor}
+                    />
                   ))}
                 </div>
               </div>
