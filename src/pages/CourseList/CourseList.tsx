@@ -1,25 +1,17 @@
 import { useState, useEffect, ChangeEvent } from "react";
-import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import PageView from "../PageView/PageView";
 import Button from "react-bootstrap/Button";
-import Badge from "react-bootstrap/Badge";
 import styles from "./CourseList.module.css";
 import items from "./sidebar.json"; // 전공 목록
-import { Alert, Collapse, ListGroup } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 import { apiGet } from "../API/APIHandler";
+import CourseSidebar from "./components/CourseSidebar/CourseSidebar";
+import { Course } from "../../types/course";
+import CourseSearchbar from "./components/CourseSearchbar/CourseSearchbar";
+import CourseCard from "./components/CourseCard/CourseCard";
 
-interface Course {
-  course_id: string;
-  course_name: string;
-  course_category: string;
-  course_credit: number;
-  isYouguan: boolean;
-  kaikeYuanxi: string;
-  reviewCount: number;
-}
-
-function CourseList() {
+export default function CourseList() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +19,6 @@ function CourseList() {
   const [layoutRightTitle, setTitle] = useState("All"); //오른쪽 layout 제목 설정
   const [majorBtn, selectBtn] = useState(""); // 专业课버튼만 추리기
   const [open, setOpen] = useState(false); // 전공 사이드바 화살표 방향
-  const [eventOpen, setEventOpen] = useState(false); // 이벤트 배너 토글
   const [selectedMajor, setSelectedMajor] = useState("专业"); // 전공 버튼 선택
   const [majorOpen, setMajorOpen] = useState(false);
   const [searchCourses, setSearchCourses] = useState<Course[]>([]); //검색 기능
@@ -103,10 +94,9 @@ function CourseList() {
     setShowYouguan(false); // Reset the showYouguan state when selecting a new category
   };
 
-  // New handler for showing courses with isYouguan value of 1
   const handleShowYouguan = () => {
     setTitle("중국유관");
-    setSelectedCategory("All"); // Reset the selected category
+    setSelectedCategory("All");
     setShowYouguan(true);
   };
 
@@ -125,7 +115,6 @@ function CourseList() {
         window.scrollTo(0, 0);
       }
     };
-
     fetchDataFromApi();
   }, []);
 
@@ -149,198 +138,21 @@ function CourseList() {
           className="d-flex justify-content-center align-items-start"
         >
           <div className={styles.CourseListContainer}>
-            <div className={styles.CourseListLeft}>
-              <div className={styles.listLayout}>
-                <div>
-                  <h2>강의 목록</h2>
-                </div>
-                <nav>
-                  <ul className={styles.categories}>
-                    <li className="nav-item">
-                      <button
-                        className={`navLink nav-link btn ${
-                          selectedCategory === "All" && !showYouguan
-                            ? "btn-primary"
-                            : ""
-                        }`}
-                        onClick={() => handleSelectCategory("All")}
-                      >
-                        All
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className={`navLink nav-link btn ${
-                          selectedCategory === "通选课" ? "btn-primary" : ""
-                        }`}
-                        onClick={() => handleSelectCategory("通选课")}
-                      >
-                        通选课
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className={`navLink nav-link btn ${
-                          selectedCategory === "体育课" ? "btn-primary" : ""
-                        }`}
-                        onClick={() => handleSelectCategory("体育课")}
-                      >
-                        体育课
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className={`navLink nav-link btn ${
-                          selectedCategory === "专业课" ? "btn-primary" : ""
-                        }`}
-                        onClick={() => handleSelectCategory("专业课")}
-                      >
-                        专业课
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className={`navLink nav-link btn ${
-                          selectedCategory === "公选课" ? "btn-primary" : ""
-                        }`}
-                        onClick={() => handleSelectCategory("公选课")}
-                      >
-                        公选课
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className={`navLink nav-link btn ${
-                          selectedCategory === "英语课" ? "btn-primary" : ""
-                        }`}
-                        onClick={() => handleSelectCategory("英语课")}
-                      >
-                        英语课
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className={`navLink nav-link btn ${
-                          showYouguan ? "btn-primary" : ""
-                        }`}
-                        onClick={handleShowYouguan}
-                      >
-                        중국유관
-                      </button>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-            </div>
-
+            <CourseSidebar
+              selectedCategory={selectedCategory}
+              showYouguan={showYouguan}
+              handleSelectCategory={handleSelectCategory}
+              handleShowYouguan={handleShowYouguan}
+            />
             <div className={styles.CourseListRight}>
-              <Alert key="update" variant="info">
-                <Alert.Link href="#" onClick={() => setEventOpen(!eventOpen)}>
-                  🔥23-24학년도 1학기 강의평가 작성 이벤트가 진행되고
-                  있습니다!🔥 (~2월 11일, 눌러서 자세히 보기)
-                </Alert.Link>
-                <Collapse in={eventOpen}>
-                  <div id="update-log">
-                    <br></br>
-                    🌟 즐거운 종강이 찾아왔습니다! 그와 동시에 1월 15일
-                    월요일부터 다음학기 쉔커도 시작된다는 사실, 알고 계셨나요?
-                    이번 학기가 시작했던때 진행했던것처럼, 우리잘했조는 이번에도{" "}
-                    <strong>🔥강의평가 작성 이벤트🔥</strong>를 진행해보려
-                    합니다!!
-                    <br></br>
-                    <br></br>
-                    🔥 본 이벤트의 규칙은 간단합니다! 현 시각부터{" "}
-                    <strong>2월 11일</strong>까지, 2주의 기간동안, 웹사이트에
-                    ✍가장 많은 강의평가를 작성해주신 세분✍께 러킨 음료
-                    상품권을 드릴 예정입니다!{" "}
-                    <strong>
-                      (1위 100위안, 2위 60위안, 3위 40위안, 공동 1위/2위 발생시
-                      금액 조정)
-                    </strong>
-                    <br></br>
-                    <br></br>✨ 이번엔 지난번처럼 원줸을 통해 응모할 필요 없이,
-                    리뷰 작성시 작성자의 아이디을 저장하여 통계를 진행할
-                    예정입니다. 제한 사항으로{" "}
-                    <strong>
-                      인당 리뷰 5개 이상 작성, 수업 리뷰와 관련 없는 글 작성
-                      금지
-                    </strong>
-                    만 지켜주시면 됩니다!
-                    <br></br>
-                    <br></br>
-                    🎖 금번 경품은 우리잘했조에 후원해주신 여러분 덕분에
-                    마련되었습니다, 후원해주신 분들 모두 감사합니다! 이번 쉔커
-                    기간만큼은, "답변 받았습니다!"로 채워지는 북전교 대신, 이번
-                    학기 들은 수업 정보도 나누며, 이벤트를 통해 모두가 도움
-                    받을수 있도록 시스템이 더욱 더 정착될 수 있었으면
-                    좋겠습니다:))
-                    <br></br>
-                    <br></br>
-                    많은 참여 부탁드립니다:)
-                  </div>
-                </Collapse>
-              </Alert>
-              <Alert key="update" variant="success">
+              <Alert key="legacyReviewAlert" variant="info">
                 2024년 2월 1일 이전에 작성된 리뷰는 수정/삭제가 불가능합니다.
               </Alert>
-              <div>
-                <input
-                  className="form-control mr-sm-2"
-                  type="search"
-                  placeholder="수업 검색해보기"
-                  aria-label="Search"
-                  style={{ width: "100%", height: "50px" }}
-                  value={searchInput}
-                  onChange={handleSearchInputChange}
-                />
-
-                {searchInput && (
-                  <div className="d-flex justify-content-center">
-                    <div style={{ width: "90%" }}>
-                      <ListGroup>
-                        {searchCourses.map((course) => (
-                          <Link
-                            to={`/courses/view/${course.course_id}`}
-                            key={course.course_id}
-                            className="list-group-item"
-                            target="_blank"
-                          >
-                            <div className="d-flex justify-content-between align-items-center">
-                              <h5>
-                                {course.course_name}{" "}
-                                <Badge
-                                  bg="#236969"
-                                  style={{ backgroundColor: "#236969" }}
-                                >
-                                  {course.course_category}
-                                </Badge>{" "}
-                                <Badge
-                                  bg="#65C18C"
-                                  style={{ backgroundColor: "#65C18C" }}
-                                >
-                                  {course.kaikeYuanxi}
-                                </Badge>{" "}
-                                {course.isYouguan ? (
-                                  <Badge
-                                    className="rounded-pill"
-                                    bg="#FF7BA9"
-                                    style={{ backgroundColor: "#489CC1" }}
-                                  >
-                                    중국유관
-                                  </Badge>
-                                ) : null}
-                              </h5>
-                              <span className="text-body-secondary">
-                                {course.course_credit}학점
-                              </span>
-                            </div>
-                          </Link>
-                        ))}
-                      </ListGroup>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <CourseSearchbar
+                searchCourses={searchCourses}
+                searchInput={searchInput}
+                handleSearchInputChange={handleSearchInputChange}
+              />
               <br></br>
               <div className={styles.rightHeader}>
                 <div
@@ -380,97 +192,14 @@ function CourseList() {
                 {/* 카테고리별 수업 분류 */}
                 <div className={styles.groupReviews}>
                   {filteredCourses.map((course) => (
-                    <Link
-                      to={`/courses/view/${course.course_id}`}
-                      key={course.course_id}
-                      className="list-group-item list-group-item-action"
-                      target="_blank"
-                    >
-                      <div className="d-flex justify-content-between align-items-center">
-                        <h5 className={styles.courseSet}>
-                          <div>
-                            <Badge
-                              bg="#236969"
-                              style={{ backgroundColor: "#236969" }}
-                            >
-                              {course.course_category}
-                            </Badge>{" "}
-                            <Badge
-                              bg="#65C18C"
-                              style={{ backgroundColor: "#65C18C" }}
-                            >
-                              {course.kaikeYuanxi}
-                            </Badge>{" "}
-                            {course.isYouguan ? (
-                              <Badge
-                                className="rounded-pill"
-                                bg="#FF7BA9"
-                                style={{ backgroundColor: "#489CC1" }}
-                              >
-                                중국유관
-                              </Badge>
-                            ) : null}{" "}
-                            <Badge
-                              bg="#65C18C"
-                              style={{ backgroundColor: "#279EFF" }}
-                            >
-                              리뷰 {course.reviewCount}개
-                            </Badge>{" "}
-                          </div>
-                          <div className={styles.courseName}>
-                            {course.course_name}{" "}
-                          </div>
-                        </h5>
-                        <span className="text-body-secondary">
-                          {course.course_credit}학점
-                        </span>
-                      </div>
-                    </Link>
+                    <CourseCard course={course} />
                   ))}
                 </div>
 
                 {/* 전공별 수업 분류 */}
                 <div className={styles.majorGroupReviews}>
                   {filterdMajors.map((course) => (
-                    <Link
-                      to={`/courses/view/${course.course_id}`}
-                      key={course.course_id}
-                      className="list-group-item list-group-item-action"
-                    >
-                      <div className="d-flex justify-content-between align-items-center">
-                        <h5 className={styles.courseSet}>
-                          <div>
-                            <Badge
-                              bg="#236969"
-                              style={{ backgroundColor: "#236969" }}
-                            >
-                              {course.course_category}
-                            </Badge>{" "}
-                            <Badge
-                              bg="#65C18C"
-                              style={{ backgroundColor: "#65C18C" }}
-                            >
-                              {course.kaikeYuanxi}
-                            </Badge>{" "}
-                            {course.isYouguan ? (
-                              <Badge
-                                className="rounded-pill"
-                                bg="#FF7BA9"
-                                style={{ backgroundColor: "#489CC1" }}
-                              >
-                                중국유관
-                              </Badge>
-                            ) : null}
-                          </div>
-                          <div className={styles.courseName}>
-                            {course.course_name}{" "}
-                          </div>
-                        </h5>
-                        <span className="text-body-secondary">
-                          {course.course_credit}학점
-                        </span>
-                      </div>
-                    </Link>
+                    <CourseCard course={course} />
                   ))}
                 </div>
               </div>
@@ -481,5 +210,3 @@ function CourseList() {
     </div>
   );
 }
-
-export default CourseList;

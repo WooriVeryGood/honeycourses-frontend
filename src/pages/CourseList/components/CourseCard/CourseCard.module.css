@@ -1,0 +1,16 @@
+.courseSet {
+  display: flex;
+  flex-direction: column;
+}
+
+.courseName {
+  font-size: 1.2em;
+  font-weight: 550;
+  margin: 3% 0;
+}
+
+@media (max-width: 936px) {
+  .courseSet {
+    font-size: 1rem;
+  }
+}
