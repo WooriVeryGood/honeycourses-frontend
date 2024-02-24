@@ -1,10 +1,9 @@
-import React from "react";
 import styles from "./MajorSelector.module.css";
 
 interface MajorSelectorProps {
   item: {
     title: string;
-    childrens?: Array<{ title: string }>; // Adjust according to the actual structure
+    childrens?: Array<{ title: string }>;
   };
   open: boolean;
   handleSelectMajor: (major: string) => void;
