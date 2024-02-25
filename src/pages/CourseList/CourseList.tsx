@@ -61,7 +61,7 @@ export default function CourseList() {
     setMajorOpen(false); // 강의 목록 버튼 누르면 전공별 분류 숨김
     setSelectedMajor("专业");
     setSelectedCategory(category);
-    setShowYouguan(false); 
+    setShowYouguan(false);
   };
 
   const handleShowYouguan = () => {
@@ -70,19 +70,31 @@ export default function CourseList() {
     setShowYouguan(true);
   };
 
+  // 리뷰에서 뒤로가기로 돌아올 시 스크롤 위치 기억
+  const handleScrolling = () => {
+    const navigatedToReview = sessionStorage.getItem("navigatedToReview");
+    if (navigatedToReview) {
+      setTimeout(() => {
+        window.scrollTo({
+          top: parseInt(sessionStorage.courseListScrollY),
+          left: 0,
+          behavior: "instant",
+        });
+        sessionStorage.removeItem("navigatedToReview");
+      }, 0);
+    }
+  };
+
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
         setIsLoading(true);
         const response = await apiGet(`/courses`);
-        console.log(response.data);
         setCourses(response.data);
         setIsLoading(false);
-        window.scrollTo(0, 0);
+        handleScrolling();
       } catch (error) {
-        console.error(error);
         setIsLoading(false);
-        window.scrollTo(0, 0);
       }
     };
     fetchDataFromApi();
@@ -101,7 +113,11 @@ export default function CourseList() {
         );
 
   return (
-    <div>
+    <div
+      onClick={() =>
+        sessionStorage.setItem("courseListScrollY", window.scrollY.toString())
+      }
+    >
       <PageView isLoading={isLoading}>
         <Container
           fluid
@@ -170,14 +186,14 @@ export default function CourseList() {
                 {/* 카테고리별 수업 분류 */}
                 <div className={styles.groupReviews}>
                   {filteredCourses.map((course) => (
-                    <CourseCard course={course} />
+                    <CourseCard key={course.course_id} course={course} />
                   ))}
                 </div>
 
                 {/* 전공별 수업 분류 */}
                 <div className={styles.majorGroupReviews}>
                   {filterdMajors.map((course) => (
-                    <CourseCard course={course} />
+                    <CourseCard key={course.course_id} course={course} />
                   ))}
                 </div>
               </div>
