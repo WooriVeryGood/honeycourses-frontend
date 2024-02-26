@@ -1,25 +1,20 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import Container from "react-bootstrap/Container";
 import PageView from "../PageView/PageView";
 import Button from "react-bootstrap/Button";
 import styles from "./CourseList.module.css";
 import majors from "./majors.json"; // 전공 목록
 import { Alert } from "react-bootstrap";
-import { apiGet } from "../API/APIHandler";
 import CourseSidebar from "./components/CourseSidebar/CourseSidebar";
 import { Course } from "../../types/course";
 import CourseSearchbar from "./components/CourseSearchbar/CourseSearchbar";
 import CourseCard from "./components/CourseCard/CourseCard";
 import MajorSelector from "./components/MajorSelector/MajorSelector";
 import { useCourses } from "../API/courses/useCourses";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { getCourses } from "../API/courses/CourseApi";
 import Loader from "../../components/Loader/Loader";
 
 export default function CourseList() {
   const [selectedCategory, setSelectedCategory] = useState("All");
-  // const [courses, setCourses] = useState<Course[]>([]);
-  // const [isLoading, setIsLoading] = useState(true);
   const [showYouguan, setShowYouguan] = useState(false);
   const [layoutRightTitle, setTitle] = useState("All"); //오른쪽 layout 제목 설정
   const [majorBtn, selectBtn] = useState(""); // 专业课버튼만 추리기
