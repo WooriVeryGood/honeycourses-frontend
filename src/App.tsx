@@ -22,10 +22,11 @@ import { Login } from "./pages/Login/Login";
 import CommunityPostView from "./pages/CommunityPostView";
 import AddPost from "./pages/AddPost/AddPost";
 import MyInfo from "./pages/MyInfo/MyInfo";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 I18n.putVocabularies(translations);
 I18n.setLanguage('ko');
 Amplify.configure(awsExports);
-
 I18n.putVocabularies({
   ko: {
     'Enter your Password': '비밀번호 입력',
@@ -42,15 +43,15 @@ I18n.putVocabularies({
     'New Password': '새 비밀번호',
     'Update password': '비밀번호 변경',
   },
-  
 });
 
+const queryClient = new QueryClient();
 
 export default function App() {
-
-
   return (
-        <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      {import.meta.env.VITE_ENV === 'dev' && <ReactQueryDevtools initialIsOpen={false} />} 
+      <BrowserRouter>
           <Header />
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -68,7 +69,8 @@ export default function App() {
             <Route path="/login" element={<Login />} />
           </Routes>
           <Footer />
-        </BrowserRouter>
+      </BrowserRouter>
+      </QueryClientProvider>
   );
 }
 
