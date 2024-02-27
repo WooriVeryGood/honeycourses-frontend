@@ -8,6 +8,8 @@ import styles from "./CourseReviews.module.css";
 import { Form } from "react-bootstrap";
 import { apiDelete, apiGet, apiPut } from "../../API/APIHandler";
 import { reverse } from "dns";
+import { useReviews } from "../../API/reviews/useReviews";
+import Loader from "../../components/Loader/Loader";
 
 // 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)
 
@@ -28,9 +30,9 @@ interface Review {
 }
 
 export default function CourseReviews() {
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [course_name, setCourseName] = useState("");
+  // const [reviews, setReviews] = useState<Review[]>([]);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [course_name, setCourseName] = useState("");
   const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
   const [editedTitle, setEditedTitle] = useState("");
   const [editedContent, setEditedContent] = useState("");
@@ -47,7 +49,7 @@ export default function CourseReviews() {
   const dateB = new Date("2022/06/01 00:00:00");
   const diffMSec = dateA.getTime() - dateB.getTime();
 
-  const handleUpvote = async (reviewId: number) => {
+  /*const handleUpvote = async (reviewId: number) => {
     try {
       const response = await apiPut(`/courses/reviews/${reviewId}/like`, null);
       const updatedReviewData = response.data;
@@ -62,11 +64,11 @@ export default function CourseReviews() {
           return review;
         }
       });
-      setReviews(updatedReviews);
+      //setReviews(updatedReviews);
     } catch (error) {
       console.error("Error updating review like status:", error);
     }
-  };
+  };*/
 
   const submitEdit = async (reviewId: number) => {
     if (isEditing) return;
@@ -84,7 +86,7 @@ export default function CourseReviews() {
       if (response.data) {
         alert("리뷰가 수정되었습니다.");
         setEditingReviewId(null);
-        setReviews(
+        /*setReviews(
           reviews.map((review) =>
             review.review_id === reviewId
               ? {
@@ -97,7 +99,7 @@ export default function CourseReviews() {
               }
               : review
           )
-        );
+        );*/
       }
       setIsEditing(false);
       setShowMore(!isShowMore);
@@ -114,7 +116,7 @@ export default function CourseReviews() {
       try {
         await apiDelete(`/courses/reviews/${reviewId}`);
         alert("리뷰가 삭제되었습니다.");
-        setReviews(reviews.filter((review) => review.review_id !== reviewId));
+        // setReviews(reviews.filter((review) => review.review_id !== reviewId));
       } catch (error) {
         console.error("Error deleting review:", error);
         alert("리뷰 삭제에 실패했습니다.");
@@ -122,43 +124,24 @@ export default function CourseReviews() {
     }
   };
 
-  useEffect(() => {
-    const fetchDataFromApi = async () => {
-      try {
-        setIsLoading(true);
-        Promise.all([
-          apiGet(`/courses/${courseId}/reviews`),
-          apiGet(`/courses/${courseId}/name`),
-        ])
-          .then(([reviewsResponse, nameResponse]) => {
-            const initializedReviews = reviewsResponse.data.map(
-              (review: Review) => ({
-                ...review,
-              })
-            );
-            setReviews(initializedReviews);
-            setCourseName(nameResponse.data.course_name);
-            setIsLoading(false);
-            window.scrollTo(0, 0);
-          })
-          .catch((error) => {
-            if (error.response.data.message === "강의를 찾을 수 없습니다." && error.response.status === 404) {
-              navigate("/courses");
-              alert("존재하지 않는 수업입니다.");
-            }
-            setIsLoading(false);
-          });
-      } catch (error) {
-        console.error("Error in fetching data:", error);
-        setIsLoading(false);
-      }
-    };
+  const { isLoading, error, reviews, course_name } = useReviews(courseId);
 
-    fetchDataFromApi();
-  }, [courseId, navigate]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
+  useEffect(() => {
+    if (error) {
+      navigate("/courses");
+    }
+  }, [error, navigate]);
+
+  if (!reviews || isLoading) {
+    return <Loader />;
+  }
 
   return (
-    <PageView isLoading={isLoading}>
+    <PageView>
       <Container fluid className="justify-content-center align-items-start">
         <div
           className={styles.courseReviewHeader}
@@ -416,18 +399,22 @@ export default function CourseReviews() {
                           marginRight: "auto",
                         }}
                       >
-                        <span className={styles.sharp}>#{review.review_id} {"  "}</span>
-                        <span className={styles.date}>{review.review_time === null ? (
-                          ""
-                        ) : (
-                          <>
-                            {new Date(
-                              new Date(review.review_time).getTime() + diffMSec
-                            ).toLocaleDateString()}{" "}
-                            작성
-                            {review.updated ? " (수정됨)" : ""}
-                          </>
-                        )}
+                        <span className={styles.sharp}>
+                          #{review.review_id} {"  "}
+                        </span>
+                        <span className={styles.date}>
+                          {review.review_time === null ? (
+                            ""
+                          ) : (
+                            <>
+                              {new Date(
+                                new Date(review.review_time).getTime() +
+                                  diffMSec
+                              ).toLocaleDateString()}{" "}
+                              작성
+                              {review.updated ? " (수정됨)" : ""}
+                            </>
+                          )}
                         </span>
                       </div>
                       <div
