@@ -5,7 +5,7 @@ import { useState } from "react";
 import { COMMENT_BACK_COLORS } from "../../../../constants/colors";
 import { RANDOM_NICKNAMES } from "../../../../constants/nicknames";
 import CommentListItem from "../CommentListItem";
-import { apiPost, apiPut } from "../../../API/APIHandler";
+import { apiPost, apiPut } from "../../../../API/APIHandler";
 
 import "./styles.css";
 

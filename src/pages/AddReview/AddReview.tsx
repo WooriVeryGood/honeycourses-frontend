@@ -7,7 +7,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import styles from "./AddReview.module.css";
-import { apiGet, apiPost } from "../API/APIHandler";
+import { apiGet, apiPost } from "../../API/APIHandler";
 
 export default function AddReview() {
   const courseId = window.location.pathname.split("/").pop();

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { apiPost } from "../../../API/APIHandler";
+import { apiPost } from "../../../../API/APIHandler";
 import WGTextInput from "../../../../components/WGTextInput/WGTextInput";
 
 import "./styles.css";

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PageView from "../PageView/PageView";
 import Container from "react-bootstrap/Container";
 import { useNavigate } from "react-router-dom";
-import { apiGet } from "../API/APIHandler";
+import { apiGet } from "../../API/APIHandler";
 import { Post } from "../../types/post";
 import { Comment } from "../../types/comment";
 import PostContainer from "./components/PostContainer";

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import PageView from "../PageView/PageView";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { apiGet } from "../API/APIHandler";
+import { apiGet } from "../../API/APIHandler";
 import { CategoryKey, Post } from "../../types/post";
 
 import Sidebar from "./components/Sidebar";

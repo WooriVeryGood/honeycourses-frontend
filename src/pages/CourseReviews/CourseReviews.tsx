@@ -6,7 +6,7 @@ import Container from "react-bootstrap/Container";
 import { useNavigate } from "react-router-dom";
 import styles from "./CourseReviews.module.css";
 import { Form } from "react-bootstrap";
-import { apiDelete, apiGet, apiPut } from "../API/APIHandler";
+import { apiDelete, apiGet, apiPut } from "../../API/APIHandler";
 import { reverse } from "dns";
 
 // 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)

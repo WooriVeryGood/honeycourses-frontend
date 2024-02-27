@@ -4,7 +4,7 @@ import CommentHeader from "./components/CommentHeader";
 import CommentContent from "./components/CommentContent";
 import CommentBottom from "./components/CommentBottom";
 import { useState } from "react";
-import { apiPut } from "../../../API/APIHandler";
+import { apiPut } from "../../../../API/APIHandler";
 import ReplyList from "../ReplyList/ReplyList";
 
 import "./styles.css";
