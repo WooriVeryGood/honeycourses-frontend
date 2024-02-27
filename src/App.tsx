@@ -50,7 +50,7 @@ const queryClient = new QueryClient();
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      {import.meta.env.VITE_ENV === 'dev' && <ReactQueryDevtools initialIsOpen={false} />} 
+      <ReactQueryDevtools initialIsOpen={false} />
       <BrowserRouter>
           <Header />
           <Routes>

@@ -3,15 +3,16 @@ import Container from "react-bootstrap/Container";
 import PageView from "../PageView/PageView";
 import Button from "react-bootstrap/Button";
 import styles from "./CourseList.module.css";
-import majors from "./majors.json"; // 전공 목록
+import majors from "../../constants/majors.json"; // 전공 목록
 import { Alert } from "react-bootstrap";
 import CourseSidebar from "./components/CourseSidebar/CourseSidebar";
 import { Course } from "../../types/course";
 import CourseSearchbar from "./components/CourseSearchbar/CourseSearchbar";
 import CourseCard from "./components/CourseCard/CourseCard";
 import MajorSelector from "./components/MajorSelector/MajorSelector";
-import { useCourses } from "../API/courses/useCourses";
+import { useCourses } from "../../API/courses/useCourses";
 import Loader from "../../components/Loader/Loader";
+import { useNavigate } from "react-router-dom";
 
 export default function CourseList() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -23,13 +24,14 @@ export default function CourseList() {
   const [majorOpen, setMajorOpen] = useState(false);
   const [searchCourses, setSearchCourses] = useState<Course[]>([]); //검색 기능
   const [searchInput, setSearchInput] = useState(""); //검색 기능
+  const navigate = useNavigate();
   const {
     isLoading,
     courses,
     error,
   }: { isLoading: boolean; courses: Course[]; error: any } = useCourses();
 
-  if (!courses) {
+  if (!courses || isLoading) {
     return <Loader />;
   }
 
@@ -90,6 +92,10 @@ export default function CourseList() {
             (!showYouguan || course.isYouguan)
         );
 
+  const addClick = () => {
+    navigate('/courses/addCourse');
+  }
+
   return (
     <div>
       <PageView>
@@ -120,7 +126,7 @@ export default function CourseList() {
                 >
                   {layoutRightTitle}
                   <Button
-                    href="/courses/addCourse"
+                    onClick={addClick}
                     className="my-auto align-self-center"
                     variant="success"
                     size="sm"

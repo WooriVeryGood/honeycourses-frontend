@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { getCourses } from "./CourseApi";
-import { api, apiGet } from "../APIHandler";
 
 export function useCourses() {
   const {

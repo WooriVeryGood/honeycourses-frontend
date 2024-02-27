@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PageView from "../PageView/PageView";
-import { apiGet } from "../API/APIHandler";
+import { apiGet } from "../../API/APIHandler";
 import styles from "./MyInfo.module.css";
 import { Badge, Card, Container } from "react-bootstrap";
 import Paging from "../Paging/Paging";

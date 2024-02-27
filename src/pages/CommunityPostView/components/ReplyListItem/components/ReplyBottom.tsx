@@ -1,6 +1,6 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Reply } from "../../../../../types/reply";
-import { apiDelete, apiPost, apiPut } from "../../../../API/APIHandler";
+import { apiDelete, apiPost, apiPut } from "../../../../../API/APIHandler";
 import { Comment } from "../../../../../types/comment";
 import { HttpError } from "../../../../../types/error";
 
