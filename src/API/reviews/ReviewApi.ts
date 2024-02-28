@@ -1,6 +1,7 @@
 import { Review } from "../../types/review";
 import { api } from "../APIHandler";
 import { AxiosError } from "axios";
+import { editReviewProps } from "../../types/editReview";
 
 export async function getReviews(courseId: string | undefined) {
   try {
@@ -17,10 +18,34 @@ export async function getReviews(courseId: string | undefined) {
   } catch (error) {
     const axiosError = error as AxiosError;
     if (axiosError?.response?.status === 404) {
-        console.log('404!!!')
-        alert("존재하지 않는 수업입니다.");
+      alert("존재하지 않는 수업입니다.");
     }
     console.error("Error fetching courses: " + error);
+    throw error;
+  }
+}
+
+export async function editReview(
+  reviewId: number,
+  {
+    editedTitle,
+    editedContent,
+    editedInstructor,
+    editedSemyr,
+    editedGrade,
+  }: editReviewProps
+) {
+  try {
+    const response = await api.put(`/courses/reviews/${reviewId}`, {
+      review_title: editedTitle,
+      review_content: editedContent,
+      instructor_name: editedInstructor,
+      taken_semyr: editedSemyr,
+      grade: editedGrade,
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.error("Error editing courses: " + error);
     throw error;
   }
 }

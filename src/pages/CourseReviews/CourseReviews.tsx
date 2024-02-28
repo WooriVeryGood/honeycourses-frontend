@@ -7,9 +7,9 @@ import { useNavigate } from "react-router-dom";
 import styles from "./CourseReviews.module.css";
 import { Form } from "react-bootstrap";
 import { apiDelete, apiGet, apiPut } from "../../API/APIHandler";
-import { reverse } from "dns";
 import { useReviews } from "../../API/reviews/useReviews";
 import Loader from "../../components/Loader/Loader";
+import { useEditReview } from "../../API/reviews/useEditReview";
 
 // 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)
 
@@ -30,9 +30,6 @@ interface Review {
 }
 
 export default function CourseReviews() {
-  // const [reviews, setReviews] = useState<Review[]>([]);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [course_name, setCourseName] = useState("");
   const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
   const [editedTitle, setEditedTitle] = useState("");
   const [editedContent, setEditedContent] = useState("");
@@ -44,6 +41,7 @@ export default function CourseReviews() {
   const navigate = useNavigate();
   const [isShowMore, setShowMore] = useState(false);
   const [showMoreReviewId, setShowMoreReviewId] = useState<number | null>(null);
+  const { editSingleReview } = useEditReview();
 
   const dateA = new Date("2022/06/01 08:00:00");
   const dateB = new Date("2022/06/01 00:00:00");
@@ -70,53 +68,11 @@ export default function CourseReviews() {
     }
   };*/
 
-  const submitEdit = async (reviewId: number) => {
-    if (isEditing) return;
-
-    setIsEditing(true);
-    try {
-      const response = await apiPut(`/courses/reviews/${reviewId}`, {
-        review_title: editedTitle,
-        review_content: editedContent,
-        instructor_name: editedInstructor,
-        taken_semyr: editedSemyr,
-        grade: editedGrade,
-      });
-
-      if (response.data) {
-        alert("리뷰가 수정되었습니다.");
-        setEditingReviewId(null);
-        /*setReviews(
-          reviews.map((review) =>
-            review.review_id === reviewId
-              ? {
-                ...review,
-                review_title: editedTitle,
-                review_content: editedContent,
-                instructor_name: editedInstructor,
-                taken_semyr: editedSemyr,
-                grade: editedGrade,
-              }
-              : review
-          )
-        );*/
-      }
-      setIsEditing(false);
-      setShowMore(!isShowMore);
-      setShowMoreReviewId(reviewId); // 리뷰 수정 후 리뷰 더보기 버튼 수납
-    } catch (error) {
-      console.error("Error updating review:", error);
-      alert("리뷰 수정에 실패했습니다.");
-      setIsEditing(false);
-    }
-  };
-
   const handleDeleteReview = async (reviewId: number) => {
     if (window.confirm("리뷰를 삭제하시겠습니까?")) {
       try {
         await apiDelete(`/courses/reviews/${reviewId}`);
         alert("리뷰가 삭제되었습니다.");
-        // setReviews(reviews.filter((review) => review.review_id !== reviewId));
       } catch (error) {
         console.error("Error deleting review:", error);
         alert("리뷰 삭제에 실패했습니다.");
@@ -128,7 +84,7 @@ export default function CourseReviews() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  });
+  }, [courseId]);
 
   useEffect(() => {
     if (error) {
@@ -187,7 +143,7 @@ export default function CourseReviews() {
             </Button>
           </div>
         ) : (
-          reviews.map((review) => (
+          reviews.map((review: Review) => (
             <Card key={review.review_id} className={styles.reviewCard}>
               {review.mine && (
                 <div>
@@ -195,7 +151,21 @@ export default function CourseReviews() {
                     <div className={styles.editButtons}>
                       <Button
                         variant="primary"
-                        onClick={() => submitEdit(review.review_id)}
+                        onClick={() => {
+                          editSingleReview({
+                            reviewId: review.review_id,
+                            courseId,
+                            editedTitle,
+                            editedContent,
+                            editedInstructor,
+                            editedSemyr,
+                            editedGrade,
+                          });
+                          setEditingReviewId(null);
+                          setIsEditing(false);
+                          setShowMore(!isShowMore);
+                          setShowMoreReviewId(review.review_id); // 리뷰 수정 후 리뷰 더보기 버튼 수납
+                        }}
                         disabled={isEditing}
                       >
                         제출
