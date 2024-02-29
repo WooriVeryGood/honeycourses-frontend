@@ -35,7 +35,6 @@ export default function CourseSearchbar({
                   to={`/courses/view/${course.course_id}`}
                   key={course.course_id}
                   className="list-group-item"
-                  target="_blank"
                 >
                   <div className="d-flex justify-content-between align-items-center">
                     <h5>

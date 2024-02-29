@@ -1,0 +1,68 @@
+.reviewCard {
+  margin: 35px auto;
+  width: 1000px;
+}
+.editButtons {
+  position: absolute;
+  top: 86%;
+  right: 15px;
+}
+.reviewButtons {
+  display: flex;
+  flex-direction: column;
+}
+.showMoreButton > img {
+  width: 20px;
+  height: 20px;
+}
+.showMoreButton {
+  background-color: transparent;
+}
+.reviewChangeDelete {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.hiddenReviewChangeDelete {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+}
+.divider {
+  position: relative;
+}
+.date {
+  color: grey;
+  font-size: 15px;
+}
+.sharp {
+  padding-left: 5px;
+  padding-right: 10px;
+  color: grey;
+  font-size: 15px;
+}
+.onLikeButton {
+  border: 1px solid #588769;
+  background-color: #edf7f2;
+  border-radius: 15px;
+  padding: 2px 15px;
+}
+.likeButton {
+  border: 1px solid #a9aab0;
+  background-color: #f8f9fa;
+  border-radius: 15px;
+  padding: 2px 15px;
+}
+.likeCount {
+  color: #588769;
+}
+
+@media (max-width: 1120px) {
+  .reviewCard {
+    margin: 0 auto;
+    margin-top: 35px;
+    margin-bottom: 30px;
+    width: 90%;
+  }
+}

@@ -20,6 +20,11 @@
   margin-top: 4%;
   font-size: 1.2em;
 }
+.categorySelected:enabled {
+  background-color: #43a680;
+  border-color: #43a680;
+  color: white !important;
+}
 
 @media (max-width: 936px) {
   .categories {

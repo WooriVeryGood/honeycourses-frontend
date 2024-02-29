@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageView from "../PageView/PageView";
@@ -7,16 +6,17 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import styles from "./AddReview.module.css";
-import { apiGet, apiPost } from "../../API/APIHandler";
+import { semesters } from "../../constants/semesters";
+import { useCourseName } from "../../API/reviews/useCourseName";
+import Loader from "../../components/Loader/Loader";
+import { useAddReview } from "../../API/reviews/useAddReview";
 
 export default function AddReview() {
   const courseId = window.location.pathname.split("/").pop();
   const [review_title, setReviewTitle] = useState("");
-  const [course_name, setCourseName] = useState("");
   const [instructor_name, setInstructorName] = useState("");
   const [taken_semyr, setSemester] = useState("");
   const [grade, setGrade] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const [review_content, setReviewContent] = useState(
     "考核방식: \n\n任务量:\n\n평가: "
   );
@@ -26,55 +26,37 @@ export default function AddReview() {
     event.preventDefault();
     if (isSubmitted) return;
     setSubmit(true);
-    const data = {
-      review_title,
-      instructor_name,
-      taken_semyr,
-      review_content,
-      grade,
-    };
-
-    await apiPost(`/courses/${courseId}/reviews`, data)
-      .then((response) => {
-        console.log(response.data);
-        alert("리뷰 등록에 성공했습니다!");
-        setSubmit(false);
-        navigate(`/courses/view/${courseId}`);
-      })
-      .catch((error) => {
-        console.log(error);
-        setSubmit(false);
-      });
-
+    createReview({
+      courseId,
+      reviewDetails: {
+        review_title,
+        instructor_name,
+        taken_semyr,
+        review_content,
+        grade,
+      },
+    });
+    setSubmit(false);
   };
-
-  const getName = async () => {
-    await apiGet(`/courses/${courseId}/name`)
-      .then((nameResponse) => {
-        console.log(nameResponse.data.course_name);
-        setCourseName(nameResponse.data.course_name);
-        setIsLoading(false);
-        window.scrollTo(0, 0);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 404) {
-          navigate("/courses");
-          alert("존재하지 않는 수업입니다.");
-        }
-        console.error(error);
-        setIsLoading(false);
-        window.scrollTo(0, 0);
-        return <h1>데이터베이스 오류가 발생했습니다.</h1>;
-      });
-  };
+  const { isLoading, course_name, error } = useCourseName(courseId);
+  const { createReview } = useAddReview(courseId);
 
   useEffect(() => {
-    setIsLoading(true);
-    getName();
-  }, [courseId, navigate]);
+    window.scrollTo(0, 0);
+  }, [courseId]);
+
+  useEffect(() => {
+    if (error) {
+      navigate("/courses");
+    }
+  }, [error, navigate]);
+
+  if (!course_name || isLoading) {
+    return <Loader />;
+  }
 
   return (
-    <PageView isLoading={isLoading}>
+    <PageView>
       <Container fluid className={styles.addReviewBox}>
         <div>
           <div>
@@ -131,37 +113,13 @@ export default function AddReview() {
               required
             >
               <option value="">수강 학기 선택</option>
-              <option value="17-18년도 1학기">17-18년도 1학기</option>
-              <option value="17-18년도 2학기">17-18년도 2학기</option>
-              <option value="17-18년도 3학기/계절학기">
-                17-18년도 3학기/계절학기
-              </option>
-              <option value="18-19년도 1학기">18-19년도 1학기</option>
-              <option value="18-19년도 2학기">18-19년도 2학기</option>
-              <option value="18-19년도 3학기/계절학기">
-                18-19년도 3학기/계절학기
-              </option>
-              <option value="19-20년도 1학기">19-20년도 1학기</option>
-              <option value="19-20년도 2학기">19-20년도 2학기</option>
-              <option value="19-20년도 3학기/계절학기">
-                19-20년도 3학기/계절학기
-              </option>
-              <option value="20-21년도 1학기">20-21년도 1학기</option>
-              <option value="20-21년도 2학기">20-21년도 2학기</option>
-              <option value="20-21년도 3학기/계절학기">
-                20-21년도 3학기/계절학기
-              </option>
-              <option value="21-22년도 1학기">21-22년도 1학기</option>
-              <option value="21-22년도 2학기">21-22년도 2학기</option>
-              <option value="21-22년도 3학기/계절학기">
-                21-22년도 3학기/계절학기
-              </option>
-              <option value="22-23년도 1학기">22-23년도 1학기</option>
-              <option value="22-23년도 2학기">22-23년도 2학기</option>
-              <option value="22-23년도 3학기/계절학기">
-                22-23년도 3학기/계절학기
-              </option>
-              <option value="23-24년도 1학기">23-24년도 1학기</option>
+              {semesters.map((semyr, index) => {
+                return (
+                  <option key={index} value={semyr}>
+                    {semyr}
+                  </option>
+                );
+              })}
             </Form.Select>
           </InputGroup>
           <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>

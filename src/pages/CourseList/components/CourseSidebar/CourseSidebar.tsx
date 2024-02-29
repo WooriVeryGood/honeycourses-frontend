@@ -25,7 +25,7 @@ export default function CourseSidebar({
               <button
                 className={`navLink nav-link btn ${
                   selectedCategory === "All" && !showYouguan
-                    ? "btn-primary"
+                    ? styles.categorySelected
                     : ""
                 }`}
                 onClick={() => handleSelectCategory("All")}
@@ -36,7 +36,7 @@ export default function CourseSidebar({
             <li className="nav-item">
               <button
                 className={`navLink nav-link btn ${
-                  selectedCategory === "通选课" ? "btn-primary" : ""
+                  selectedCategory === "通选课" ? styles.categorySelected : ""
                 }`}
                 onClick={() => handleSelectCategory("通选课")}
               >
@@ -46,7 +46,7 @@ export default function CourseSidebar({
             <li className="nav-item">
               <button
                 className={`navLink nav-link btn ${
-                  selectedCategory === "体育课" ? "btn-primary" : ""
+                  selectedCategory === "体育课" ? styles.categorySelected : ""
                 }`}
                 onClick={() => handleSelectCategory("体育课")}
               >
@@ -56,7 +56,7 @@ export default function CourseSidebar({
             <li className="nav-item">
               <button
                 className={`navLink nav-link btn ${
-                  selectedCategory === "专业课" ? "btn-primary" : ""
+                  selectedCategory === "专业课" ? styles.categorySelected : ""
                 }`}
                 onClick={() => handleSelectCategory("专业课")}
               >
@@ -66,7 +66,7 @@ export default function CourseSidebar({
             <li className="nav-item">
               <button
                 className={`navLink nav-link btn ${
-                  selectedCategory === "公选课" ? "btn-primary" : ""
+                  selectedCategory === "公选课" ? styles.categorySelected : ""
                 }`}
                 onClick={() => handleSelectCategory("公选课")}
               >
@@ -76,7 +76,7 @@ export default function CourseSidebar({
             <li className="nav-item">
               <button
                 className={`navLink nav-link btn ${
-                  selectedCategory === "英语课" ? "btn-primary" : ""
+                  selectedCategory === "英语课" ? styles.categorySelected : ""
                 }`}
                 onClick={() => handleSelectCategory("英语课")}
               >
@@ -86,7 +86,7 @@ export default function CourseSidebar({
             <li className="nav-item">
               <button
                 className={`navLink nav-link btn ${
-                  showYouguan ? "btn-primary" : ""
+                  showYouguan ? styles.categorySelected : ""
                 }`}
                 onClick={handleShowYouguan}
               >

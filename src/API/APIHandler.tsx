@@ -10,7 +10,6 @@ export const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     try {
-      console.log('getting tokens')
       const userSession = await Auth.currentSession();
       const jwtToken = userSession.getAccessToken().getJwtToken();
       config.headers.Authorization = `Bearer ${jwtToken}`;
