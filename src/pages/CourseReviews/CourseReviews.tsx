@@ -1,65 +1,24 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import PageView from "../PageView/PageView";
 import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import { useNavigate } from "react-router-dom";
 import styles from "./CourseReviews.module.css";
-import { Form } from "react-bootstrap";
-import { apiDelete, apiGet, apiPut } from "../../API/APIHandler";
 import { useReviews } from "../../API/reviews/useReviews";
 import Loader from "../../components/Loader/Loader";
-import { useEditReview } from "../../API/reviews/useEditReview";
 import ReviewCard from "./components/ReviewCard/ReviewCard";
+import { Review } from "../../types/review";
 
 // 수업 리뷰 디스플레이 컴포넌트 (https://honeycourses.com/course/view/수업ID)
-
-interface Review {
-  review_title: string;
-  review_id: number;
-  review_content: string;
-  like_count: number;
-  course_name: string;
-  voted: boolean;
-  instructor_name: string;
-  taken_semyr: string;
-  grade: string;
-  liked: boolean;
-  review_time: string;
-  mine: boolean;
-  updated: boolean;
-}
 
 export default function CourseReviews() {
   const courseId = window.location.pathname.split("/").pop();
   const navigate = useNavigate();
-
-  /*const handleUpvote = async (reviewId: number) => {
-    try {
-      const response = await apiPut(`/courses/reviews/${reviewId}/like`, null);
-      const updatedReviewData = response.data;
-      const updatedReviews = reviews.map((review) => {
-        if (review.review_id === reviewId) {
-          return {
-            ...review,
-            like_count: updatedReviewData.like_count,
-            liked: updatedReviewData.liked,
-          };
-        } else {
-          return review;
-        }
-      });
-      //setReviews(updatedReviews);
-    } catch (error) {
-      console.error("Error updating review like status:", error);
-    }
-  };*/
+  const { isLoading, error, reviews, course_name } = useReviews(courseId);
 
   const addReviewClick = () => {
     navigate(`/courses/addReview/${courseId}`);
   }
-
-  const { isLoading, error, reviews, course_name } = useReviews(courseId);
 
   useEffect(() => {
     window.scrollTo(0, 0);

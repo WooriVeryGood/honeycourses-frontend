@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useEditReview } from "../../../../API/reviews/useEditReview";
 import ReviewEditForm from "../ReviewEditForm/ReviewEditForm";
 import { useDeleteReview } from "../../../../API/reviews/useDeleteReview";
+import { useVoteReview } from "../../../../API/reviews/useVoteReview";
 
 interface ReviewCardProps {
   courseId: string | undefined;
@@ -23,6 +24,7 @@ export default function ReviewCard({ courseId, review }: ReviewCardProps) {
 
   const { editSingleReview } = useEditReview();
   const { deleteSingleReview } = useDeleteReview();
+  const { voteSingleReview } = useVoteReview();
 
   const dateA = new Date("2022/06/01 08:00:00");
   const dateB = new Date("2022/06/01 00:00:00");
@@ -196,7 +198,7 @@ export default function ReviewCard({ courseId, review }: ReviewCardProps) {
               </div>
               <div
                 onClick={() => {
-                  // handleUpvote(review.review_id);
+                  voteSingleReview({courseId, reviewId: review.review_id})
                 }}
                 className={
                   review.liked ? styles.onLikeButton : styles.likeButton
