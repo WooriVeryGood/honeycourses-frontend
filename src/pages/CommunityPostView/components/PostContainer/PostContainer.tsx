@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { HttpError } from "../../../../types/error";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
-import "./styles.css";
+import styles from './PostContainer.module.css';
 
 interface PostContainerProps {
   post: Post;
@@ -115,9 +115,9 @@ const PostContainer = (props: PostContainerProps) => {
     return user.getUsername() === props.post.post_author;
   };
 
-  return <Card className="detailedPostCard">
-    <div className="detailedMainTop">
-      <Card.Title className="detailedCardTitle" style={{display:"flex"}}>
+  return <Card className={styles.detailedPostCard}>
+    <div className={styles.detailedMainTop}>
+      <Card.Title className={styles.detailedCardTitle} style={{display:"flex"}}>
         <Badge
           bg="#236969"
           style={{
@@ -131,10 +131,10 @@ const PostContainer = (props: PostContainerProps) => {
         </Badge>
         <span style={{fontSize:".9em"}}>{props.post.reported ? "신고 누적으로 삭제된 게시물입니다." : props.post.post_title}</span>
       </Card.Title>
-      <div className="detailedMainBottom">
+      <div className={styles.detailedMainBottom}>
         <div style={{ display: "flex" }}>
-          <div className="detailedSharp">#{props.post.post_id}</div>
-          <div className="detailedDate">
+          <div className={styles.detailedSharp}>#{props.post.post_id}</div>
+          <div className={styles.detailedDate}>
             {koreaTimeFormatter(props.post.post_time)}
             {props.post.updated ? " (수정됨)" : ""}
             <span
@@ -148,7 +148,7 @@ const PostContainer = (props: PostContainerProps) => {
             </span>
           </div>
         </div>
-        <div className={props.post.liked ? "onLikeButton" : "likeButton"}>
+        <div className={props.post.liked ? styles.onLikeButton : styles.likeButton}>
           <span onClick={requestLikePost} style={{display:"flex",alignItems:"center"}}>
             <img
               src={
@@ -163,7 +163,7 @@ const PostContainer = (props: PostContainerProps) => {
                 height: "20px",
               }}
             />
-            <span className={props.post.liked ? "likeCount" : ""}>
+            <span className={props.post.liked ? styles.likeCount : ""}>
               {props.post.post_likes}
             </span>
           </span>
@@ -217,7 +217,7 @@ const PostContainer = (props: PostContainerProps) => {
               />
             </div>
           )}
-          <Card.Text className="cardText">
+          <Card.Text className={styles.cardText}>
             {props.post.reported ? "신고 누적으로 삭제된 게시물입니다." : props.post.post_content.replace(/<br\s*[/]?>/gi, "\n")}
           </Card.Text>
         </>

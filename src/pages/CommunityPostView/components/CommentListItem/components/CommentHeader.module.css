@@ -1,0 +1,13 @@
+.cardHeader {
+  display: flex;
+  gap: 10px;
+}
+.author {
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: 8px;
+}
+.date {
+  color: grey;
+  font-size: 12px;
+}

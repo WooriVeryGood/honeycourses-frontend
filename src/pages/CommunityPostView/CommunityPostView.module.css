@@ -1,0 +1,25 @@
+.communityPostViewContainer {
+  width: 1200px;
+  /* width: 70%; */
+}
+
+.comment_section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 55%;
+  margin: 3% 23%;
+}
+
+@media (max-width: 860px) {
+  .comment-section {
+    width: 83%;
+    margin: 3% 10%;
+  }
+}
+@media (max-width: 480px) {
+  .comment-section {
+    width: 92%;
+    margin: 3% 5%;
+  }
+}

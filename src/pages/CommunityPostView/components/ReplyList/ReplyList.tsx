@@ -1,5 +1,5 @@
 import { Reply } from "../../../../types/reply";
-import ReplyListItem from "../ReplyListItem";
+import ReplyListItem from "../ReplyListItem/ReplyListItem";
 import { COMMENT_BACK_COLORS } from "../../../../constants/colors";
 import { RANDOM_NICKNAMES } from "../../../../constants/nicknames";
 import { Comment } from "../../../../types/comment";

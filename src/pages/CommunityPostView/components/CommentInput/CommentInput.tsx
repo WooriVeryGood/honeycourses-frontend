@@ -2,7 +2,7 @@ import { useState } from "react";
 import { apiPost } from "../../../../API/APIHandler";
 import WGTextInput from "../../../../components/WGTextInput/WGTextInput";
 
-import "./styles.css";
+import styles from './CommentInput.module.css';
 
 interface CommentInputProps {
   postId: string | undefined;
@@ -33,13 +33,13 @@ const CommentInput = (props: CommentInputProps) => {
     }
   };
 
-  return <div className="comment-input-group">
+  return <div className={styles.comment_input_group}>
     <WGTextInput
       textarea="textarea"
       text={newComment}
       onTextChange={setNewComment}
       placeholder="댓글을 작성해주세요 (200자 이내)"
-      className="send"
+      className={styles.send}
     />
 
     <div

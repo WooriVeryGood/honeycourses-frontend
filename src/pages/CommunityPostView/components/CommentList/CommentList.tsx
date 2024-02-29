@@ -4,10 +4,10 @@ import WGTextInput from "../../../../components/WGTextInput/WGTextInput";
 import { useState } from "react";
 import { COMMENT_BACK_COLORS } from "../../../../constants/colors";
 import { RANDOM_NICKNAMES } from "../../../../constants/nicknames";
-import CommentListItem from "../CommentListItem";
+import CommentListItem from "../CommentListItem/CommentListItem";
 import { apiPost, apiPut } from "../../../../API/APIHandler";
 
-import "./styles.css";
+import styles from './CommentList.module.css';
 
 interface CommentListProps {
   postAuthor: string;
@@ -126,9 +126,9 @@ const CommentList = (props: CommentListProps) => {
     }
   };
 
-  return <div className="comments-list" style={{ width: "100%", alignItems: "start" }}>
+  return <div style={{ width: "100%", alignItems: "start" }}>
     {props.comments.map((comment, index) => (
-      <Card key={comment.comment_id} className="comment">
+      <Card key={comment.comment_id} className={styles.comment}>
         <CommentListItem
           comment={comment}
           commentAuthor={getAuthorName(comment.comment_author)}
@@ -156,7 +156,7 @@ const CommentList = (props: CommentListProps) => {
             <div style={{ marginTop: "8px" }}>
               <WGTextInput
                 textarea="textarea"
-                className="send"
+                className={styles.send}
                 text={newReply}
                 onTextChange={setNewReply}
                 placeholder="답글을 작성해주세요 (200자 이내)"

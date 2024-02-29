@@ -1,8 +1,7 @@
 import { Comment } from "../../../../types/comment";
-import CommentInput from "../CommentInput";
-import CommentList from "../CommentList";
+import CommentInput from "../CommentInput/CommentInput";
 
-import "./styles.css";
+import styles from './CommentContainer.module.css';
 
 interface CommentContainerProps {
   postId: string | undefined;
@@ -16,7 +15,7 @@ const CommentContainer = (props: CommentContainerProps) => {
     comment.replies.forEach((reply) => count++);
   });
   return <>
-    <div className="commentCount">
+    <div className={styles.commentCount}>
       <img
         src="/images/comments.svg"
         alt="comments-icon"

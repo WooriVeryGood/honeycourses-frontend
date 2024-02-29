@@ -1,0 +1,16 @@
+.comment_input_group {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.send {
+  margin-right: 10px;
+  flex-grow: 1;
+}
+
+@media(max-width:480px) {
+  .send {
+      font-size: 14px;
+  }
+}

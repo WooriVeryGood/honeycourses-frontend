@@ -19,7 +19,7 @@ import { I18n } from 'aws-amplify';
 import { translations } from '@aws-amplify/ui-react';
 import { RequireAuth } from "./utils/RequireAuth";
 import { Login } from "./pages/Login/Login";
-import CommunityPostView from "./pages/CommunityPostView";
+import CommunityPostView from "./pages/CommunityPostView/CommunityPostView";
 import AddPost from "./pages/AddPost/AddPost";
 import MyInfo from "./pages/MyInfo/MyInfo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

@@ -6,6 +6,7 @@ import { Comment } from "../../../../types/comment";
 import ReplyBottom from "./components/ReplyBottom";
 import { useState } from "react";
 import { apiPut } from "../../../../API/APIHandler";
+import styles from './ReplyListItem.module.css';
 
 interface ReplyListItemProps {
   reply: Reply;
@@ -45,7 +46,7 @@ const ReplyListItem = (props: ReplyListItemProps) => {
 
   return <Card
     key={props.reply.reply_id}
-    className="comment"
+    className={styles.comment}
     style={{ marginLeft: "10%" }}
     >
       <span style={{
@@ -74,7 +75,7 @@ const ReplyListItem = (props: ReplyListItemProps) => {
         props.reply.reply_id === props.updateComment.comment_id ? (
           <div>
             <Form.Control
-              className="send"
+              className={styles.send}
               as="textarea"
               value={props.updateComment.comment_content}
               onChange={(e) => {

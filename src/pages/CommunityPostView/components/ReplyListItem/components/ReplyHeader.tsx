@@ -1,4 +1,5 @@
 import koreaTimeFormatter from "../../../../../utils/koreaTimeFormatter";
+import styles from './ReplyHeader.module.css';
 
 interface ReplyHeaderProps {
   backgroundColor: string;
@@ -8,7 +9,7 @@ interface ReplyHeaderProps {
 };
 
 const ReplyHeader = (props: ReplyHeaderProps) => {
-  return <div className="cardHeader">
+  return <div className={styles.cardHeader}>
     <div
       className="cardCircle"
       style={{ backgroundColor: props.backgroundColor }}
@@ -16,7 +17,7 @@ const ReplyHeader = (props: ReplyHeaderProps) => {
 
     <div style={{ display: "flex", alignItems: "center" }}>
       <span
-        className="author"
+        className={styles.author}
         style={{
           position: "relative",
           display: "inline-block",
@@ -26,7 +27,7 @@ const ReplyHeader = (props: ReplyHeaderProps) => {
         {props.author}
       </span>
 
-      <span className="date">
+      <span className={styles.date}>
         {koreaTimeFormatter(props.replyTime)}
         {props.updated ? " (수정됨)" : ""}
       </span>

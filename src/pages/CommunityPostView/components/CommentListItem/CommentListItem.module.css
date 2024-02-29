@@ -1,9 +1,7 @@
-.comment-input-group {
+.cardHeader{
   display: flex;
-  width: 100%;
-  justify-content: space-between;
+  gap: 10px
 }
-
 .send {
   margin-right: 10px;
   flex-grow: 1;

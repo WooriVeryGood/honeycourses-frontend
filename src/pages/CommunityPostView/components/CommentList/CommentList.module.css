@@ -11,7 +11,13 @@
   margin-right: 8px;
 }
 
-.date {
-  color: grey;
-  font-size: 12px;
+.send {
+  margin-right: 10px;
+  flex-grow: 1;
+}
+
+@media(max-width:480px) {
+  .send {
+      font-size: 14px;
+  }
 }

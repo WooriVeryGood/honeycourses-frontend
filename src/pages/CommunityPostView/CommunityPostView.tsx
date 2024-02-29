@@ -5,11 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { apiGet } from "../../API/APIHandler";
 import { Post } from "../../types/post";
 import { Comment } from "../../types/comment";
-import PostContainer from "./components/PostContainer";
-import CommentContainer from "./components/CommentContainer";
-import CommentList from "./components/CommentList";
-
-import "./styles.css";
+import PostContainer from "./components/PostContainer/PostContainer";
+import CommentContainer from "./components/CommentContainer/CommentContainer";
+import CommentList from "./components/CommentList/CommentList";
+import styles from './CommunityPostView.module.css';
 
 export default function CommunityPostView() {
   const [post, setPost] = useState<Post | null>(null);
@@ -52,7 +51,7 @@ export default function CommunityPostView() {
 
   return (
     <PageView isLoading={isLoading}>
-      <Container fluid className="communityPostViewContainer">
+      <Container fluid className={styles.communityPostViewContainer}>
         {post && (
           <PostContainer
             post={post}
@@ -62,7 +61,7 @@ export default function CommunityPostView() {
           />
         )}
 
-        <div className="comment-section">
+        <div className={styles.comment_section}>
           <CommentContainer
             postId={postId}
             comments={comments}

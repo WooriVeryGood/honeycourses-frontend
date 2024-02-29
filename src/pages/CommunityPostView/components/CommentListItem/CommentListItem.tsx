@@ -7,7 +7,7 @@ import { useState } from "react";
 import { apiPut } from "../../../../API/APIHandler";
 import ReplyList from "../ReplyList/ReplyList";
 
-import "./styles.css";
+import styles from './CommentListItem.module.css';
 
 interface CommentListItemProps {
   postAuthor: string;
@@ -66,7 +66,7 @@ const CommentListItem = (props: CommentListItemProps) => {
       props.comment.comment_id == props.updateComment.comment_id ? (
         <div>
           <Form.Control
-            className="send"
+            className={styles.send}
             as="textarea"
             value={props.updateComment.comment_content}
             onChange={(e) => {
