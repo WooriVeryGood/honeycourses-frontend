@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import Typewriter from "typewriter-effect";
 import styles from "./HomePage.module.css";
-import HomeAlert from "../../components/HomePage/HomeAlert";
+import HomeAlert from "./components/HomeAlert";
 
 export default function HomePage() {
   return (

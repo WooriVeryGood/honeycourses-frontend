@@ -3,6 +3,26 @@ import { Auth } from "aws-amplify";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
+export const api = axios.create({
+  baseURL: apiUrl,
+})
+
+api.interceptors.request.use(
+  async (config) => {
+    try {
+      const userSession = await Auth.currentSession();
+      const jwtToken = userSession.getAccessToken().getJwtToken();
+      config.headers.Authorization = `Bearer ${jwtToken}`;
+    } catch (error) {
+      console.error("Error fetching authentication token:", error);
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export async function getAuthHeaders() {
   try {
     const userSession = await Auth.currentSession();

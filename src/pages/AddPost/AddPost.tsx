@@ -6,7 +6,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import styles from "./AddPost.module.css";
-import { apiPost } from "../API/APIHandler";
+import { apiPost } from "../../API/APIHandler";
 
 export default function AddPost() {
   const [postTitle, setPostTitle] = useState("");

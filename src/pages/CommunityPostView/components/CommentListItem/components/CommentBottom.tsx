@@ -1,6 +1,6 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Comment } from "../../../../../types/comment";
-import { apiDelete, apiPost, apiPut } from "../../../../API/APIHandler";
+import { apiDelete, apiPost, apiPut } from "../../../../../API/APIHandler";
 import { HttpError } from "../../../../../types/error";
 
 interface CommentBottomProps {

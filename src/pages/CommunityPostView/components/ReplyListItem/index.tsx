@@ -5,7 +5,7 @@ import ReplyContent from "./components/ReplyContent";
 import { Comment } from "../../../../types/comment";
 import ReplyBottom from "./components/ReplyBottom";
 import { useState } from "react";
-import { apiPut } from "../../../API/APIHandler";
+import { apiPut } from "../../../../API/APIHandler";
 
 interface ReplyListItemProps {
   reply: Reply;

@@ -1,21 +1,21 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import Container from "react-bootstrap/Container";
 import PageView from "../PageView/PageView";
 import Button from "react-bootstrap/Button";
 import styles from "./CourseList.module.css";
-import majors from "./majors.json"; // 전공 목록
+import majors from "../../constants/majors.json"; // 전공 목록
 import { Alert } from "react-bootstrap";
-import { apiGet } from "../API/APIHandler";
 import CourseSidebar from "./components/CourseSidebar/CourseSidebar";
 import { Course } from "../../types/course";
 import CourseSearchbar from "./components/CourseSearchbar/CourseSearchbar";
 import CourseCard from "./components/CourseCard/CourseCard";
 import MajorSelector from "./components/MajorSelector/MajorSelector";
+import { useCourses } from "../../API/courses/useCourses";
+import Loader from "../../components/Loader/Loader";
+import { useNavigate } from "react-router-dom";
 
 export default function CourseList() {
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [showYouguan, setShowYouguan] = useState(false);
   const [layoutRightTitle, setTitle] = useState("All"); //오른쪽 layout 제목 설정
   const [majorBtn, selectBtn] = useState(""); // 专业课버튼만 추리기
@@ -24,6 +24,16 @@ export default function CourseList() {
   const [majorOpen, setMajorOpen] = useState(false);
   const [searchCourses, setSearchCourses] = useState<Course[]>([]); //검색 기능
   const [searchInput, setSearchInput] = useState(""); //검색 기능
+  const navigate = useNavigate();
+  const {
+    isLoading,
+    courses,
+    error,
+  }: { isLoading: boolean; courses: Course[]; error: any } = useCourses();
+
+  if (!courses || isLoading) {
+    return <Loader />;
+  }
 
   //전공별 분류
   const filterdMajors = courses.filter(
@@ -70,36 +80,6 @@ export default function CourseList() {
     setShowYouguan(true);
   };
 
-  // 리뷰에서 뒤로가기로 돌아올 시 스크롤 위치 기억
-  const handleScrolling = () => {
-    const navigatedToReview = sessionStorage.getItem("navigatedToReview");
-    if (navigatedToReview) {
-      setTimeout(() => {
-        window.scrollTo({
-          top: parseInt(sessionStorage.courseListScrollY),
-          left: 0,
-          behavior: "instant",
-        });
-        sessionStorage.removeItem("navigatedToReview");
-      }, 0);
-    }
-  };
-
-  useEffect(() => {
-    const fetchDataFromApi = async () => {
-      try {
-        setIsLoading(true);
-        const response = await apiGet(`/courses`);
-        setCourses(response.data);
-        setIsLoading(false);
-        handleScrolling();
-      } catch (error) {
-        setIsLoading(false);
-      }
-    };
-    fetchDataFromApi();
-  }, []);
-
   // 카테고리별 수업 분류
   const filteredCourses =
     selectedCategory === "All"
@@ -112,13 +92,13 @@ export default function CourseList() {
             (!showYouguan || course.isYouguan)
         );
 
+  const addClick = () => {
+    navigate('/courses/addCourse');
+  }
+
   return (
-    <div
-      onClick={() =>
-        sessionStorage.setItem("courseListScrollY", window.scrollY.toString())
-      }
-    >
-      <PageView isLoading={isLoading}>
+    <div>
+      <PageView>
         <Container
           fluid
           className="d-flex justify-content-center align-items-start"
@@ -146,7 +126,7 @@ export default function CourseList() {
                 >
                   {layoutRightTitle}
                   <Button
-                    href="/courses/addCourse"
+                    onClick={addClick}
                     className="my-auto align-self-center"
                     variant="success"
                     size="sm"

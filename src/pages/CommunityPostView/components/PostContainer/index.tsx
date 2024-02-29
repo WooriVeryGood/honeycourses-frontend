@@ -5,7 +5,7 @@ import { Post } from "../../../../types/post";
 import koreaTimeFormatter from "../../../../utils/koreaTimeFormatter";
 import { WGButton, WGButtonVariant } from "../../../../components/WGButton/WGButton";
 import WGTextInput from "../../../../components/WGTextInput/WGTextInput";
-import { apiDelete, apiPost, apiPut } from "../../../API/APIHandler";
+import { apiDelete, apiPost, apiPut } from "../../../../API/APIHandler";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HttpError } from "../../../../types/error";
