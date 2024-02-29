@@ -2,11 +2,13 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import { Button } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import styles from "./Header.module.css";
+import { useState } from "react";
 
 export default function Header() {
+  const [expanded, setExpanded] = useState(false);
   const { signOut } = useAuthenticator((context) => [
     context.user,
     context.route,
@@ -16,6 +18,12 @@ export default function Header() {
   const backgroundColor = location.pathname === "/" ? "white" : "#50CB93";
   const logoImage =
     location.pathname === "/" ? "/images/logo.png" : "/images/logowhite.png";
+  const navigate = useNavigate();
+
+  const handleNavigate = (route: string) => {
+    navigate(route);
+    setExpanded(false);
+  }
 
   return (
     <nav>
@@ -26,6 +34,7 @@ export default function Header() {
         style={{
           backgroundColor,
         }}
+        expanded={expanded}
       >
         <Container fluid className="p-0" style={{maxWidth: "100vw"}}>
           <Navbar.Brand href="/" className={styles.navBarBrand}>
@@ -42,19 +51,20 @@ export default function Header() {
           <Navbar.Toggle
             aria-controls="basic-navbar-nav"
             style={{ marginRight: "5%" }}
+            onClick={() => setExpanded(!expanded)}
           />
           <Navbar.Collapse>
             <Nav className="me-auto" style={{ backgroundColor }}>
-              <Nav.Link className="text text-center" href="/">
+              <Nav.Link className="text text-center" onClick={() => handleNavigate('/')}>
                 Home
               </Nav.Link>
-              <Nav.Link className="text text-center" href="/about">
+              <Nav.Link className="text text-center" onClick={() => handleNavigate('/about')}>
                 About
               </Nav.Link>
-              <Nav.Link className="text text-center" href="/courses">
+              <Nav.Link className="text text-center" onClick={() => handleNavigate('/courses')}>
                 Courses
               </Nav.Link>
-              <Nav.Link className="text text-center" href="/community">
+              <Nav.Link className="text text-center" onClick={() => handleNavigate('/community')}>
                 Community
               </Nav.Link>
               <Nav.Link
@@ -63,7 +73,7 @@ export default function Header() {
               >
                 Scores
               </Nav.Link>
-              <Nav.Link className="text text-center" href="/support">
+              <Nav.Link className="text text-center" onClick={() => handleNavigate('/support')}>
                 Support Us!
               </Nav.Link>
             </Nav>
@@ -76,7 +86,7 @@ export default function Header() {
                   <Button
                     className="text text-center"
                     variant="success"
-                    href="/login"
+                    onClick={() => handleNavigate('/login')}
                   >
                     로그인
                   </Button>
@@ -85,9 +95,9 @@ export default function Header() {
                 <>
                   <Button
                     className="text text-center"
-                    variant="primary"
-                    href="/myinfo"
-                    style={{ marginRight: "10px" }}
+                    variant="secondary"
+                    onClick={() => handleNavigate('/myinfo')}
+                    style={{ marginRight: "10px", backgroundColor: '#0d6efd', borderColor: '#0d6efd'}}
                   >
                     내 정보
                   </Button>

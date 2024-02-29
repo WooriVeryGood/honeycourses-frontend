@@ -71,6 +71,7 @@ export default function ReviewCard({ courseId, review }: ReviewCardProps) {
               }}
             >
               <Button
+                variant="secondary"
                 className={styles.showMoreButton}
                 style={{
                   backgroundColor: "transparent",
