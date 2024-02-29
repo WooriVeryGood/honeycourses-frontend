@@ -3,7 +3,7 @@ import PostList from "./components/PostList";
 import { CategoryKey, Post } from "../../../../types/post";
 import WritePostButton from "./components/WritePostButton";
 
-import "./styles.css";
+import styles from './PostContainer.module.css';
 
 interface PostContainerProps {
   currentPostCategory: CategoryKey;
@@ -20,12 +20,12 @@ const PostContainer = (props: PostContainerProps) => {
       props.posts :
       props.posts.filter((post) => post.post_category === props.currentPostCategory);
 
-  return <div className="comRight">
-    <div className="rightHeader">
+  return <div className={styles.comRight}>
+    <div className={styles.rightHeader}>
       {props.currentPostCategory}
       <WritePostButton />
     </div>
-      <div className="groupReviews">
+      <div className={styles.groupReviews}>
         <PostList
           isNotNotice={false}
           posts={props.noticePosts}
@@ -33,7 +33,7 @@ const PostContainer = (props: PostContainerProps) => {
         />
       </div>
 
-      <div className="groupReviews">
+      <div className={styles.groupReviews}>
         <PostList
           isNotNotice={true}
           posts={filteredPosts}

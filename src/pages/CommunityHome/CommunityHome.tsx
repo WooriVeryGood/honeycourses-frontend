@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { apiGet } from "../../API/APIHandler";
 import { CategoryKey, Post } from "../../types/post";
 
-import Sidebar from "./components/Sidebar";
-import PostContainer from "./components/PostContainer";
+import Sidebar from "./components/Sidebar/CourseSideBar";
+import PostContainer from "./components/PostContainer/PostContainer";
 import { POST_CATEGORY_LABELS } from "../../constants/texts";
 
-import "./styles.css";
+import styles from './CommunityHome.module.css';
 
 export default function CommunityHome() {
   const savedPage = localStorage.getItem("lastPage");
@@ -80,9 +80,9 @@ export default function CommunityHome() {
       <PageView isLoading={isLoading}>
         <Container
           fluid
-          className="justify-content-center align-items-start pageViewContainer"
+          className={`justify-content-center align-items-start ${styles.pageViewContainer}`}
         >
-          <div className="communityContainer">
+          <div className={styles.communityContainer}>
             <Sidebar
               selectedCategory={currentCategory}
               onCategoryChange={handleSelectCategory}
