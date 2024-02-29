@@ -55,18 +55,6 @@ export default function CourseReviews() {
     }
   };*/
 
-  const handleDeleteReview = async (reviewId: number) => {
-    if (window.confirm("리뷰를 삭제하시겠습니까?")) {
-      try {
-        await apiDelete(`/courses/reviews/${reviewId}`);
-        alert("리뷰가 삭제되었습니다.");
-      } catch (error) {
-        console.error("Error deleting review:", error);
-        alert("리뷰 삭제에 실패했습니다.");
-      }
-    }
-  };
-
   const addReviewClick = () => {
     navigate(`/courses/addReview/${courseId}`);
   }

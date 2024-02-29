@@ -4,6 +4,7 @@ import styles from "./ReviewCard.module.css";
 import { useState } from "react";
 import { useEditReview } from "../../../../API/reviews/useEditReview";
 import ReviewEditForm from "../ReviewEditForm/ReviewEditForm";
+import { useDeleteReview } from "../../../../API/reviews/useDeleteReview";
 
 interface ReviewCardProps {
   courseId: string | undefined;
@@ -21,6 +22,7 @@ export default function ReviewCard({ courseId, review }: ReviewCardProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { editSingleReview } = useEditReview();
+  const { deleteSingleReview } = useDeleteReview();
 
   const dateA = new Date("2022/06/01 08:00:00");
   const dateB = new Date("2022/06/01 00:00:00");
@@ -103,7 +105,10 @@ export default function ReviewCard({ courseId, review }: ReviewCardProps) {
                   className={styles.reviewDelete}
                   variant="danger"
                   onClick={() => {
-                    //handleDeleteReview(review.review_id)
+                    deleteSingleReview({
+                      courseId,
+                      reviewId: review.review_id,
+                    });
                   }}
                 >
                   삭제

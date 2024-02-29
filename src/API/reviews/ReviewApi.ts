@@ -49,3 +49,13 @@ export async function editReview(
     throw error;
   }
 }
+
+export async function deleteReview(reviewId: number) {
+  try {
+    const response = await api.delete(`/courses/reviews/${reviewId}`);
+    console.log(response);
+  } catch(error) {
+    console.error("Error deleting review:", error);
+    throw error;
+  }
+}
