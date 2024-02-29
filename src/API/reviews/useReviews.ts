@@ -13,7 +13,7 @@ export function useReviews(courseId: string | undefined) {
     staleTime: 5 * 60 * 1000,
     retry: (failCount, error) => {
         const axiosError = error as AxiosError;
-        if(axiosError?.response?.status === 404) return false;
+        if(axiosError?.response?.status === 404) return false; // 존재하지 않는 강의는 재시도 하지 않음
         return failCount < 3;
     },
   });
