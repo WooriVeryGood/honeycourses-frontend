@@ -1,5 +1,5 @@
 import { Post } from "../../../../../types/post";
-import PostListItem from "../../PostListItem";
+import PostListItem from "../../PostListItem/PostListItem";
 
 interface PostListProps {
   isNotNotice: boolean;
