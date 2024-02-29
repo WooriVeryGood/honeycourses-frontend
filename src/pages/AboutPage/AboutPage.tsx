@@ -3,12 +3,18 @@ import { Container } from "react-bootstrap";
 import styles from "./AboutPage.module.css";
 import { useNavigate } from "react-router-dom";
 import Image from "react-bootstrap/Image";
+import { useEffect } from "react";
 
 export default function AboutPage() {
   const navigate = useNavigate();
   const navigateToSupport = () => {
     navigate("/support");
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <PageView>
       <Container>

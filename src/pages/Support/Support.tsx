@@ -2,11 +2,14 @@ import PageView from "../PageView/PageView";
 import { Container } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import styles from "./Support.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Support() {
   const [cardBtnNum, setCardBtnNum] = useState(1);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <PageView>
