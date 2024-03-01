@@ -3,7 +3,7 @@ import { Post } from "../../../../types/post";
 
 import koreaTimeFormatter from "../../../../utils/koreaTimeFormatter";
 
-import "./styles.css";
+import styles from './PostListItem.module.css';
 
 interface PostListItemProps {
   isNotNotice: boolean;
@@ -12,7 +12,7 @@ interface PostListItemProps {
 }
 
 const PostListItem = (props: PostListItemProps) => {
-  return <Card className={props.isNotNotice ? "postCard" : "postCardNotice"}
+  return <Card className={props.isNotNotice ? styles.postCard : styles.postCardNotice}
     onClick={() => props.linkToPostView(props.post.post_id)}
     style={{ textDecoration: "none", color: "inherit", cursor: "pointer"}}>
       <Card.Body className="text-start">
@@ -38,7 +38,7 @@ const PostListItem = (props: PostListItemProps) => {
 
         {props.isNotNotice ?
           <Card.Text
-            className="postContent"
+            className={styles.postContent}
             dangerouslySetInnerHTML={{
               __html: props.post.reported ? "신고 누적으로 삭제된 게시물입니다." : props.post.post_content,
             }}
@@ -46,15 +46,15 @@ const PostListItem = (props: PostListItemProps) => {
         }
 
         <div
-          className="dateNpostID"
+          className={styles.dateNpostID}
           style={{ display: "flex" }}
         >
           <div style={{ display: "flex" }}>
-            <div className="sharp">#{props.post.post_id}</div>
+            <div className={styles.sharp}>#{props.post.post_id}</div>
             <div> {koreaTimeFormatter(props.post.post_time)} </div>
           </div>
           {props.isNotNotice ?
-            <div className="likeComment">
+            <div className={styles.likeComment}>
               <img
                 src="../images/like.svg"
                 alt="likes-icon"
