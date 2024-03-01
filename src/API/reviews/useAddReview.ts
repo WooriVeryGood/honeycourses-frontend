@@ -1,11 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { addReview } from "./ReviewApi";
 import { AddReviewProps } from "../../types/addReview";
 
 export function useAddReview(courseId: string | undefined) {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const { mutate: createReview } = useMutation({
     mutationFn: ({
       courseId,
@@ -17,7 +15,7 @@ export function useAddReview(courseId: string | undefined) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reviews", courseId] });
       alert("리뷰 등록에 성공했습니다!");
-      navigate(`/courses/view/${courseId}`);
+      window.location.href=`/courses/view/${courseId}`;
     },
     onError: () => {
       alert("리뷰 등록에 실패했습니다.");
