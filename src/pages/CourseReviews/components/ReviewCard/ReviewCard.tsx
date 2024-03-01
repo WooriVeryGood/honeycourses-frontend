@@ -32,7 +32,7 @@ export default function ReviewCard({ courseId, review }: ReviewCardProps) {
 
   return (
     <Card key={review.review_id} className={styles.reviewCard}>
-      {review.mine && (
+      {true && (
         <div>
           {isEditing ? (
             <div className={styles.editButtons}>
