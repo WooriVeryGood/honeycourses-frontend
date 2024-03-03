@@ -15,9 +15,9 @@ import styles from './PostContainer.module.css';
 
 interface PostContainerProps {
   post: Post;
-  setPost: React.Dispatch<React.SetStateAction<Post | null>>;
-  isLoading: boolean;
-  setIsLoading: (newValue: boolean) => void;
+  // setPost: React.Dispatch<React.SetStateAction<Post | null>>;
+  // isLoading: boolean;
+  // setIsLoading: (newValue: boolean) => void;
 }
 
 const PostContainer = (props: PostContainerProps) => {
@@ -35,14 +35,14 @@ const PostContainer = (props: PostContainerProps) => {
         alert(`게시글${liked ? "을 추천" : " 추천을 취소"}했습니다!`);
         props.post.liked = liked;
         props.post.post_likes = response.data.like_count;
-        props.setPost((prevState) => {
+        /*props.setPost((prevState) => {
           if (prevState === (undefined || null)) return prevState;
           return {
             ...prevState,
             liked: liked,
             post_likes: response.data.like_count,
           };
-        });
+        });*/
     } catch (error) {
       console.error("Error like comment:", error);
     }

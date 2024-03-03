@@ -12,7 +12,7 @@ import styles from './CommentList.module.css';
 interface CommentListProps {
   postAuthor: string;
   comments: Comment[];
-  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
+  // setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
 }
 
 const CommentList = (props: CommentListProps) => {
@@ -97,7 +97,7 @@ const CommentList = (props: CommentListProps) => {
       if (response.data) {
         const liked = response.data.liked;
 
-        props.setComments(
+        /*props.setComments(
           props.comments.map((comment) => {
             if (comment.comment_id === commentId) {
               return {
@@ -117,7 +117,7 @@ const CommentList = (props: CommentListProps) => {
             );
             return { ...comment, replies };
           })
-        );
+        );*/
 
         alert(`댓글${liked ? "을 추천" : " 추천을 취소"}했습니다!`);
       }
