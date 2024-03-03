@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { Post } from "../../types/post";
 import { api } from "../APIHandler";
+import { addPostProps } from "../../types/addPost";
 
 export async function getPosts(pageNo: number, category: string = "") {
   try {
@@ -36,6 +37,25 @@ export async function getSinglePostAndComment(postId: string | undefined) {
       alert("존재하지 않는 게시글입니다.");
     }
     console.error("Error fetching post and comments: " + error);
+    throw error;
+  }
+}
+
+export async function addPost({
+  post_title,
+  post_content,
+  post_category,
+}: addPostProps) {
+  try {
+    const data = {
+      post_title: post_title,
+      post_content: post_content,
+      post_category: post_category,
+    };
+    const response = await api.post(`/community`, data);
+    console.log(response.data);
+  } catch (error) {
+    console.error("Error uploading new post: " + error);
     throw error;
   }
 }
