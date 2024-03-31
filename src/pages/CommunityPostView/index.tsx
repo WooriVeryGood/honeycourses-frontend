@@ -23,7 +23,7 @@ export default function CommunityPostView() {
       try {
         setIsLoading(true);
         Promise.all([
-          apiGet(`/community/${postId}`),
+          apiGet(`/posts/${postId}`),
           apiGet(`/community/${postId}/comments`),
         ])
         .then(([postData, commentData]) => {

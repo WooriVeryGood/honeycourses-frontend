@@ -3,7 +3,7 @@ import { Post } from "../../../../types/post";
 
 import koreaTimeFormatter from "../../../../utils/koreaTimeFormatter";
 
-import styles from './PostListItem.module.css';
+import styles from "./PostListItem.module.css";
 
 interface PostListItemProps {
   isNotNotice: boolean;
@@ -12,9 +12,12 @@ interface PostListItemProps {
 }
 
 const PostListItem = (props: PostListItemProps) => {
-  return <Card className={props.isNotNotice ? styles.postCard : styles.postCardNotice}
-    onClick={() => props.linkToPostView(props.post.post_id)}
-    style={{ textDecoration: "none", color: "inherit", cursor: "pointer"}}>
+  return (
+    <Card
+      className={props.isNotNotice ? styles.postCard : styles.postCardNotice}
+      onClick={() => props.linkToPostView(props.post.post_id)}
+      style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}
+    >
       <Card.Body className="text-start">
         <Card.Title
           style={{
@@ -33,32 +36,35 @@ const PostListItem = (props: PostListItemProps) => {
           >
             {props.post.post_category}
           </Badge>
-          <div>{props.post.reported ? "신고 누적으로 삭제된 게시물입니다." : props.post.post_title}</div>
+          <div>
+            {props.post.reported
+              ? "신고 누적으로 삭제된 게시물입니다."
+              : props.post.post_title}
+          </div>
         </Card.Title>
 
-        {props.isNotNotice ?
-          <Card.Text
-            className={styles.postContent}
-            dangerouslySetInnerHTML={{
-              __html: props.post.reported ? "신고 누적으로 삭제된 게시물입니다." : props.post.post_content,
-            }}
-          /> : <></>
-        }
-
-        <div
-          className={styles.dateNpostID}
-          style={{ display: "flex" }}
-        >
+        <div className={styles.dateNpostID} style={{ display: "flex" }}>
           <div style={{ display: "flex" }}>
             <div className={styles.sharp}>#{props.post.post_id}</div>
             <div> {koreaTimeFormatter(props.post.post_time)} </div>
           </div>
-          {props.isNotNotice ?
+          {props.isNotNotice ? (
             <div className={styles.likeComment}>
+              <img
+                src="../images/viewcount.svg"
+                alt="viewcount-icon"
+                style={{
+                  marginRight: "5px",
+                  width: "20px",
+                  height: "20px",
+                }}
+              />
+              <span>{props.post.view_count}</span>{" "}
               <img
                 src="../images/like.svg"
                 alt="likes-icon"
                 style={{
+                  marginLeft: "10px",
                   marginRight: "5px",
                   width: "20px",
                   height: "20px",
@@ -76,11 +82,14 @@ const PostListItem = (props: PostListItemProps) => {
                 }}
               />
               <span>{props.post.post_comments}</span>{" "}
-            </div> : <></>
-          }
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </Card.Body>
-    </Card>;
+    </Card>
+  );
 };
 
 export default PostListItem;

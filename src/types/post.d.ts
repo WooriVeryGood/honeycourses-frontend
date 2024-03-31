@@ -7,6 +7,7 @@ export interface Post {
   post_likes: number;
   post_author: string;
   post_time: string;
+  view_count: number;
   liked: boolean;
   updated: boolean;
   reported: boolean;
