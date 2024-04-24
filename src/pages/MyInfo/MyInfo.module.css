@@ -3,7 +3,7 @@
   width: 1000px;
   display: flex;
   gap: 3rem;
-  font-family: "NanumSquareNeo-Variable", "Noto Serif SC", serif;
+  font-family: "NanumSquareNeo", "Noto Serif SC", serif;
 }
 
 .comLeft {
@@ -141,10 +141,10 @@
 .reviewCard {
   margin: 35px auto;
   width: 1000px;
-  font-family: "NanumSquareNeo-Variable", "Noto Serif SC", serif;
+  font-family: "NanumSquareNeo", "Noto Serif SC", serif;
 }
 .courseName {
-  font-family: "NanumSquareNeo-Variable", "Noto Serif SC", serif;
+  font-family: "NanumSquareNeo", "Noto Serif SC", serif;
 }
 
 .showMoreButton {

@@ -44,7 +44,7 @@
 }
 
 .mainAbout {
-    font-family: 'NanumSquareNeo-Variable';
+    font-family: 'NanumSquareNeo';
     border: 2.5px solid black;
     border-radius: 25px;
     background-color: #122f48;
@@ -76,7 +76,7 @@
 }
 
 .secondAbout {
-    font-family: 'NanumSquareNeo-Variable';
+    font-family: 'NanumSquareNeo';
     border: 2.5px solid black;
     border-radius: 25px;
     background-color: rgb(80, 203, 147);
@@ -89,7 +89,7 @@
 }
 
 .thirdAbout {
-    font-family: 'NanumSquareNeo-Variable';
+    font-family: 'NanumSquareNeo';
     border: 2.5px solid black;
     border-radius: 25px;
     background-color: white;
