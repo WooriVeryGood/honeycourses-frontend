@@ -30,7 +30,7 @@ const PostContainer = (props: PostContainerProps) => {
 
   const requestLikePost = async () => {
     try {
-      const response = await apiPut(`/community/${props.post.post_id}/like`, null);
+      const response = await apiPut(`/posts/${props.post.post_id}/like`, null);
       const liked = response.data.liked;
         alert(`게시글${liked ? "을 추천" : " 추천을 취소"}했습니다!`);
         props.post.liked = liked;
@@ -78,8 +78,8 @@ const PostContainer = (props: PostContainerProps) => {
     const isDelete = window.confirm("게시글을 삭제할까요?");
     if (!isDelete) return;
     try {
-      await apiDelete(`/community/${props.post.post_id}`).then((response) => {
-        if (response.data.post_id === Number(props.post.post_id)) {
+      await apiDelete(`/posts/${props.post.post_id}`).then((response) => {
+        if (response.status === 204) {
           alert("게시글을 삭제했습니다!");
           navigate(`/community`);
         }
@@ -94,12 +94,12 @@ const PostContainer = (props: PostContainerProps) => {
       return;
     setHasRequestPostUpdate(true);
     try {
-      const response = await apiPut(`/community/${props.post.post_id}`, {
+      const response = await apiPut(`/posts/${props.post.post_id}`, {
         post_title: newPostTitle,
         post_content: newPostContent,
       });
 
-      if (response.data) {
+      if (response.status === 204) {
         alert("게시글을 수정했습니다!");
         setIsEditMode(false);
         window.location.reload();

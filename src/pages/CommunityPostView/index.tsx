@@ -24,11 +24,11 @@ export default function CommunityPostView() {
         setIsLoading(true);
         Promise.all([
           apiGet(`/posts/${postId}`),
-          apiGet(`/community/${postId}/comments`),
+          apiGet(`/posts/${postId}/comments`),
         ])
         .then(([postData, commentData]) => {
           setPost(postData.data);
-          setComments(commentData.data);
+          setComments(commentData.data.comments);
           setIsLoading(false);
           window.scrollTo(0, 0);
         })

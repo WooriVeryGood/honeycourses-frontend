@@ -28,7 +28,7 @@ const CommentBottom = (props: CommentBottomProps) => {
         return;
       const response = await apiDelete(`/comments/${props.comment.comment_id}`);
 
-      if (response.data) {
+      if (response.status === 204) {
         alert("댓글을 삭제했습니다!");
         window.location.reload();
       }
