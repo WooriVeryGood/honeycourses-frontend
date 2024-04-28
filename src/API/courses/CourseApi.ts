@@ -11,7 +11,7 @@ interface addCourseProps {
 export async function getCourses() {
   try {
     const response = await api.get("/courses");
-    return response.data;
+    return response.data.courses;
   } catch (error) {
     console.error("Error fetching courses: " + error);
     throw error;
