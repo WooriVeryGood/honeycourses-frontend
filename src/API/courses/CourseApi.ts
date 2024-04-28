@@ -4,8 +4,8 @@ interface addCourseProps {
   course_name: string;
   course_credit: string;
   course_category: string;
-  kaikeYuanxi: string;
-  isYouguan: number;
+  kaike_yuanxi: string;
+  is_youguan: number;
 }
 
 export async function getCourses() {
@@ -22,16 +22,16 @@ export async function addCourse({
   course_name,
   course_credit,
   course_category,
-  kaikeYuanxi,
-  isYouguan,
+  kaike_yuanxi,
+  is_youguan,
 }: addCourseProps) {
   try {
     const data = {
       course_name,
       course_credit,
       course_category,
-      kaikeYuanxi,
-      isYouguan,
+      kaike_yuanxi,
+      is_youguan,
     };
     const response = await api.post("/courses", data);
     console.log(response.data);
