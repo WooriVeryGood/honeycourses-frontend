@@ -5,7 +5,9 @@ export interface Post {
   post_content: string;
   post_comments: number;
   post_likes: number;
-  post_author: string;
+  post_author?: string;
+  member_id: number;
+  mine: boolean;
   post_time: string;
   view_count: number;
   liked: boolean;

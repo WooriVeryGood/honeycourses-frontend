@@ -10,8 +10,8 @@ import ReplyList from "../ReplyList/ReplyList";
 import "./styles.css";
 
 interface CommentListItemProps {
-  postAuthor: string;
-  commentAuthors: string[];
+  postAuthor: number;
+  commentAuthors: number[];
   comment: Comment;
   backgroundColor: string;
   commentAuthor: string;

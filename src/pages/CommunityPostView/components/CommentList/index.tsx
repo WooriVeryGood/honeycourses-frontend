@@ -10,7 +10,7 @@ import { apiPost, apiPut } from "../../../../API/APIHandler";
 import "./styles.css";
 
 interface CommentListProps {
-  postAuthor: string;
+  postAuthor: number;
   comments: Comment[];
   setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
 }
@@ -26,8 +26,8 @@ const CommentList = (props: CommentListProps) => {
   );
 
   const getCommentBackgroundColor = (
-    commentAuthor: string,
-    postAuthor: string
+    commentAuthor: number,
+    postAuthor: number
   ): string => {
     if (commentAuthor === postAuthor)
       return "white";
@@ -38,16 +38,16 @@ const CommentList = (props: CommentListProps) => {
     return COMMENT_BACK_COLORS[authorPosition % COMMENT_BACK_COLORS.length];
   };
 
-  const getAllAuthors = (comments: Comment[]): string[] => {
-    const authors = new Set<string>();
+  const getAllAuthors = (comments: Comment[]): number[] => {
+    const authors = new Set<number>();
 
     comments.forEach((comment) => {
-      if (comment.comment_author !== props.postAuthor) {
-        authors.add(comment.comment_author);
+      if (comment.member_id !== props.postAuthor) {
+        authors.add(comment.member_id);
       }
       comment.replies.forEach((reply) => {
-        if (reply.reply_author !== props.postAuthor) {
-          authors.add(reply.reply_author);
+        if (reply.member_id !== props.postAuthor) {
+          authors.add(reply.member_id);
         }
       });
     });
@@ -57,7 +57,7 @@ const CommentList = (props: CommentListProps) => {
 
   const allCommentAuthors = getAllAuthors(props.comments);
 
-  const getAuthorName = (author: string): string => {
+  const getAuthorName = (author: number): string => {
     if (author === props.postAuthor)
       return "작성자";
 
@@ -131,9 +131,9 @@ const CommentList = (props: CommentListProps) => {
       <Card key={comment.comment_id} className="comment">
         <CommentListItem
           comment={comment}
-          commentAuthor={getAuthorName(comment.comment_author)}
+          commentAuthor={getAuthorName(comment.member_id)}
           backgroundColor={getCommentBackgroundColor(
-            comment.comment_author,
+            comment.member_id,
             props.postAuthor
           )}
           isCommentUpdate={isCommentUpdate}
