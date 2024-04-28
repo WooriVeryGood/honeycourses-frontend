@@ -10,7 +10,7 @@ export function usePosts(pageNo: number, category: string = "") {
   } = useQuery({
     queryKey: ["posts", category, pageNo],
     queryFn: () => getPosts(pageNo, category),
-    staleTime: 1 * 60 * 1000,
+    staleTime: 0,
     retry: (failCount, error) => {
       const axiosError = error as AxiosError;
       if (axiosError?.response?.status === 404) return false; // 존재하지 않는 페이지/카테고리의 요청은 재시도하지 않음

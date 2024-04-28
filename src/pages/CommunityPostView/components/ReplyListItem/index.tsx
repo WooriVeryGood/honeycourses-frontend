@@ -32,7 +32,7 @@ const ReplyListItem = (props: ReplyListItemProps) => {
         content: props.updateComment?.comment_content,
       });
 
-      if (response.data) {
+      if (response.status === 204) {
         alert("댓글을 수정했습니다!");
         window.location.reload();
       }

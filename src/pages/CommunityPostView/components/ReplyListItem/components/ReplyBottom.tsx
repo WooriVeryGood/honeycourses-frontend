@@ -56,7 +56,7 @@ const ReplyBottom = (props: ReplyBottomProps) => {
         return;
       const response = await apiDelete(`/comments/${props.reply.reply_id}`);
 
-      if (response.data) {
+      if (response.status === 204) {
         alert("댓글을 삭제했습니다!");
         window.location.reload();
       }

@@ -45,7 +45,7 @@ export default function CommunityHome() {
 
   return (
     <div>
-      <PageView isLoading={isLoading}>
+      <PageView>
         <Container
           fluid
           className={`justify-content-center align-items-start ${styles.pageViewContainer}`}

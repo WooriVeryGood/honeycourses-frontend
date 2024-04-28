@@ -30,7 +30,7 @@ export default function AddPost() {
       post_category: category,
     };
 
-    await apiPost(`/community`, data)
+    await apiPost(`/posts`, data)
       .then((response) => {
         if (response.data.author !== null) {
           // 201 Created response에 author가 있으면 성공

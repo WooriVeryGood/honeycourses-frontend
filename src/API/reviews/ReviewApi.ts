@@ -10,7 +10,7 @@ export async function getReviews(courseId: string | undefined) {
       api.get(`/courses/${courseId}/reviews`),
       api.get(`/courses/${courseId}/name`),
     ]);
-    const reviews = reviewResponse.data.map((review: Review) => ({
+    const reviews = reviewResponse.data.reviews.map((review: Review) => ({
       ...review,
     }));
     const names = nameResponse.data.course_name;

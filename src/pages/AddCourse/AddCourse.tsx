@@ -9,8 +9,8 @@ export default function AddCourse() {
   const [course_name, setCourseName] = useState("");
   const [course_credit, setCourseCredit] = useState("");
   const [course_category, setCourseCat] = useState("");
-  const [kaikeYuanxi, setYuanxi] = useState("");
-  const [isYouguan, setYouGuanStat] = useState(0);
+  const [kaike_yuanxi, setYuanxi] = useState("");
+  const [is_youguan, setYouGuanStat] = useState(0);
   const [isSubmitted, setSubmit] = useState(false);
   const { createCourse } = useAddCourses();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -21,8 +21,8 @@ export default function AddCourse() {
       course_name,
       course_credit,
       course_category,
-      kaikeYuanxi,
-      isYouguan,
+      kaike_yuanxi,
+      is_youguan,
     };
     createCourse(data);
     setSubmit(false);
@@ -61,9 +61,9 @@ export default function AddCourse() {
           setCourseCredit={setCourseCredit}
           course_category={course_category}
           setCourseCat={setCourseCat}
-          kaikeYuanxi={kaikeYuanxi}
+          kaikeYuanxi={kaike_yuanxi}
           setYuanxi={setYuanxi}
-          isYouguan={isYouguan}
+          isYouguan={is_youguan}
           setYouGuanStat={setYouGuanStat}
         />
       </Container>

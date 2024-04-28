@@ -3,10 +3,10 @@ import { api } from "../APIHandler";
 
 export async function getPosts(pageNo: number, category: string = "") {
   try {
-    const categoryPath = category === "All" ? "" : `/category/${category}`;
+    const categoryPath = category === "All" ? "" : `&category=${category}`;
     const [noticeResponse, postResponse] = await Promise.all([
-      api.get(`/community/category/notice`),
-      api.get(`/community${categoryPath}?page=${pageNo - 1}`),
+      api.get(`/posts?page=0&category=notice`),
+      api.get(`/posts?page=${pageNo - 1}${categoryPath}`),
     ]);
     const notices = noticeResponse.data.posts.map((noticePost: Post) => ({
       ...noticePost,

@@ -21,9 +21,9 @@ export default function CourseCard({ course }: CourseCardProps) {
               {course.course_category}
             </Badge>{" "}
             <Badge bg="#65C18C" style={{ backgroundColor: "#65C18C" }}>
-              {course.kaikeYuanxi}
+              {course.kaike_yuanxi}
             </Badge>{" "}
-            {course.isYouguan ? (
+            {course.is_youguan ? (
               <Badge
                 className="rounded-pill"
                 bg="#FF7BA9"
@@ -33,7 +33,7 @@ export default function CourseCard({ course }: CourseCardProps) {
               </Badge>
             ) : null}{" "}
             <Badge bg="#65C18C" style={{ backgroundColor: "#279EFF" }}>
-              리뷰 {course.reviewCount}개
+              리뷰 {course.review_count}개
             </Badge>{" "}
           </div>
           <div className={styles.courseName}>{course.course_name} </div>
