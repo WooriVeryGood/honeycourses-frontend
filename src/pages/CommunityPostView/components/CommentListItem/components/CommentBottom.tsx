@@ -15,10 +15,8 @@ interface CommentBottomProps {
 };
 
 const CommentBottom = (props: CommentBottomProps) => {
-  const { user } = useAuthenticator((context) => [context.user, context.route]);
-
   const isMyComment = () => {
-    return user.getUsername() === props.comment.comment_author;
+    return props.comment.mine;
   }
 
   const requestDeleteComment = async () => {
@@ -28,7 +26,7 @@ const CommentBottom = (props: CommentBottomProps) => {
         return;
       const response = await apiDelete(`/comments/${props.comment.comment_id}`);
 
-      if (response.data) {
+      if (response.status === 204) {
         alert("댓글을 삭제했습니다!");
         window.location.reload();
       }
@@ -70,6 +68,7 @@ const CommentBottom = (props: CommentBottomProps) => {
           liked: props.comment.liked,
           replies: props.comment.replies,
           updated: props.comment.updated,
+          member_id: props.comment.member_id,
           reported: props.comment.reported,
         };
       return {
@@ -81,6 +80,7 @@ const CommentBottom = (props: CommentBottomProps) => {
         liked: props.comment.liked,
         replies: props.comment.replies,
         updated: props.comment.updated,
+        member_id: props.comment.member_id,
         reported: props.comment.reported,
       };
     });

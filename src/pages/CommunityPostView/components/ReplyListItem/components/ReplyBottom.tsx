@@ -31,6 +31,7 @@ const ReplyBottom = (props: ReplyBottomProps) => {
           comment_likes: props.reply.reply_likes,
           comment_time: props.reply.reply_time,
           liked: props.reply.liked,
+          member_id: props.reply.member_id,
           replies: [],
           updated: props.reply.updated,
           reported: props.reply.reported,
@@ -42,6 +43,7 @@ const ReplyBottom = (props: ReplyBottomProps) => {
         comment_likes: props.reply.reply_likes,
         comment_time: props.reply.reply_time,
         liked: props.reply.liked,
+        member_id: props.reply.member_id,
         replies: [],
         updated: props.reply.updated,
         reported: props.reply.reported,
@@ -56,7 +58,7 @@ const ReplyBottom = (props: ReplyBottomProps) => {
         return;
       const response = await apiDelete(`/comments/${props.reply.reply_id}`);
 
-      if (response.data) {
+      if (response.status === 204) {
         alert("댓글을 삭제했습니다!");
         window.location.reload();
       }

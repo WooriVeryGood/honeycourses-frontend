@@ -18,8 +18,8 @@ const CommentInput = (props: CommentInputProps) => {
       setHasRequestPostComment(true);
     try {
       const data = { content: newComment };
-      await apiPost(`/community/${props.postId}/comments`, data).then((response) => {
-        if (response.data) {
+      await apiPost(`/posts/${props.postId}/comments`, data).then((response) => {
+        if (response.status === 201) {
           alert("댓글 작성에 성공했습니다!");
           window.location.reload();
         } else {

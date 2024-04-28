@@ -64,11 +64,11 @@ function MyInfo() {
       try {
         setIsLoading(true);
         Promise.all([
-          apiGet(`/courses/reviews/me`),
-          apiGet(`/community/me?page=${pageNo - 1}`),
+          apiGet(`/reviews/me`),
+          apiGet(`/posts/me?page=${pageNo - 1}`),
         ])
           .then(([reviewsResponse, postsResponse]) => {
-            const initializedReviews = reviewsResponse.data.map(
+            const initializedReviews = reviewsResponse.data.reviews.map(
               (review: Review) => ({
                 ...review,
               })

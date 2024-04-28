@@ -10,7 +10,7 @@ export async function getReviews(courseId: string | undefined) {
       api.get(`/courses/${courseId}/reviews`),
       api.get(`/courses/${courseId}/name`),
     ]);
-    const reviews = reviewResponse.data.map((review: Review) => ({
+    const reviews = reviewResponse.data.reviews.map((review: Review) => ({
       ...review,
     }));
     const names = nameResponse.data.course_name;
@@ -75,7 +75,7 @@ export async function editReview(
   }: editReviewProps
 ) {
   try {
-    const response = await api.put(`/courses/reviews/${reviewId}`, {
+    const response = await api.put(`/reviews/${reviewId}`, {
       review_title: editedTitle,
       review_content: editedContent,
       instructor_name: editedInstructor,
@@ -91,7 +91,7 @@ export async function editReview(
 
 export async function deleteReview(reviewId: number) {
   try {
-    const response = await api.delete(`/courses/reviews/${reviewId}`);
+    const response = await api.delete(`/reviews/${reviewId}`);
     console.log(response);
   } catch (error) {
     console.error("Error deleting review:", error);
@@ -101,7 +101,7 @@ export async function deleteReview(reviewId: number) {
 
 export async function voteReview(reviewId: number) {
   try {
-    const response = await api.put(`/courses/reviews/${reviewId}/like`, null);
+    const response = await api.put(`/reviews/${reviewId}/like`, null);
     console.log(response);
   } catch (error) {
     console.error("Error up/downvoting review:", error);

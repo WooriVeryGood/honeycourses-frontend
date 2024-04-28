@@ -37,7 +37,7 @@ export default function CourseList() {
 
   //전공별 분류
   const filterdMajors = courses.filter(
-    (course: Course) => course.kaikeYuanxi === selectedMajor
+    (course: Course) => course.kaike_yuanxi === selectedMajor
   );
 
   // 전공 선택 기능
@@ -84,12 +84,12 @@ export default function CourseList() {
   const filteredCourses =
     selectedCategory === "All"
       ? showYouguan
-        ? courses.filter((course) => course.isYouguan)
+        ? courses.filter((course) => course.is_youguan)
         : courses
       : courses.filter(
           (course) =>
             course.course_category === selectedCategory &&
-            (!showYouguan || course.isYouguan)
+            (!showYouguan || course.is_youguan)
         );
 
   const addClick = () => {

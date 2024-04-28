@@ -1,4 +1,17 @@
 {
+  "main": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-honeycoursesfrontend-main-00cef-authRole",
+      "UnauthRoleArn": "arn:aws:iam::471112712649:role/amplify-honeycoursesfrontend-main-00cef-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::471112712649:role/amplify-honeycoursesfrontend-main-00cef-authRole",
+      "Region": "ap-northeast-2",
+      "DeploymentBucketName": "amplify-honeycoursesfrontend-main-00cef-deployment",
+      "UnauthRoleName": "amplify-honeycoursesfrontend-main-00cef-unauthRole",
+      "StackName": "amplify-honeycoursesfrontend-main-00cef",
+      "StackId": "arn:aws:cloudformation:ap-northeast-2:471112712649:stack/amplify-honeycoursesfrontend-main-00cef/40241110-04b2-11ef-b0d0-02ad6feba8cf",
+      "AmplifyAppId": "d3hisdlrn1xcf8"
+    }
+  },
   "prod": {
     "awscloudformation": {
       "AuthRoleName": "amplify-honeycoursesfrontend-prod-174541-authRole",
