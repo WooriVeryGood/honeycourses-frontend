@@ -6,9 +6,9 @@ import { Comment } from "../../../../types/comment";
 
 
 interface ReplyListProps {
-  postAuthor: string;
+  postAuthor: number;
   replies: Reply[];
-  commentAuthors: string[];
+  commentAuthors: number[];
   isCommentUpdate: boolean;
   setIsCommentUpdate: (newValue: boolean) => void;
   updateComment: Comment | null;
@@ -19,8 +19,8 @@ interface ReplyListProps {
 const ReplyList = (props: ReplyListProps) => {
 
   const getCommentBackgroundColor = (
-    commentAuthor: string,
-    postAuthor: string
+    commentAuthor: number,
+    postAuthor: number
   ): string => {
     if (commentAuthor === postAuthor)
       return "white";
@@ -30,7 +30,7 @@ const ReplyList = (props: ReplyListProps) => {
     return COMMENT_BACK_COLORS[authorPosition % COMMENT_BACK_COLORS.length];
   };
 
-  const getAuthorName = (author: string): string => {
+  const getAuthorName = (author: number): string => {
     if (author === props.postAuthor)
       return "작성자";
 
@@ -47,10 +47,10 @@ const ReplyList = (props: ReplyListProps) => {
         key={reply.reply_id}
         reply={reply}
         backgroundColor={getCommentBackgroundColor(
-          reply.reply_author,
+          reply.member_id,
           props.postAuthor
         )}
-        replyAuthor={getAuthorName(reply.reply_author)}
+        replyAuthor={getAuthorName(reply.member_id)}
         isCommentUpdate={props.isCommentUpdate}
         setIsCommentUpdate={props.setIsCommentUpdate}
         updateComment={props.updateComment}

@@ -15,10 +15,8 @@ interface CommentBottomProps {
 };
 
 const CommentBottom = (props: CommentBottomProps) => {
-  const { user } = useAuthenticator((context) => [context.user, context.route]);
-
   const isMyComment = () => {
-    return user.getUsername() === props.comment.comment_author;
+    return props.comment.mine;
   }
 
   const requestDeleteComment = async () => {
@@ -70,6 +68,7 @@ const CommentBottom = (props: CommentBottomProps) => {
           liked: props.comment.liked,
           replies: props.comment.replies,
           updated: props.comment.updated,
+          member_id: props.comment.member_id,
           reported: props.comment.reported,
         };
       return {
@@ -81,6 +80,7 @@ const CommentBottom = (props: CommentBottomProps) => {
         liked: props.comment.liked,
         replies: props.comment.replies,
         updated: props.comment.updated,
+        member_id: props.comment.member_id,
         reported: props.comment.reported,
       };
     });

@@ -9,7 +9,6 @@ import { apiDelete, apiPost, apiPut } from "../../../../API/APIHandler";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HttpError } from "../../../../types/error";
-import { useAuthenticator } from "@aws-amplify/ui-react";
 
 import "./styles.css";
 
@@ -21,7 +20,6 @@ interface PostContainerProps {
 }
 
 const PostContainer = (props: PostContainerProps) => {
-  const { user } = useAuthenticator((context) => [context.user, context.route]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [hasRequestPostUpdate, setHasRequestPostUpdate] = useState(false);
   const [newPostTitle, setNewPostTitle] = useState("");
@@ -112,7 +110,7 @@ const PostContainer = (props: PostContainerProps) => {
   };
 
   const isMyPost = () => {
-    return user.getUsername() === props.post.post_author;
+    return props.post.mine;
   };
 
   return <Card className="detailedPostCard">
