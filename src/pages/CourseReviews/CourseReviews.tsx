@@ -106,8 +106,8 @@ export default function CourseReviews() {
             </Button>
           </div>
         ) : (
-          reviews?.map((review: Review) => (
-            <ReviewCard courseId={courseId} review={review} />
+          reviews?.map((review: Review,i: number) => (
+            <ReviewCard courseId={courseId} review={review} key={i} />
           ))
         )}
       </Container>
