@@ -42,6 +42,7 @@ I18n.putVocabularies({
     'Current Password': '현재 비밀번호',
     'New Password': '새 비밀번호',
     'Update password': '비밀번호 변경',
+    'Code': '이메일 인증번호 (이메일을 확인해주세요)'
   },
 });
 
