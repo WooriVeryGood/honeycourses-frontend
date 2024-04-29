@@ -29,7 +29,7 @@ const ReplyBottom = (props: ReplyBottomProps) => {
           comment_id: props.reply.reply_id,
           comment_content: props.reply.reply_content,
           post_id: props.postId,
-          comment_like_count: props.reply.reply_likes,
+          comment_like_count: props.reply.reply_like_count,
           comment_time: props.reply.reply_time,
           liked: props.reply.liked,
           member_id: props.reply.member_id,
@@ -42,7 +42,7 @@ const ReplyBottom = (props: ReplyBottomProps) => {
         comment_id: props.reply.reply_id,
         comment_content: props.reply.reply_content,
         post_id: props.postId,
-        comment_like_count: props.reply.reply_likes,
+        comment_like_count: props.reply.reply_like_count,
         comment_time: props.reply.reply_time,
         liked: props.reply.liked,
         member_id: props.reply.member_id,
@@ -126,7 +126,7 @@ const ReplyBottom = (props: ReplyBottomProps) => {
           }
         }
       >
-        추천 {props.reply.reply_likes}
+        추천 {props.reply.reply_like_count}
       </span>
     </div>
     <div>
