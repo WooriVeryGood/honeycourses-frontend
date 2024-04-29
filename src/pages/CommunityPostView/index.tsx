@@ -70,7 +70,7 @@ export default function CommunityPostView() {
 
           {post && (
             <CommentList
-              postAuthor={post.member_id}
+              postAuthorId={post.member_id}
               comments={comments}
               setComments={setComments}
             />
