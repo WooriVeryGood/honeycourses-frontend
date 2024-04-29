@@ -10,7 +10,7 @@ import { apiPost, apiPut } from "../../../../API/APIHandler";
 import "./styles.css";
 
 interface CommentListProps {
-  postAuthor: number;
+  postAuthorId: number;
   comments: Comment[];
   setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
 }
@@ -42,11 +42,11 @@ const CommentList = (props: CommentListProps) => {
     const authors = new Set<number>();
 
     comments.forEach((comment) => {
-      if (comment.member_id !== props.postAuthor) {
+      if (comment.member_id !== props.postAuthorId) {
         authors.add(comment.member_id);
       }
       comment.replies.forEach((reply) => {
-        if (reply.member_id !== props.postAuthor) {
+        if (reply.member_id !== props.postAuthorId) {
           authors.add(reply.member_id);
         }
       });
@@ -58,8 +58,12 @@ const CommentList = (props: CommentListProps) => {
   const allCommentAuthors = getAllAuthors(props.comments);
 
   const getAuthorName = (author: number): string => {
-    if (author === props.postAuthor)
+    if (author === props.postAuthorId) {
+      // console.log(author);
+      console.log(props.postAuthorId);
       return "작성자";
+    }
+      
 
     const allAuthors = getAllAuthors(props.comments);
     const authorPosition = allAuthors.indexOf(author);
@@ -134,13 +138,13 @@ const CommentList = (props: CommentListProps) => {
           commentAuthor={getAuthorName(comment.member_id)}
           backgroundColor={getCommentBackgroundColor(
             comment.member_id,
-            props.postAuthor
+            props.postAuthorId
           )}
           isCommentUpdate={isCommentUpdate}
           setIsCommentUpdate={setIsCommentUpdate}
           updateComment={updateComment}
           setUpdateComment={setUpdateComment}
-          postAuthor={props.postAuthor}
+          postAuthor={props.postAuthorId}
           commentAuthors={allCommentAuthors}
           onClickWriteReplyButton={() => {
             setIsWritingReply(true);
