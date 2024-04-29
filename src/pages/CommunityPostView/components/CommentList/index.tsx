@@ -59,8 +59,6 @@ const CommentList = (props: CommentListProps) => {
 
   const getAuthorName = (author: number): string => {
     if (author === props.postAuthorId) {
-      // console.log(author);
-      console.log(props.postAuthorId);
       return "작성자";
     }
       

@@ -12,6 +12,7 @@ interface ReplyListItemProps {
   backgroundColor: string;
   replyAuthor: string;
   isCommentUpdate: boolean;
+  postId: number;
   setIsCommentUpdate: (newValue: boolean) => void;
   updateComment: Comment | null;
   setUpdateComment: React.Dispatch<React.SetStateAction<Comment | null>>;
@@ -132,6 +133,7 @@ const ReplyListItem = (props: ReplyListItemProps) => {
         updateComment={props.updateComment}
         setUpdateComment={props.setUpdateComment}
         requestLikeComment={props.requestLikeComment}
+        postId={props.postId}
       />
   </Card>
 };

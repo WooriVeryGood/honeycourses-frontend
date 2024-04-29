@@ -11,5 +11,5 @@ export interface Comment {
   updated: boolean;
   reported: boolean;
   member_id: number;
-  mine?: boolean;
+  mine: boolean;
 }

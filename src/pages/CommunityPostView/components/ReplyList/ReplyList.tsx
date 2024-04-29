@@ -10,6 +10,7 @@ interface ReplyListProps {
   replies: Reply[];
   commentAuthors: number[];
   isCommentUpdate: boolean;
+  postId: number;
   setIsCommentUpdate: (newValue: boolean) => void;
   updateComment: Comment | null;
   setUpdateComment: React.Dispatch<React.SetStateAction<Comment | null>>;
@@ -50,6 +51,7 @@ const ReplyList = (props: ReplyListProps) => {
           reply.member_id,
           props.postAuthor
         )}
+        postId={props.postId}
         replyAuthor={getAuthorName(reply.member_id)}
         isCommentUpdate={props.isCommentUpdate}
         setIsCommentUpdate={props.setIsCommentUpdate}

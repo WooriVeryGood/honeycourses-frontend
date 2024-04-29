@@ -127,6 +127,7 @@ const CommentListItem = (props: CommentListItemProps) => {
 
     <ReplyList
       postAuthor={props.postAuthor}
+      postId={props.comment.post_id}
       replies={props.comment.replies}
       commentAuthors={props.commentAuthors}
       isCommentUpdate={props.isCommentUpdate}

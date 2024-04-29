@@ -7,6 +7,7 @@ import { HttpError } from "../../../../../types/error";
 interface ReplyBottomProps {
   reply: Reply;
   isCommentUpdate: boolean;
+  postId: number;
   setIsCommentUpdate: (newValue: boolean) => void;
   updateComment: Comment | null;
   setUpdateComment: React.Dispatch<React.SetStateAction<Comment | null>>;
@@ -17,7 +18,7 @@ const ReplyBottom = (props: ReplyBottomProps) => {
   const { user } = useAuthenticator((context) => [context.user, context.route]);
 
   const isMyComment = () => {
-    return user.getUsername() === props.reply.reply_author;
+    return props.reply.mine;
   }
 
   const toggleUpdateComment = () => {
@@ -27,26 +28,28 @@ const ReplyBottom = (props: ReplyBottomProps) => {
         return {
           comment_id: props.reply.reply_id,
           comment_content: props.reply.reply_content,
-          comment_author: props.reply.reply_author,
-          comment_likes: props.reply.reply_likes,
+          post_id: props.postId,
+          comment_like_count: props.reply.reply_likes,
           comment_time: props.reply.reply_time,
           liked: props.reply.liked,
           member_id: props.reply.member_id,
           replies: [],
           updated: props.reply.updated,
           reported: props.reply.reported,
+          mine: props.reply.mine,
         };
       return {
         comment_id: props.reply.reply_id,
         comment_content: props.reply.reply_content,
-        comment_author: props.reply.reply_author,
-        comment_likes: props.reply.reply_likes,
+        post_id: props.postId,
+        comment_like_count: props.reply.reply_likes,
         comment_time: props.reply.reply_time,
         liked: props.reply.liked,
         member_id: props.reply.member_id,
         replies: [],
         updated: props.reply.updated,
         reported: props.reply.reported,
+        mine: props.reply.mine,
       };
     });
   }
