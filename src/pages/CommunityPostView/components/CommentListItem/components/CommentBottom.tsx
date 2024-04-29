@@ -62,26 +62,28 @@ const CommentBottom = (props: CommentBottomProps) => {
         return {
           comment_id: props.comment.comment_id,
           comment_content: props.comment.comment_content,
-          comment_author: props.comment.comment_author,
-          comment_likes: props.comment.comment_likes,
+          comment_like_count: props.comment.comment_like_count,
           comment_time: props.comment.comment_time,
+          post_id: props.comment.post_id,
           liked: props.comment.liked,
           replies: props.comment.replies,
           updated: props.comment.updated,
           member_id: props.comment.member_id,
           reported: props.comment.reported,
+          mine: props.comment.mine,
         };
       return {
         comment_id: props.comment.comment_id,
         comment_content: props.comment.comment_content,
-        comment_author: props.comment.comment_author,
-        comment_likes: props.comment.comment_likes,
+        comment_like_count: props.comment.comment_like_count,
         comment_time: props.comment.comment_time,
+        post_id: props.comment.post_id,
         liked: props.comment.liked,
         replies: props.comment.replies,
         updated: props.comment.updated,
         member_id: props.comment.member_id,
         reported: props.comment.reported,
+        mine: props.comment.mine,
       };
     });
   }
@@ -128,7 +130,7 @@ const CommentBottom = (props: CommentBottomProps) => {
           }
         }
       >
-        추천 {props.comment.comment_likes}
+        추천 {props.comment.comment_like_count}
       </span>
     </div>
     <div>
