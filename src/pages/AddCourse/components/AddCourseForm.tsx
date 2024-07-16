@@ -1,5 +1,6 @@
 import { Button, Form, InputGroup } from "react-bootstrap";
 import majors from "../../../constants/majors.json";
+import { useEffect } from "react";
 
 interface AddCourseFormProps {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -28,6 +29,13 @@ export default function AddCourseForm({
   isYouguan,
   setYouGuanStat,
 }: AddCourseFormProps) {
+  useEffect(() => {
+    if (course_category === "体育课") {
+      setYuanxi("体育教研部");
+    } else if (course_category === "英语课") {
+      setYuanxi("英语语言文学系");
+    }
+  }, [course_category, setYuanxi]);
   return (
     <Form onSubmit={handleSubmit}>
       <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
@@ -81,7 +89,13 @@ export default function AddCourseForm({
         onChange={(event) => setYuanxi(event.target.value)}
         required
       >
-        <option value="">开课院系</option>
+        {course_category === "体育课" ? (
+          <option value="体育教研部">体育教研部</option>
+        ) : course_category === "英语课" ? (
+          <option value="英语语言文学系">英语语言文学系</option>
+        ) : (
+          <option value="">开课院系</option>
+        )}
         {majors.map((major) => {
           return major.childrens.map((child, index) => (
             <option key={index} value={child.title}>
