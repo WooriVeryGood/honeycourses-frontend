@@ -3,12 +3,16 @@ import Badge from "react-bootstrap/Badge";
 
 import { Post } from "../../../../types/post";
 import koreaTimeFormatter from "../../../../utils/koreaTimeFormatter";
-import { WGButton, WGButtonVariant } from "../../../../components/WGButton/WGButton";
+import {
+  WGButton,
+  WGButtonVariant,
+} from "../../../../components/WGButton/WGButton";
 import WGTextInput from "../../../../components/WGTextInput/WGTextInput";
 import { apiDelete, apiPost, apiPut } from "../../../../API/APIHandler";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HttpError } from "../../../../types/error";
+import Linkify from "linkify-react";
 
 import "./styles.css";
 
@@ -30,17 +34,17 @@ const PostContainer = (props: PostContainerProps) => {
     try {
       const response = await apiPut(`/posts/${props.post.post_id}/like`, null);
       const liked = response.data.liked;
-        alert(`게시글${liked ? "을 추천" : " 추천을 취소"}했습니다!`);
-        props.post.liked = liked;
-        props.post.post_likes = response.data.like_count;
-        props.setPost((prevState) => {
-          if (prevState === (undefined || null)) return prevState;
-          return {
-            ...prevState,
-            liked: liked,
-            post_likes: response.data.like_count,
-          };
-        });
+      alert(`게시글${liked ? "을 추천" : " 추천을 취소"}했습니다!`);
+      props.post.liked = liked;
+      props.post.post_likes = response.data.like_count;
+      props.setPost((prevState) => {
+        if (prevState === (undefined || null)) return prevState;
+        return {
+          ...prevState,
+          liked: liked,
+          post_likes: response.data.like_count,
+        };
+      });
     } catch (error) {
       console.error("Error like comment:", error);
     }
@@ -56,12 +60,10 @@ const PostContainer = (props: PostContainerProps) => {
       const response = await apiPost(`/posts/${props.post.post_id}/report`, {
         message: reportMessage,
       });
-      if (response.status === 201)
-        alert("신고가 접수되었습니다.");
+      if (response.status === 201) alert("신고가 접수되었습니다.");
     } catch (error) {
       const err = error as HttpError;
-      if (err.code === "ERR_BAD_REQUEST")
-        alert("이미 신고한 게시글입니다.");
+      if (err.code === "ERR_BAD_REQUEST") alert("이미 신고한 게시글입니다.");
       console.error("Error reporting post:", error);
     }
   };
@@ -88,8 +90,7 @@ const PostContainer = (props: PostContainerProps) => {
   };
 
   const requestPostUpdate = async () => {
-    if (hasRequestPostUpdate)
-      return;
+    if (hasRequestPostUpdate) return;
     setHasRequestPostUpdate(true);
     try {
       const response = await apiPut(`/posts/${props.post.post_id}`, {
@@ -113,115 +114,132 @@ const PostContainer = (props: PostContainerProps) => {
     return props.post.mine;
   };
 
-  return <Card className="detailedPostCard">
-    <div className="detailedMainTop">
-      <Card.Title className="detailedCardTitle" style={{display:"flex"}}>
-        <Badge
-          bg="#236969"
-          style={{
-            backgroundColor: "#236969",
-            marginRight: "10px",
-            height: "30px",
-            fontSize:".8em"
-          }}
-        >
-          {props.post.post_category}
-        </Badge>
-        <span style={{fontSize:".9em"}}>{props.post.reported ? "신고 누적으로 삭제된 게시물입니다." : props.post.post_title}</span>
-      </Card.Title>
-      <div className="detailedMainBottom">
-        <div style={{ display: "flex" }}>
-          <div className="detailedSharp">#{props.post.post_id}</div>
-          <div className="detailedDate">
-            {koreaTimeFormatter(props.post.post_time)}
-            {props.post.updated ? " (수정됨)" : ""}
+  const urlOptions = {
+    target: "_blank",
+  };
+
+  return (
+    <Card className="detailedPostCard">
+      <div className="detailedMainTop">
+        <Card.Title className="detailedCardTitle" style={{ display: "flex" }}>
+          <Badge
+            bg="#236969"
+            style={{
+              backgroundColor: "#236969",
+              marginRight: "10px",
+              height: "30px",
+              fontSize: ".8em",
+            }}
+          >
+            {props.post.post_category}
+          </Badge>
+          <span style={{ fontSize: ".9em" }}>
+            {props.post.reported
+              ? "신고 누적으로 삭제된 게시물입니다."
+              : props.post.post_title}
+          </span>
+        </Card.Title>
+        <div className="detailedMainBottom">
+          <div style={{ display: "flex" }}>
+            <div className="detailedSharp">#{props.post.post_id}</div>
+            <div className="detailedDate">
+              {koreaTimeFormatter(props.post.post_time)}
+              {props.post.updated ? " (수정됨)" : ""}
+              <span
+                style={{
+                  marginLeft: "8px",
+                  cursor: "pointer",
+                }}
+                onClick={handlePostReport}
+              >
+                &nbsp;신고하기
+              </span>
+            </div>
+          </div>
+          <div className={props.post.liked ? "onLikeButton" : "likeButton"}>
             <span
-              style={{
-                marginLeft: "8px",
-                cursor: "pointer",
-              }}
-              onClick={handlePostReport}
+              onClick={requestLikePost}
+              style={{ display: "flex", alignItems: "center" }}
             >
-              &nbsp;신고하기
+              <img
+                src={
+                  props.post.liked
+                    ? "/images/likeGreen.svg"
+                    : "/images/likeWhiteSolidBlack.svg"
+                }
+                alt="likes-icon"
+                style={{
+                  marginRight: "5px",
+                  width: "20px",
+                  height: "20px",
+                }}
+              />
+              <span className={props.post.liked ? "likeCount" : ""}>
+                {props.post.post_likes}
+              </span>
             </span>
           </div>
-        </div>
-        <div className={props.post.liked ? "onLikeButton" : "likeButton"}>
-          <span onClick={requestLikePost} style={{display:"flex",alignItems:"center"}}>
-            <img
-              src={
-                props.post.liked ?
-                "/images/likeGreen.svg" :
-                "/images/likeWhiteSolidBlack.svg"
-              }
-              alt="likes-icon"
-              style={{
-                marginRight: "5px",
-                width: "20px",
-                height: "20px",
-              }}
-            />
-            <span className={props.post.liked ? "likeCount" : ""}>
-              {props.post.post_likes}
-            </span>
-          </span>
         </div>
       </div>
-    </div>
 
-    <Card.Body className="text-start">
-      {isEditMode ? (
-        <>
-          <WGTextInput
-            text={newPostTitle}
-            onTextChange={setNewPostTitle}
-            placeholder="제목"
-          />
-          <WGTextInput
-            textarea="textarea"
-            text={newPostContent}
-            onTextChange={setNewPostContent}
-            placeholder="내용"
-          />
-          <div style={{ textAlign: "right" }}>
-            <WGButton
-              text="제출"
-              variant={WGButtonVariant.PRIMARY}
-              diabled={hasRequestPostUpdate}
-              action={requestPostUpdate}
+      <Card.Body className="text-start">
+        {isEditMode ? (
+          <>
+            <WGTextInput
+              text={newPostTitle}
+              onTextChange={setNewPostTitle}
+              placeholder="제목"
             />
-            {" "}
-            <WGButton
-              text="취소"
-              variant={WGButtonVariant.SECONDARY}
-              action={() => setIsEditMode(false)}
+            <WGTextInput
+              textarea="textarea"
+              text={newPostContent}
+              onTextChange={setNewPostContent}
+              placeholder="내용"
             />
-          </div>
-        </>
-      ) : (
-        <>
-          {!props.post.reported && isMyPost() && (
             <div style={{ textAlign: "right" }}>
               <WGButton
-                text="수정"
+                text="제출"
                 variant={WGButtonVariant.PRIMARY}
-                action={onUpdateButtonClick}
-              />
-              {" "}
+                diabled={hasRequestPostUpdate}
+                action={requestPostUpdate}
+              />{" "}
               <WGButton
-                text="삭제"
+                text="취소"
                 variant={WGButtonVariant.SECONDARY}
-                action={requestPostDelete}
+                action={() => setIsEditMode(false)}
               />
             </div>
-          )}
-          <Card.Text className="cardText">
-            {props.post.reported ? "신고 누적으로 삭제된 게시물입니다." : props.post.post_content.replace(/<br\s*[/]?>/gi, "\n")}
-          </Card.Text>
-        </>
-      )}
-    </Card.Body>
-  </Card>
+          </>
+        ) : (
+          <>
+            {!props.post.reported && isMyPost() && (
+              <div style={{ textAlign: "right" }}>
+                <WGButton
+                  text="수정"
+                  variant={WGButtonVariant.PRIMARY}
+                  action={onUpdateButtonClick}
+                />{" "}
+                <WGButton
+                  text="삭제"
+                  variant={WGButtonVariant.SECONDARY}
+                  action={requestPostDelete}
+                />
+              </div>
+            )}
+            <Card.Text className="cardText">
+              {props.post.reported ? (
+                "신고 누적으로 삭제된 게시물입니다."
+              ) : (
+                <Linkify options={urlOptions}>
+                  {props.post.post_content.replace(/<br\s*[/]?>/gi, "\n")}
+                </Linkify>
+              )}
+            </Card.Text>
+          </>
+        )}
+      </Card.Body>
+    </Card>
+  );
 };
 
 export default PostContainer;

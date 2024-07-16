@@ -6,6 +6,7 @@ import { useEditReview } from "../../../../API/reviews/useEditReview";
 import ReviewEditForm from "../ReviewEditForm/ReviewEditForm";
 import { useDeleteReview } from "../../../../API/reviews/useDeleteReview";
 import { useVoteReview } from "../../../../API/reviews/useVoteReview";
+import Linkify from "linkify-react";
 
 interface ReviewCardProps {
   courseId: string | undefined;
@@ -29,6 +30,10 @@ export default function ReviewCard({ courseId, review }: ReviewCardProps) {
   const dateA = new Date("2022/06/01 08:00:00");
   const dateB = new Date("2022/06/01 00:00:00");
   const diffMSec = dateA.getTime() - dateB.getTime();
+
+  const urlOptions = {
+    target: "_blank",
+  };
 
   return (
     <Card key={review.review_id} className={styles.reviewCard}>
@@ -157,7 +162,9 @@ export default function ReviewCard({ courseId, review }: ReviewCardProps) {
                 수강학기: {review.taken_semyr}, 교수: {review.instructor_name}
               </p>
 
-              {review.review_content.replace(/<br\s*[/]?>/gi, "\n")}
+              <Linkify options={urlOptions}>
+                {review.review_content.replace(/<br\s*[/]?>/gi, "\n")}
+              </Linkify>
 
               <br></br>
               <br></br>
@@ -199,7 +206,7 @@ export default function ReviewCard({ courseId, review }: ReviewCardProps) {
               </div>
               <div
                 onClick={() => {
-                  voteSingleReview({courseId, reviewId: review.review_id})
+                  voteSingleReview({ courseId, reviewId: review.review_id });
                 }}
                 className={
                   review.liked ? styles.onLikeButton : styles.likeButton
