@@ -1,32 +1,9 @@
-import { useState } from "react";
 import PageView from "../PageView/PageView";
 import Container from "react-bootstrap/Container";
 import styles from "./AddCourse.module.css";
-import { useAddCourses } from "../../API/courses/useAddCourses";
 import AddCourseForm from "./components/AddCourseForm";
 
 export default function AddCourse() {
-  const [course_name, setCourseName] = useState("");
-  const [course_credit, setCourseCredit] = useState("");
-  const [course_category, setCourseCat] = useState("");
-  const [kaike_yuanxi, setYuanxi] = useState("");
-  const [is_youguan, setYouGuanStat] = useState(0);
-  const [isSubmitted, setSubmit] = useState(false);
-  const { createCourse } = useAddCourses();
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (isSubmitted) return;
-    setSubmit(true);
-    const data = {
-      course_name,
-      course_credit,
-      course_category,
-      kaike_yuanxi,
-      is_youguan,
-    };
-    createCourse(data);
-    setSubmit(false);
-  };
   return (
     <PageView>
       <Container fluid className={styles.addCourseBox}>
@@ -53,19 +30,7 @@ export default function AddCourse() {
             </p>
           </div>
         </div>
-        <AddCourseForm
-          handleSubmit={handleSubmit}
-          course_name={course_name}
-          setCourseName={setCourseName}
-          course_credit={course_credit}
-          setCourseCredit={setCourseCredit}
-          course_category={course_category}
-          setCourseCat={setCourseCat}
-          kaikeYuanxi={kaike_yuanxi}
-          setYuanxi={setYuanxi}
-          isYouguan={is_youguan}
-          setYouGuanStat={setYouGuanStat}
-        />
+        <AddCourseForm />
       </Container>
     </PageView>
   );
