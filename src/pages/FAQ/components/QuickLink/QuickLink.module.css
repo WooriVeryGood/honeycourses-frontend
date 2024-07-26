@@ -1,0 +1,13 @@
+.imgWrap {
+    height: 150px;
+    width: 280px;
+    margin: 15px 0;
+}
+
+.swiperImg {
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    border-radius: 10px;
+}
