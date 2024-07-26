@@ -1,0 +1,20 @@
+.imgSwiper .swiper-button-next {
+    left: 52%;
+}
+
+.imgSwiper .swiper-button-prev {
+    left: 43%;
+}
+
+.imgSwiper .swiper-button-prev,
+.imgSwiper .swiper-button-next {
+    top: 85%;
+    color: #18181b;
+    border-radius: 50px;
+    background-color: #fae04c;
+    padding: 25px 32px;
+}
+
+:root {
+    --swiper-navigation-size: 30px;
+}
