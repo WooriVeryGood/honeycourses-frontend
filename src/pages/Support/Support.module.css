@@ -17,6 +17,7 @@
     text-align: center;
     color: black;
 }
+
 .subTitle {
     text-align: center;
 }
@@ -51,6 +52,7 @@
 .qr {
     text-align: center;
     margin: 150px 0;
+    width: 30%;
 }
 
 .supportBtn {
@@ -282,9 +284,10 @@ li {
 
 /* 반응형 */
 @media (max-width:1120px) {
-    .supportHeader>div{
+    .supportHeader>div {
         font-size: 18px;
     }
+
     .cardBtn {
         font-size: 20px;
         width: 40px;
@@ -292,6 +295,7 @@ li {
         margin: 15px;
         border-radius: 20px;
     }
+
     .clickedCardBtn {
         font-size: 20px;
         width: 40px;
@@ -324,9 +328,10 @@ li {
         font-size: 40px;
     }
 
-    .buttons{
+    .buttons {
         margin-right: 0;
     }
+
     .supportBtn {
         width: 135px;
         height: 50px;
@@ -334,7 +339,7 @@ li {
         font-size: 20px;
         margin: 10px 10px;
     }
-    
+
     .clickedSupportBtn {
         width: 135px;
         height: 50px;
@@ -343,9 +348,10 @@ li {
         margin: 10px 10px;
     }
 
-    .qr{
+    .qr {
         margin: 95px 0;
     }
+
     .cards {
         width: 70%;
         height: 350px;
@@ -364,19 +370,22 @@ li {
         font-size: 11px;
     }
 }
+
 @media (max-width:760px) {
-    .supportHeader>div{
+    .supportHeader>div {
         font-size: 14px;
     }
 
-    
+
     .lead {
         font-size: 30px;
     }
-    .mainBox{
+
+    .mainBox {
         flex-direction: column;
     }
-    .buttons{
+
+    .buttons {
         flex-direction: row;
     }
 
@@ -386,12 +395,14 @@ li {
         border-radius: 30px;
         font-size: 17px;
     }
+
     .clickedSupportBtn {
         width: 120px;
         height: 40px;
         border-radius: 30px;
         font-size: 17px;
     }
+
     .cardBtn {
         font-size: 15px;
         width: 30px;
@@ -399,6 +410,7 @@ li {
         margin: 10px;
         border-radius: 20px;
     }
+
     .clickedCardBtn {
         font-size: 15px;
         width: 30px;
@@ -407,9 +419,10 @@ li {
         border-radius: 20px;
     }
 
-    .qr{
+    .qr {
         margin: 50px 0;
     }
+
     .cards {
         width: 100%;
     }
@@ -426,10 +439,12 @@ li {
         font-size: 11px;
     }
 }
-@media (max-width:760px){
+
+@media (max-width:760px) {
     .cards {
         width: 85%;
     }
+
     .firstBox {
         font-size: 11px;
     }
@@ -442,10 +457,12 @@ li {
         font-size: 10px;
     }
 }
-@media (max-width:430px){
-    .supportHeader{
+
+@media (max-width:430px) {
+    .supportHeader {
         margin: 0 10%;
     }
+
     .firstBox {
         font-size: 10px;
     }
