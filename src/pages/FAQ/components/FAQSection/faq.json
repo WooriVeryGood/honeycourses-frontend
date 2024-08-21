@@ -1,0 +1,263 @@
+{
+  "faq": [
+    {
+      "category": "학기 시작 준비",
+      "qna": [
+        {
+          "id": 1,
+          "question": "입학 전 준비: 报到、手机卡、银行卡 등",
+          "answer": [
+            "https://welcometopku.notion.site/b5f3576dcda64fd7bc4df13d8f357076"
+          ]
+        },
+        {
+          "id": 2,
+          "question": "기숙사 신청 및 학비 결제",
+          "answer": [
+            "http://studyatpku.com",
+            "*중관신원 설명: https://welcometopku.notion.site/d325a0b988844c39aa58505c9e4a8c4b"
+          ]
+        },
+        {
+          "id": 3,
+          "question": "비자 및 거류증 신청",
+          "answer": [
+            "일반적으로 필요한 서류: ",
+            "1. 여권",
+            "2. 여권 신분면 복사본 ",
+            "3. 비자면 복사본",
+            "4. 제일 최근 입국 도장 복사본",
+            "5. jw202",
+            "6. 주숙등기",
+            "7. 하얀배경 증명사진 한 장",
+            "8. 재학증명서/입학증명서",
+            "9. 신체검사 결과표",
+            "10. 비자 신청서 (**학교 도장 찍어서**)",
+            "*설명: https://welcometopku.notion.site/2d60844c71974363a86700b76103dc6f"
+          ]
+        },
+        {
+          "id": 4,
+          "question": "학생카드 충전",
+          "answer": [
+            "https://welcometopku.notion.site/0f33cc012450410881596e0b7d965138"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "인터넷 및 소프트웨어 준비",
+      "qna": [
+        {
+          "id": 1,
+          "question": "와이파이 충전 및 vpn 사용",
+          "answer": [
+            "http://its.pku.edu.cn",
+            "*북대 와이파이 및 vpn 설명: ",
+            "https://welcometopku.notion.site/558fd93f557348e99b87105e7af9804c"
+          ]
+        },
+        {
+          "id": 2,
+          "question": "소프트웨어 다운로드",
+          "answer": ["http://software.pku.edu.cn"]
+        }
+      ]
+    },
+    {
+      "category": "북대 학습 관련",
+      "qna": [
+        {
+          "id": 1,
+          "question": "课程查询: 수업 개강 정보 확인",
+          "answer": ["https://dean.pku.edu.cn/service/web/courseSearch.php"]
+        },
+        {
+          "id": 2,
+          "question": "培养方案: 커리큘럼 확인",
+          "answer": ["https://dean.pku.edu.cn/web/student_info.php?type=1&id=2"]
+        },
+        {
+          "id": 3,
+          "question": "选课(수강신청)",
+          "answer": [
+            "http://elective.pku.edu.cn",
+            "*수강신청 설명: https://welcometopku.notion.site/88697f5406ac4ba19d16ef316805353d"
+          ]
+        },
+        {
+          "id": 4,
+          "question": "手工选课",
+          "answer": [
+            "https://dean.pku.edu.cn/web/student_info.php?type=2&id=12"
+          ]
+        },
+        {
+          "id": 5,
+          "question": "빈 교실 확인 및 교실 예약 방법",
+          "answer": [
+            "• 빈 교실 확인",
+            "  1. 북대 포털(http://portal.pku.edu.cn) 방문",
+            "  2. 空闲教室 클릭",
+            "• 교실 예약",
+            "  위챗 小程序 ”北大空间“ 이용"
+          ]
+        },
+        {
+          "id": 6,
+          "question": "논문 다운로드",
+          "answer": [
+            "• 중국 논문",
+            "  中国知网: https://cnki.net",
+            "• 한국 논문",
+            "  DBpia: https://www.dbpia.co.kr",
+            "  KISS: https://kiss.kstudy.com",
+            "  RISS: https://www.riss.kr/"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "학업 관련 업무 처리",
+      "qna": [
+        {
+          "id": 1,
+          "question": "전자성적표/재학증명서 출력",
+          "answer": [
+            "1. 온라인 출력",
+            "https://dean.pku.edu.cn/service/web/mainlogin.php",
+            "*처리 이틀 정도 걸림",
+            "2. 오프라인 출력",
+            "신태양 1층, 理教 1층 등에 있는 기계에서 출력 가능"
+          ]
+        },
+        {
+          "id": 2,
+          "question": "휴학/복학 신청",
+          "answer": [
+            "1. 북대 포털(http://portal.pku.edu.cn) 방문",
+            "2. 教务部业务 클릭",
+            "3. 新增移动申请 클릭",
+            "4. 선택목록에서 休学/复学 선택 후 确定 클릭",
+            "5. 이후 페이지에서 뜨는 정보 란에 본인의 상황에 맞는 사항 기입 후 提交申请 클릭",
+            "6. 이 신청서를 프린트해서 본인 학과 사무실에 찾아가 교무 담당 선생님과 교육 담당 부원장의 사인 및 도장 받기",
+            "*신청서 프린트를 잊고 창을 꺼버렸다면, 业务办理-教务部에서 新增移动历史에 들어가 신청 기록 확인 및 프린트",
+            "7. 도장 받은 신청서를 燕园大厦1217室办理에 제출하고 휴학/복학 절차서와 휴학/복학 통지서 받기",
+            "8. 휴학/복학 절차서에 나와있는 사무실들을 찾아가 도장 받기",
+            "*절차서와 함께 받은 휴학/복학 통지서는 학과 사무실에 제출하면 됨",
+            "9. 도장을 모두 받은 절차서는 燕园大厦1217室办理에 제출"
+          ]
+        },
+        {
+          "id": 3,
+          "question": "毕业审查: 지금까지 이수한 학점 확인",
+          "answer": [
+            "1. 북대 포털(http://portal.pku.edu.cn) 방문",
+            "2. 教务部业务 클릭",
+            "3. 培养方案 목록의 毕业审查（在学期间可查看学分完成情况 클릭",
+            "4. 主修审查申请 칸에 있는 管理 클릭"
+          ]
+        },
+        {
+          "id": 4,
+          "question": "여권 갱신",
+          "answer": [
+            "1. 준비물: 여권 사진, 구여권",
+            "2. 준비물 챙겨서 대사관 방문",
+            "대사관: (010) 8532 0404",
+            "3주정도 소요"
+          ]
+        },
+        {
+          "id": 5,
+          "question": "거류증 연장",
+          "answer": [
+            "1. 신청서 프린트 후 수기 기입",
+            "2. 1년 학비 지불 (studyatpku웹사이트 or 신태양 324 맞은편 教务部 현장 결제)",
+            "3. 보험 6개월 or 12개월 결제 (거류증 연장 기준; https://www.lxbx.net/home)",
+            "4. 留办 324 胡老师 or 325 杜雪老师 찾아가서 도장 받기 (1번 신청서)",
+            "5. 공안국 방문 예약 (https://zwfw.gaj.beijing.gov.cn/rp/index)",
+            "6. 예약 날짜 방문 후 연장 신청 (구비 서류: 1번 신청서/여권/주숙등기(중신 前台에서 발급)/재학증명서(신태양 1층 프린트기)/2촌 증명사진) ",
+            "7. 10일 후 여권 픽업 (400위안 지불)"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "기타 업무",
+      "qna": [
+        {
+          "id": 1,
+          "question": "학교 내 은행 위치",
+          "answer": [
+            "中国工商银行：중국인 기숙사 43号楼1层",
+            "ATM기: 新太阳学生中心1층(中国工商银行、中国银行、中国农业银行）"
+          ]
+        },
+        {
+          "id": 2,
+          "question": "북대 방문객 예약",
+          "answer": [
+            "1. 북대 포털(http://portal.pku.edu.cn) 방문",
+            "2. 学生预约访客 클릭",
+            "3. 방문자 정보 및 방문 날짜 등 기입 후 提交"
+          ]
+        },
+        {
+          "id": 3,
+          "question": "북대 식당 및 카페 ",
+          "answer": [
+            "https://welcometopku.notion.site/07d318f3764e468a9086f50096e8e13f"
+          ]
+        },
+        {
+          "id": 4,
+          "question": "교내 수업 평가",
+          "answer": ["https://courses.pinzhixiaoyuan.com"]
+        },
+        {
+          "id": 5,
+          "question": "커뮤니티",
+          "answer": [
+            "• 北大树洞(북대 대나무숲)",
+            "http://treehole.pku.edu.cn",
+            "• BBS(교내 커뮤니티)",
+            "https://bbs.pku.edu.cn/v2/login.php"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "여가생활",
+      "qna": [
+        {
+          "id": 1,
+          "question": "학교행사",
+          "answer": [
+            "⁃ 新生杯(가을학기): 신입생 체육대회",
+            "⁃ 北大杯(봄학기): 북대 올림픽",
+            "⁃ 十佳歌手(9월 말 10월 초): 북대 가왕전",
+            "⁃ 국제문화제(10월 말)",
+            "⁃ 북대연(가을학기): 북대 한국인유학생회 주관 파티",
+            "⁃ 북대야(봄학기): 북대 한국인유학생회 주관 파티"
+          ]
+        },
+        {
+          "id": 2,
+          "question": "헬스장",
+          "answer": ["⁃ 康美乐健身", "⁃ 邱德拔"]
+        },
+        {
+          "id": 3,
+          "question": "백주년 기념관 ",
+          "answer": [
+            "⁃ 위챗: bdjt_piao",
+            "⁃ 예매방법",
+            "1. 快速购票-在线购票-영화, 시간 및 좌석 선택 후 구매",
+            "2. 현장 매표소에서 구매"
+          ]
+        }
+      ]
+    }
+  ]
+}

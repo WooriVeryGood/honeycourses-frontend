@@ -1,0 +1,40 @@
+{
+  "links": [
+    {
+      "name": "校内信息门户(북대 포털)",
+      "url": "http://portal.pku.edu.cn",
+      "img": "/images/FAQ_imgs/校内信息门户.png",
+      "description": "종합 사이트"
+    },
+    {
+      "name": "教学网(교학망)",
+      "url": "https://course.pku.edu.cn",
+      "img": "/images/FAQ_imgs/教学网.png",
+      "description": "수강 중인 강의 확인 등"
+    },
+    {
+      "name": "教务部(교무부)",
+      "url": "https://dean.pku.edu.cn/",
+      "img": "/images/FAQ_imgs/教务部.png",
+      "description": "성적 확인 등"
+    },
+    {
+      "name": "国际学生在线服务系统(유학생 온라인 서비스 시스템)",
+      "url": "http://studyatpku.com",
+      "img": "/images/FAQ_imgs/国际学生在线服务系统.png",
+      "description": "기숙사 신청 등"
+    },
+    {
+      "name": "国际合作部留学生办公室(유학생 사무실)",
+      "url": "https://www.isd.pku.edu.cn",
+      "img": "/images/FAQ_imgs/国际合作部留学生办公室.png",
+      "description": "장학금 등"
+    },
+    {
+      "name": "北大邮件系统(북대 메일)",
+      "url": "https://mail.stu.pku.edu.cn",
+      "img": "/images/FAQ_imgs/邮件.png",
+      "description": ""
+    }
+  ]
+}

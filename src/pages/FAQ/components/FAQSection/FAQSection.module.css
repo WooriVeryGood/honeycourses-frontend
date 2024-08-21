@@ -1,0 +1,21 @@
+.faqBtnWrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    gap: 10px;
+}
+
+.faqBtn {
+    width: 100%;
+    font-size: 1.8em;
+    font-weight: bolder;
+    border: 1px solid rgba(176, 179, 188, .5);
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+@media (max-width:768px) {
+    .faqBtnWrapper {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

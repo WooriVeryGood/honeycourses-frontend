@@ -1,0 +1,41 @@
+.faqContainer {
+    font-size: 10px;
+    margin: 10px 10%;
+}
+
+.title {
+    text-align: center;
+    margin-top: 2em;
+}
+
+.title>h1 {
+    font-size: 4em;
+    font-weight: bold;
+    color: #7AB68D;
+}
+
+.title>div {
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.title>p {
+    font-size: 1.5em;
+}
+
+.sectionContainer {
+    margin-top: 10%;
+}
+
+.sectionTitle {
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-top: 3em;
+    margin-bottom: 1em;
+}
+
+@media (max-width:768px) {
+    .faqContainer {
+        font-size: 8px;
+    }
+}
