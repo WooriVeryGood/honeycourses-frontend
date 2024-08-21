@@ -2,6 +2,10 @@ import { Container } from "react-bootstrap";
 import PageView from "../PageView/PageView";
 import styles from "./FAQ.module.css";
 import QuickLink from "./components/QuickLink/QuickLink";
+import { top5 } from "./components/FAQItem/top5.json";
+import FAQItem from "./components/FAQItem/FAQItem";
+import { faq } from "./components/FAQSection/faq.json";
+import FAQSection from "./components/FAQSection/FAQSection";
 
 export default function FAQ() {
   return (
@@ -20,8 +24,10 @@ export default function FAQ() {
               <QuickLink />
 
               <div className={styles.sectionTitle}>자주 묻는 질문 TOP5</div>
+              <FAQItem items={top5} />
 
               <div className={styles.sectionTitle}>FAQ</div>
+              <FAQSection />
             </div>
           </div>
         </Container>

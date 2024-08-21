@@ -19,16 +19,16 @@
       "description": "성적 확인 등"
     },
     {
-      "name": "国际学生在线服务系统(유학생 사무실)",
+      "name": "国际学生在线服务系统(유학생 온라인 서비스 시스템)",
       "url": "http://studyatpku.com",
       "img": "/images/FAQ_imgs/国际学生在线服务系统.png",
-      "description": "장학금 등"
+      "description": "기숙사 신청 등"
     },
     {
-      "name": "国际合作部留学生办公室(유학생 온라인 서비스 시스템)",
+      "name": "国际合作部留学生办公室(유학생 사무실)",
       "url": "https://www.isd.pku.edu.cn",
       "img": "/images/FAQ_imgs/国际合作部留学生办公室.png",
-      "description": "기숙사 신청 등"
+      "description": "장학금 등"
     },
     {
       "name": "北大邮件系统(북대 메일)",

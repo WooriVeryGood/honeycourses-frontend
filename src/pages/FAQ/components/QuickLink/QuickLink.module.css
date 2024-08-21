@@ -11,3 +11,69 @@
     background-size: cover;
     border-radius: 10px;
 }
+
+.swiperWrapper {
+    display: flex;
+    height: 250px;
+}
+
+.arrowBtn {
+    border: none;
+    background-color: transparent;
+}
+
+.swiperSl {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.QlName {
+    font-size: 10px;
+}
+
+.QlName>div {
+    font-size: 1.5em;
+}
+
+@media (max-width:1780px) {
+    .imgWrap {
+        height: 150px;
+        width: 250px;
+    }
+}
+
+@media (max-width:1600px) {
+    .imgWrap {
+        height: 120px;
+        width: 200px;
+    }
+}
+
+@media (max-width:1440px) {
+    .imgWrap {
+        height: 100px;
+        width: 180px;
+    }
+}
+
+@media (max-width:1150px) {
+    .imgWrap {
+        height: 90px;
+        width: 145px;
+    }
+}
+
+@media (max-width:800px) {
+    .imgWrap {
+        height: 80px;
+        width: 130px;
+    }
+}
+
+@media (max-width:768px) {
+    .arrowBtn {
+        visibility: hidden;
+    }
+}
