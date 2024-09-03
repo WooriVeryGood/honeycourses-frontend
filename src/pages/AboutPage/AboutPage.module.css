@@ -1,197 +1,48 @@
-.slogan {
-    display: inline-block;
-    width: 50%;
-    font-family: 'Gowun Dodum', sans-serif;
-    font-size: 80px;
-    margin-left: 9%;
-    word-spacing: 6px;
+.aboutContainer {
+    font-size: 10px;
+    margin: 10px 18%;
 }
 
-.supportUs {
-    display: inline-block;
-    width: 39%;
-    margin-left: 2%;
-    margin-top: 4%;
-}
-.supportUs p{
-    font-family: 'Gowun Dodum', sans-serif;
-    font-size: 18px;
-    color: #807e87;
-    line-height: 30px;
+.title {
+    text-align: center;
+    margin-top: 2em;
 }
 
-.supportButton {
-    margin-top: 1%;
-    border-radius: 20px;
-    width: 150px;
-    height: 40px;
-    color: white;
-    background-color: #19282F;
-    border: none;
-    cursor: pointer;
+.title>h1 {
+    font-size: 4em;
+    font-weight: bold;
+    color: #7AB68D;
 }
 
-.aboutBox{
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    grid-gap: 10px;
+.title>div {
+    font-size: 3em;
 }
 
-.stBox{
-    display: grid;
-    grid-gap: 10px;
+.veryGood {
+    height: 8em;
 }
 
-.mainAbout {
-    font-family: 'NanumSquareNeo';
-    border: 2.5px solid black;
-    border-radius: 25px;
-    background-color: #122f48;
-    color: white;
+.aboutContent {
+    font-size: 1.8em;
+    text-align: center;
 }
 
-.lead{
-    margin:50px;
-}
-.lead strong{
-    font-size: 32px;
-}
-
-.lead p{
-    color: #dfdee2;
-    margin-top: 90px;
-}
-.wooriButton {
-    font-family: none;
-    margin-bottom: 50px;
-    border-radius: 20px;
-    width: 180px;
-    height: 40px;
-    color: black;
-    font-weight: bolder;
-    background-color: rgb(80, 203, 147);
-    border: none;
-    cursor: pointer;
-}
-
-.secondAbout {
-    font-family: 'NanumSquareNeo';
-    border: 2.5px solid black;
-    border-radius: 25px;
-    background-color: rgb(80, 203, 147);
-}
-
-.secondAbout p{
-    font-size: 20px;
-    margin: 4%;
-    font-weight: bolder;
-}
-
-.thirdAbout {
-    font-family: 'NanumSquareNeo';
-    border: 2.5px solid black;
-    border-radius: 25px;
-    background-color: white;
-}
-.thirdAbout p{
-    font-size: 20px;
-    margin: 30px;
-    font-weight: bolder;
-}
-
-.repoButton {
-    margin-top: 20px;
-    margin-left: 30px;
-    border-radius: 20px;
-    width: 150px;
-    height: 40px;
-    color: white;
-    background-color: #19282F;
-    border: none;
-    cursor: pointer;
-}
-
-@media (min-width:991px){
-    .aboutBox{
-        grid-template-columns: repeat(5,1fr);
-    }
-    .mainAbout{
-        grid-column: 1/4;
-    }
-    .stBox{
-        grid-column: 4/6;
+@media (max-width:1024px) {
+    .aboutContainer {
+        font-size: 8px;
     }
 }
 
-@media(min-width:1252px)and (max-width: 1629px){
-    .slogan{
-        font-size: 60px;
+@media (max-width:768px) {
+    .aboutContainer {
+        margin: 10px 10%;
     }
-    .supportUs{
-        margin-top: 1%;
-    }
-}
 
-@media(max-width:1251px){
-    .slogan{
-        display: block;
-        width: 100%;
-        margin-left: 0;
-        text-align: center;
+    .title>div {
+        font-size: 2em;
     }
-    .supportUs{
-        display: block;
-        width: 100%;
-        margin-left: 0;
-        text-align: center;
-    }
-}
 
-@media(max-width:831px){
-    .slogan{
-        font-size: 30px;
-    }
-    .supportUs p{
-        font-size: 12px;
-        line-height: 20px;
-    }
-    .supportButton {
-        width: 120px;
-        height: 32px;
-    }
-    .wooriButton {
-        margin-bottom: 20px;
-        width: 175px;
-        height: 32px;
-        font-size: 18px;
-    }
-    .lead{
-        margin: 20px;
-    }
-    .lead strong{
-        font-size: 18px;
-    }
-    .lead p{
-        font-size: 12px;
-        margin-top: 30px;
-    }
-    .secondAbout p{
-        margin: 20px;
-        font-size: 18px;
-    }
-    .thirdAbout p{
-        font-size: 18px;
-        margin: 20px;
-        margin-top: 0;
-        font-weight: bolder;
-    }
-    .repoButton {
-        margin-bottom: 20px;
-        margin-left: 20px;
-        width: 135px;
-        height: 32px;
-        font-size: 18px;
-
+    .veryGood {
+        height: 5em;
     }
 }

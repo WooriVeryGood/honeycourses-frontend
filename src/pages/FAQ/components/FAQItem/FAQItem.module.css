@@ -1,0 +1,35 @@
+.faqItemContainer {
+    font-size: 10px;
+
+}
+
+.questionWrapper {
+    font-size: 1.8em;
+    display: flex;
+    padding: 0 15px;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 1.2em 1.4em;
+    gap: 20px;
+}
+
+.questionId {
+    margin-right: 10px;
+    color: #928A8A;
+}
+
+.answerWrapper {
+    font-size: 1.6em;
+    background: #f7f7f7;
+}
+
+.answer {
+    padding: 1.2em 2em;
+}
+
+@media (max-width:768px) {
+    .faqItemContainer {
+        font-size: 8px;
+    }
+}
