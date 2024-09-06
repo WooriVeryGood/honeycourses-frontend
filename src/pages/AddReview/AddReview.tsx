@@ -40,7 +40,7 @@ export default function AddReview() {
   };
   const { isLoading, course_name, error } = useCourseName(courseId);
   const { createReview } = useAddReview(courseId);
-  const freshmanBoardId = "281";
+  const freshmanBoardId = "0";
 
   useEffect(() => {
     window.scrollTo(0, 0);
