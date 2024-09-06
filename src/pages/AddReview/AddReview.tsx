@@ -40,6 +40,7 @@ export default function AddReview() {
   };
   const { isLoading, course_name, error } = useCourseName(courseId);
   const { createReview } = useAddReview(courseId);
+  const freshmanBoardId = "0";
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -68,10 +69,9 @@ export default function AddReview() {
         <div>
           <div>
             <p className={styles.addReviewCaution}>
-              다른 학우들에게 도움이 될 수 있도록 밑의 양식대로 평가를 작성해
-              주세요. 꼭 양식대로 작성할 필요는 없습니다. 비방, 욕설, 조롱,
-              성적인 내용이 포함되어 있거나 도배/뻘글로 판단될 경우 관리자가
-              수강 평가를 삭제할 수 있습니다
+              {courseId === freshmanBoardId
+                ? "신입생 여러분, 북경대학교에 오신 걸 진심으로 환영합니다! 여기에 간단하게 인사말을 남겨주세요~"
+                : "다른 학우들에게 도움이 될 수 있도록 밑의 양식대로 평가를 작성해주세요. 꼭 양식대로 작성할 필요는 없습니다. 비방, 욕설, 조롱,성적인 내용이 포함되어 있거나 도배/뻘글로 판단될 경우 관리자가 수강 평가를 삭제할 수 있습니다"}
             </p>
           </div>
         </div>
@@ -92,7 +92,9 @@ export default function AddReview() {
             />
           </InputGroup>
           <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
-            <InputGroup.Text id="inputGroup-sizing-lg">교수</InputGroup.Text>
+            <InputGroup.Text id="inputGroup-sizing-lg">
+              {courseId === freshmanBoardId ? "소제목" : "교수"}
+            </InputGroup.Text>
             <Form.Control
               aria-label="Large"
               aria-describedby="inputGroup-sizing-sm"
@@ -103,7 +105,7 @@ export default function AddReview() {
           </InputGroup>
           <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
             <InputGroup.Text id="inputGroup-sizing-lg">
-              수강 학기
+              {courseId === freshmanBoardId ? "입학 학기" : "수강 학기"}
             </InputGroup.Text>
             <Form.Select
               aria-label="Large"
@@ -112,7 +114,11 @@ export default function AddReview() {
               onChange={(event) => setSemester(event.target.value)}
               required
             >
-              <option value="">수강 학기 선택</option>
+              <option value="">
+                {courseId === freshmanBoardId
+                  ? "입학 학기 선택"
+                  : "수강 학기 선택"}
+              </option>
               {semesters.map((semyr, index) => {
                 return (
                   <option key={index} value={semyr}>
@@ -124,25 +130,44 @@ export default function AddReview() {
           </InputGroup>
           <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
             <InputGroup.Text id="inputGroup-sizing-lg">내용</InputGroup.Text>
-            <Form.Control
-              as="textarea"
-              rows={10}
-              aria-label="Large"
-              aria-describedby="inputGroup-sizing-sm"
-              value={review_content}
-              onChange={(event) => setReviewContent(event.target.value)}
-              required
-            />
+            {courseId === freshmanBoardId ? (
+              <Form.Control
+                as="textarea"
+                rows={10}
+                aria-label="Large"
+                aria-describedby="inputGroup-sizing-sm"
+                onChange={(event) => setReviewContent(event.target.value)}
+                required
+              />
+            ) : (
+              <Form.Control
+                as="textarea"
+                rows={10}
+                aria-label="Large"
+                aria-describedby="inputGroup-sizing-sm"
+                value={review_content}
+                onChange={(event) => setReviewContent(event.target.value)}
+                required
+              />
+            )}
           </InputGroup>
           <InputGroup className="mb-3 mx-auto" style={{ flexWrap: "nowrap" }}>
-            <InputGroup.Text id="inputGroup-sizing-lg">성적</InputGroup.Text>
-            <Form.Control
-              aria-label="Large"
-              aria-describedby="inputGroup-sizing-sm"
-              placeholder="선택사항. 退课했을 시 W로 적어주세요."
-              value={grade}
-              onChange={(event) => setGrade(event.target.value)}
-            />
+            {courseId === freshmanBoardId ? (
+              <></>
+            ) : (
+              <>
+                <InputGroup.Text id="inputGroup-sizing-lg">
+                  성적
+                </InputGroup.Text>
+                <Form.Control
+                  aria-label="Large"
+                  aria-describedby="inputGroup-sizing-sm"
+                  placeholder="선택사항. 退课했을 시 W로 적어주세요."
+                  value={grade}
+                  onChange={(event) => setGrade(event.target.value)}
+                />
+              </>
+            )}
           </InputGroup>
           <div className="d-flex justify-content-end mt-4 mr-3">
             <Button variant="success" type="submit" disabled={isSubmitted}>
